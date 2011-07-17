@@ -34,4 +34,6 @@
 #define IN_GAME 1
 #define GAME_OVER 2
 
+
+
 #endif /* CONFIG_H_ */

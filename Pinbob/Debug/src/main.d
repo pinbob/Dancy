@@ -175,7 +175,7 @@ src/main.d src/main.o: ../src/main.cpp \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SMeshBufferTangents.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SSharedMeshBuffer.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h \
- ../src/MyEventReceiver.h
+ ../src/Config.h ../src/MyEventReceiver.h
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h:
 
@@ -528,5 +528,7 @@ src/main.d src/main.o: ../src/main.cpp \
 /home/yejiabin/Documents/irrlicht-1.7.2/include/SSharedMeshBuffer.h:
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h:
+
+../src/Config.h:
 
 ../src/MyEventReceiver.h:
