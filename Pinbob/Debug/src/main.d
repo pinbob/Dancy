@@ -175,6 +175,11 @@ src/main.d src/main.o: ../src/main.cpp \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SMeshBufferTangents.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SSharedMeshBuffer.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/video.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/config.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/ar.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
  ../src/Config.h ../src/MyEventReceiver.h
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h:
@@ -528,6 +533,16 @@ src/main.d src/main.o: ../src/main.cpp \
 /home/yejiabin/Documents/irrlicht-1.7.2/include/SSharedMeshBuffer.h:
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/video.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/config.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/ar.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/param.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h:
 
 ../src/Config.h:
 

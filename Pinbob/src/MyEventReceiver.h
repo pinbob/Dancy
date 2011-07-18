@@ -55,11 +55,22 @@ public:
 		return MouseState;
 	}
 
-	MyEventReceiver() {
+	/**
+	 * change last hit status
+	 */
+	void setLastHitStatus(bool newStatus) {
+		lastHitStayed = newStatus;
+	}
+	bool getLastHitStatus() const {
+		return lastHitStayed;
 	}
 
-private:
+	MyEventReceiver():lastHitStayed(false) {
+	}
 
+
+private:
+	bool lastHitStayed;
 };
 
 #endif /* MOUSEEVENTRECEIVER_H_ */

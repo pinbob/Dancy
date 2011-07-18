@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lIrrlicht
+LIBS := -lIrrlicht -lgstreamer-0.10 -lARgsub -lARgsubUtil -lARMulti -lAR -lARvideo
 
