@@ -36,7 +36,7 @@ MyEventReceiver myReceiver;
 /* global variable for ARToolkit */
 #define   MINIWIN_MAX    8
 #define   GMINI          2
-char *vconf = "";
+char *vconf = "v4l2src device=/dev/video0 ! video/x-raw-yuv,width=640,height=480 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink";
 
 int xsize, ysize;
 int thresh = 100;
