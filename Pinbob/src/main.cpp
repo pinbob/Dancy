@@ -15,6 +15,7 @@
 #include <AR/ar.h>
 #include "Config.h"
 #include "MyEventReceiver.h"
+#include "MyNode.h"
 
 using namespace std;
 using namespace irr;
@@ -36,13 +37,15 @@ MyEventReceiver myReceiver;
 /* global variable for ARToolkit */
 #define   MINIWIN_MAX    8
 #define   GMINI          2
-char *vconf = "v4l2src device=/dev/video0 ! video/x-raw-yuv,width=640,height=480 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink";
+char *vconf =
+		"v4l2src device=/dev/video0 ! video/x-raw-yuv,width=320,height=240 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink";
 
 int xsize, ysize;
 int thresh = 100;
 int count = 0;
 
-char *cparam_name = "/home/yejiabin/Documents/ARToolKit/bin/Data/camera_para.dat";
+char *cparam_name =
+		"/home/yejiabin/Documents/ARToolKit/bin/Data/camera_para.dat";
 ARParam cparam;
 
 char *patt_name = "/home/yejiabin/Documents/ARToolKit/bin/Data/patt.hiro";
@@ -126,8 +129,7 @@ char* filenames[] = { "asset/images/menu.png", "asset/images/ulArea.png",
 		"asset/images/drArrow.png" };
 
 /* set the alpha channel of the area */
-u32 imgAlpha[IMG_LENGTH] = { 255, 255, 255, 255, 255, 255, 255 };
-
+//u32 imgAlpha[IMG_LENGTH] = { 255, 255, 255, 255, 255, 255, 255 };
 core::position2d<s32> imgPos[IMG_LENGTH] = { position2d<s32>(225, 410),
 		position2d<s32>(0, 130), position2d<s32>(0, 240), position2d<s32>(510,
 				130), position2d<s32>(510, 240), position2d<s32>(0, 5),
@@ -210,19 +212,19 @@ void handleMousePosition(const MyEventReceiver::SMouseState& receiver) {
 	}
 
 	/* handle mouse hover on event */
-	if (mouseX <= 130) {
-		if (mouseY >= 130 && mouseY < 240) {
-			imgAlpha[UP_LEFT_ARROW] = 100;
-		} else if (mouseY >= 240 && mouseY <= 350) {
-			imgAlpha[DOWN_LEFT_ARROW] = 100;
-		}
-	} else if (mouseX >= 510) {
-		if (mouseY >= 130 && mouseY < 240) {
-			imgAlpha[UP_RIGHT_ARROW] = 100;
-		} else if (mouseY >= 240 && mouseY <= 350) {
-			imgAlpha[DOWN_RIGHT_ARROW] = 100;
-		}
-	}
+//	if (mouseX <= 130) {
+//		if (mouseY >= 130 && mouseY < 240) {
+//			imgAlpha[UP_LEFT_ARROW] = 100;
+//		} else if (mouseY >= 240 && mouseY <= 350) {
+//			imgAlpha[DOWN_LEFT_ARROW] = 100;
+//		}
+//	} else if (mouseX >= 510) {
+//		if (mouseY >= 130 && mouseY < 240) {
+//			imgAlpha[UP_RIGHT_ARROW] = 100;
+//		} else if (mouseY >= 240 && mouseY <= 350) {
+//			imgAlpha[DOWN_RIGHT_ARROW] = 100;
+//		}
+//	}
 }
 
 void handleMenuPrepare() {
@@ -310,7 +312,7 @@ int main(int argc, char** argv) {
 	/* Initialize the random number generator with a seed */
 	srand((unsigned) time(NULL));
 	initAR();
-	device = createDevice(video::EDT_OPENGL, dimension2d<u32>(640, 480), 32,
+	device = createDevice(video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
 			false, false, false, &myReceiver);
 	if (!device) {
 		std::cerr << "no device found\n";
@@ -326,10 +328,30 @@ int main(int argc, char** argv) {
 	ARUint8 *dataPtr;
 
 	if ((dataPtr = (ARUint8 *) arVideoGetImage()) == NULL
-		)
+	)
 		printf("no image loaded\n");
 
+	//MyNode *myNode = new MyNode(smgr->getRootSceneNode(), smgr, 666);
+
+	ISceneNode *myNode = 0;
+
+	IAnimatedMesh *mesh = smgr->getMesh("asset/models/zzz.obj");
+	myNode = smgr->addAnimatedMeshSceneNode(mesh,0,777);
+
+	if (myNode) {
+		myNode->setPosition(core::vector3df(10, 10, 0));
+		myNode->setScale(vector3df(3,3,3));
+	}
+	matrix4 projection_matrix;
+	vector3df camera_pos = vector3df(0, 0, 0);
+	vector3df camera_target = vector3df(0, 0, -10);
+	ICameraSceneNode* camera = smgr->addCameraSceneNode(0, camera_pos,
+			camera_target);
 	ITexture* ARimage = create_ITexture_from_ARimage(dataPtr, xsize, ysize);
+	projection_matrix.setM(gl_cpara);
+	camera->setProjectionMatrix(projection_matrix);
+	printf("up vector:%f %f %f\n", camera->getUpVector().X,
+			camera->getUpVector().Y, camera->getUpVector().Z);
 
 	while (device->run()) {
 		const u32 now = device->getTimer()->getTime();
@@ -339,10 +361,14 @@ int main(int argc, char** argv) {
 			if (dataPtr = (ARUint8 *) arVideoGetImage())
 				update_ITexture_from_ARimage(ARimage, dataPtr, xsize, ysize);
 			driver->beginScene(true, true, SColor(255, 0, 0, 0));
+			driver->draw2DImage(ARimage, rect<s32>(0, 0, 640, 480),
+					rect<s32>(0, 0, 320, 240));
+//			driver->draw2DImage(ARimage,
+//					core::rect<s32>(0,0,640,480),
+//					core::rect<s32>(0, 0, 320, 240), 0,
+//					video::SColor(255, 255, 250, 255), false);
 
-			driver->draw2DImage(ARimage, position2d<s32>(0,0),
-					rect<s32>(0, 0, 640, 480), 0,
-					video::SColor(255, 255, 250, 255), false);
+			AttachNode(myNode, dataPtr);
 			handleMousePosition(myReceiver.getMouseState());
 			switch (gameStat.currentStat) {
 			case PREPARE:
@@ -360,7 +386,7 @@ int main(int argc, char** argv) {
 
 			for (int i = 0; i < IMG_LENGTH; i++) {
 				driver->draw2DImage(images[i], imgPos[i], imgSize[i], 0,
-						video::SColor(imgAlpha[i], 255, 255, 255), true);
+						video::SColor(255, 255, 255, 255), true);
 			}
 //
 			smgr->drawAll();
@@ -464,6 +490,8 @@ void initAR() {
 	if (arVideoOpen(vconf) < 0)
 		exit(0);
 	/* find the size of the window */
+//	if (arVideoInqSize(&xsize, &ysize) < 0)
+	int newXSize = xsize * 2, newYSize = ysize * 2;
 	if (arVideoInqSize(&xsize, &ysize) < 0)
 		exit(0);
 	printf("Image size (x,y) = (%d,%d)\n", xsize, ysize);

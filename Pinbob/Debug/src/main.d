@@ -180,7 +180,7 @@ src/main.d src/main.o: ../src/main.cpp \
  /home/yejiabin/Documents/ARToolKit/include/AR/ar.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
- ../src/Config.h ../src/MyEventReceiver.h
+ ../src/Config.h ../src/MyEventReceiver.h ../src/MyNode.h
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h:
 
@@ -547,3 +547,5 @@ src/main.d src/main.o: ../src/main.cpp \
 ../src/Config.h:
 
 ../src/MyEventReceiver.h:
+
+../src/MyNode.h:
