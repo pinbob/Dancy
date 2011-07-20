@@ -1,4 +1,4 @@
-src/main.d src/main.o: ../src/main.cpp \
+src/ArManager.d src/ArManager.o: ../src/ArManager.cpp ../src/ArManager.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/IrrCompileConfig.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/aabbox3d.h \
@@ -175,13 +175,15 @@ src/main.d src/main.o: ../src/main.cpp \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SMeshBufferTangents.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SSharedMeshBuffer.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h \
- ../src/ArManager.h ../src/Score.h ../src/irrAR.h \
+ ../src/Score.h ../src/irrAR.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/video.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/config.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/ar.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h
+ /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Arrow.h
+
+../src/ArManager.h:
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h:
 
@@ -535,8 +537,6 @@ src/main.d src/main.o: ../src/main.cpp \
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h:
 
-../src/ArManager.h:
-
 ../src/Score.h:
 
 ../src/irrAR.h:
@@ -552,3 +552,5 @@ src/main.d src/main.o: ../src/main.cpp \
 /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h:
 
 /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h:
+
+../src/Arrow.h:
