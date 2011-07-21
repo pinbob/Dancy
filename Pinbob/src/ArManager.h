@@ -85,6 +85,16 @@ private:
 	char *vconf;
 	/* initialize ar environment for internal call */
 	void _initAR();
+	/* load arrow information */
+	void _loadArrows();
+	/* update arrows */
+	void _updateArrows(u32 last, u32 now, u8 hit);
+	/* our dancer : turtles */
+	ISceneNode* turtleNode;
+	/* arrow nodes displaying in the scene */
+	std::list<ISceneNode*> arrows;
+	/* the parent node of the scene */
+	ISceneNode* mainNode;
 };
 
 #endif /* ARMANAGER_H_ */

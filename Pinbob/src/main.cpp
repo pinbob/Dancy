@@ -10,6 +10,7 @@
 #include <irrlicht.h>
 #include <iostream>
 #include "ArManager.h"
+#include "MyEventReceiver.h"
 
 using namespace irr;
 
@@ -28,17 +29,32 @@ int main(int argc, char** argv) {
 	IVideoDriver* driver = device->getVideoDriver();
 	ISceneManager* smgr = device->getSceneManager();
 	IGUIEnvironment* guienv = device->getGUIEnvironment();
-
+	MyEventReceiver::SMouseState mouseState;
 	/* calls ar manager */
 	ArManager* arMgr = new ArManager(device, smgr, driver);
 	arMgr->init("asset/conf/ar.conf");
+	int lastFPS = -1;
+	u32 then = device->getTimer()->getTime();
 	while (device->run()) {
 		if (device->isWindowActive()) {
+			const u32 now = device->getTimer()->getTime();
+			const u32 deltaTime = now - then; // in ms
+			then = now;
 			driver->beginScene(true, true, SColor(255, 0, 0, 0));
-			arMgr->update(0, 0, 0);
+			arMgr->update(then, now, 0);
 			smgr->drawAll();
 			guienv->drawAll();
 			driver->endScene();
+			//Shows FPS in the title screen
+			int fps = driver->getFPS();
+			if (lastFPS != fps) {
+				core::stringw str = L"Pinbob [";
+				str += driver->getName();
+				str += "] FPS:";
+				str += fps;
+				device->setWindowCaption(str.c_str());
+				lastFPS = fps;
+			}
 		} else {
 			device->yield();
 		}

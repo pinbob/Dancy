@@ -181,7 +181,8 @@ src/main.d src/main.o: ../src/main.cpp \
  /home/yejiabin/Documents/ARToolKit/include/AR/ar.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h
+ /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h \
+ ../src/MyEventReceiver.h
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h:
 
@@ -552,3 +553,5 @@ src/main.d src/main.o: ../src/main.cpp \
 /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h:
 
 /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h:
+
+../src/MyEventReceiver.h:

@@ -61,6 +61,7 @@ class IARManager
 		ISceneNode* multi_node[MAX_MULTIS];
 		int patt_loaded;
 		int multi_loaded;
+
 };
 
 #endif

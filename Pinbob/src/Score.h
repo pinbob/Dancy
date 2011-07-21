@@ -5,56 +5,50 @@
  *      Author: Zhang Wenli
  */
 
-#ifndef SCORE_H_
-#define SCORE_H_
+#ifndef SCORE_H
+#define SCORE_H
 
 #include <stack>
-#include <irrlicht.h>
-
-using namespace irr;
+using namespace std;
 
 class Score{
 public:
-        Score();
-        void clearScore();
+	Score();
+	void clearScore();
 
-        /*Call ...Hit() everytime user click an arrow */
-        void perfectHit();
-        void wellDownHit();
-        void goodHit();
-        void badHit();
-        void missedHit();
+	/*Call ...Hit() everytime user click an arrow */
+	void perfectHit();
+	void wellDoneHit();
+	void goodHit();
+	void badHit();
+	void missedHit();
 
-        /* These five functions will call setCombo automatically.
-         * The first three setCombo(true),
-         * later two setCombo(false)
-         */
-        u32 getPerfectCount();
-        u32 getWellDoneCount();
-        u32 getGoodCount();
-        u32 getBadCount();
-        u32 getMissedCount();
+	/* These five functions will call setCombo automatically.
+	 * The first three setCombo(true),
+	 * later two setCombo(false)
+	 */
+	unsigned int getPerfectCount();
+	unsigned int getWellDoneCount();
+	unsigned int getGoodCount();
+	unsigned int getBadCount();
+	unsigned int getMissedCount();
 
-        /* return current score, return 0 if smaller than 0 */
-        u32 getScore();
+	/* return current score, return 0 if smaller than 0 */
+	unsigned int getScore();
 
-        /* if the last in stack combo is 0, return false,
-         * else, return true
-         */
-        bool isCombo();
+	/* return last combo amt */
+	unsigned int getCombo();
 
 private:
-        unsigned int perfectCount;
-        unsigned int wellDoneCount;
-        unsigned int goodCount;
-        unsigned int badCount;
-        unsigned int missedCount;
+	unsigned int perfectCount;
+	unsigned int wellDoneCount;
+	unsigned int goodCount;
+	unsigned int badCount;
+	unsigned int missedCount;
 
-        std::stack<unsigned int> combo;
+	stack<unsigned int> combo;
 
-        void setCombo(bool isCombo);
+	void setCombo(bool isCombo);
 };
 
-
-
-#endif /* SCORE_H_ */
+#endif
