@@ -1,63 +1,83 @@
-/*
- * Score.cpp
- *
- *  Created on: Jul 19, 2011
- *      Author: Zhang Wenli
- */
-
 #include "Score.h"
+using namespace std;
 
-Score::Score() {
-	// TODO Auto-generated constructor stub
-
+Score::Score() : 
+	perfectCount(0), wellDoneCount(0), goodCount(0),
+	badCount(0), missedCount(0){
+		combo.push(0);
+}
+	
+void Score::clearScore(){
+	perfectCount = 0;
+	wellDoneCount = 0;
+	goodCount = 0;
+	badCount = 0;
+	missedCount = 0;
 }
 
-// TODO completed by zhangwenli
-void Score::perfectHit() {
-
+void Score::setCombo(bool isCombo){
+	if (isCombo){		
+		//top combo may be 0 to more, add one to them
+		combo.top()++;
+	}else{
+		//if top combo is 0, do nothing
+		//else, push 0 to top
+		if (combo.top() != 0){
+			combo.push(0);
+		}
+	}
 }
 
-void Score::wellDownHit() {
-
+unsigned int Score::getCombo(){
+	return combo.top();
 }
 
-void Score::goodHit() {
-
+void Score::perfectHit(){
+	perfectCount++;
+	setCombo(true);
 }
 
-void Score::badHit() {
-
+void Score::wellDoneHit(){
+	wellDoneCount++;
+	setCombo(true);
 }
 
-void Score::missedHit() {
-
+void Score::goodHit(){
+	goodCount++;
+	setCombo(true);
 }
 
-u32 Score::getPerfectCount() {
-	return 0;
+void Score::badHit(){
+	badCount++;
+	setCombo(false);
 }
 
-u32 Score::getWellDoneCount() {
-	return 0;
+void Score::missedHit(){
+	missedCount++;
+	setCombo(false);
 }
 
-u32 Score::getGoodCount() {
-	return 0;
+unsigned int Score::getPerfectCount(){
+	return perfectCount;
 }
 
-u32 Score::getBadCount() {
-	return 0;
+unsigned int Score::getWellDoneCount(){
+	return wellDoneCount;
 }
 
-u32 Score::getMissedCount() {
-	return 0;
+unsigned int Score::getGoodCount(){
+	return goodCount;
 }
 
-bool Score::isCombo() {
-	return false;
+unsigned int Score::getBadCount(){
+	return badCount;
 }
 
+unsigned int Score::getMissedCount(){
+	return missedCount;
+}
 
-void Score::setCombo(bool isCombo) {
-
+unsigned int Score::getScore(){
+	return perfectCount * 5 + wellDoneCount * 3 + goodCount * 1 
+			- missedCount * 1;
 }
