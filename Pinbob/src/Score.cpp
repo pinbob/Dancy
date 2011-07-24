@@ -1,19 +1,20 @@
-/*
- * Score.cpp
- *
- *  Created on: Jul 19, 2011
- *      Author: Zhang Wenli
- */
-
 #include "Score.h"
 using namespace std;
 
+<<<<<<< HEAD
 Score::Score() :
+=======
+Score::Score() : 
+>>>>>>> ce36d6621c9e95b98b03f5e1e538ea2d7440a360
 	perfectCount(0), wellDoneCount(0), goodCount(0),
 	badCount(0), missedCount(0){
 		combo.push(0);
 }
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> ce36d6621c9e95b98b03f5e1e538ea2d7440a360
 void Score::clearScore(){
 	perfectCount = 0;
 	wellDoneCount = 0;
@@ -23,7 +24,11 @@ void Score::clearScore(){
 }
 
 void Score::setCombo(bool isCombo){
+<<<<<<< HEAD
 	if (isCombo){
+=======
+	if (isCombo){		
+>>>>>>> ce36d6621c9e95b98b03f5e1e538ea2d7440a360
 		//top combo may be 0 to more, add one to them
 		combo.top()++;
 	}else{
@@ -85,6 +90,10 @@ unsigned int Score::getMissedCount(){
 }
 
 unsigned int Score::getScore(){
+<<<<<<< HEAD
 	return perfectCount * 5 + wellDoneCount * 3 + goodCount * 1
+=======
+	return perfectCount * 5 + wellDoneCount * 3 + goodCount * 1 
+>>>>>>> ce36d6621c9e95b98b03f5e1e538ea2d7440a360
 			- missedCount * 1;
 }
