@@ -1,6 +1,6 @@
 /***********************************************************************
  * Module:  CGameLogic.h
- * Author:  Administrator
+ * Author:  liwenhaosuper
  * Modified: 2011Äê07ÔÂ21ÈÕ 21:54:04
  * Purpose: Declaration of the class CGameLogic
  ***********************************************************************/
@@ -9,6 +9,7 @@
 #define __Game_CGameLogic_h
 
 #include "IGameLogic.h"
+#include "GameObject.h"
 
 
 
@@ -20,33 +21,25 @@ public:
 	virtual void setDevice(IrrlichtDevice *pDevice);
 	virtual void setGame(GameObject *pGame);
 
-	virtual void update() 
-	{
-		throw std::exception("The method or operation is not implemented.");
-	}
+	virtual void update() ;
 
-	virtual void init() 
-	{
-		throw std::exception("The method or operation is not implemented.");
-	}
+	virtual void init() ;
 
-	virtual void setGameState( u32 iState ) 
-	{
-		throw std::exception("The method or operation is not implemented.");
-	}
+	virtual void setGameState( u32 iState ) ;
 
-	virtual void setTimer( ITimer *pTimer ) 
-	{
-		throw std::exception("The method or operation is not implemented.");
-	}
+	virtual void setTimer( ITimer *pTimer ) ;
 
-	virtual u32 getGameState() 
-	{
-		throw std::exception("The method or operation is not implemented.");
-	}
+	virtual u32 getGameState() ;
 
 protected:
 private:
+	eGameLogicState m_iState;  //current state of the game
+	ITimer *m_pTimer;
+	IrrlichtDevice *m_pDevice;
+	GameObject *m_pGame;  //the game object that it belongs to
+	u32 m_iCountDown;    //number of count downs
+	u32 m_iTime; //timer state record
+	u32 m_iStartTime; // the time when player begin to dance
 
 };
 
