@@ -1,34 +1,56 @@
 /***********************************************************************
  * Module:  MenuHandler.cpp
  * Author:  liwenhaosuper
- * Modified: 2011Äê07ÔÂ21ÈÕ 21:04:05
+ * Modified: 2011ï¿½ï¿½07ï¿½ï¿½21ï¿½ï¿½ 21:04:05
  * Purpose: Declaration of the class MenuHandler
  * Comment: Used when the game first start and provides select options
  ***********************************************************************/
 
 #include "MenuHandler.h"
 #include "StateMachine.h"
+#include <iostream>
+using namespace std;
 
-
-MenuHandler::MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine) : IState(pDevice,pStateMachine) {
+MenuHandler::MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
+		u32 titleWidth, u32 titleHeight, char* titlePath,
+		u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath) :
+		IState(pDevice,pStateMachine){
 	m_iMenuItem=-1;
 	lastHitStayed = false;
+
+	this->imgAmt = imgAmt;
+	this->imgSize = rect<s32>(0, 0, imgWidth, imgHeight);
+	this->titleSize = rect<s32>(0, 0, titleWidth, titleHeight);
+
+	//image path
+	this->imgPath = new char*[imgAmt];
+	for (u32 i = 0; i < imgAmt; ++i){
+		this->imgPath[i] = imgPath[i];
+		cout<<"imagePath["<<i<<"] = "<<this->imgPath[i]<<endl;
+	}
+	this->titlePath = titlePath;
+
 	//image position
-	imgPos[0] = position2d<s32>(300, 0);
-	imgPos[1] = position2d<s32>(300, 100);
-	imgPos[2] = position2d<s32>(300, 200);
-	imgPos[3] = position2d<s32>(300, 300);
-	imgPos[4] = position2d<s32>(300, 400);
-	imgPos[5] = position2d<s32>(300, 500);
-	//imageSize
-	imgSize[0] = rect<s32>(0, 0, 250, 80);
-	imgSize[1] = rect<s32>(0, 0, 250, 50);
-	imgSize[2] = rect<s32>(0, 0, 250, 50);
-	imgSize[3] = rect<s32>(0, 0, 250, 50);
-	imgSize[4] = rect<s32>(0, 0, 250, 50);
-	imgSize[5] = rect<s32>(0, 0, 250, 50);
+	u32 screenWidth = m_pDevice->getVideoDriver()->getScreenSize().Width;
+	u32 screenHeight = m_pDevice->getVideoDriver()->getScreenSize().Height;
+	cout<<"width: "<<screenWidth<<", height: "<<screenHeight<<endl;
+	this->titlePos = position2d<s32>(
+			(screenWidth - titleWidth) / 2,
+			(screenHeight - titleHeight - imgHeight * imgAmt) / 2);
+	for (u32 i = 0; i < imgAmt; ++i){
+		this->imgPos[i] = position2d<s32>(
+				(screenWidth - imgWidth) / 2,
+				(screenHeight - titleHeight - imgHeight * imgAmt) / 2 + titleHeight + imgHeight * i);
+	}
+
 	LoadImage();
 	pDevice->setEventReceiver(this);
+	cout<<"end of init\n";
+}
+
+MenuHandler::~MenuHandler(){
+	delete []imgPath;
+	delete []images;
 }
 
 void MenuHandler::activate(IState *pPrevious) {
@@ -39,9 +61,16 @@ void MenuHandler::activate(IState *pPrevious) {
 	m_pStateMachine->setDrawScene(false);
 	//draw the scene
 	m_pDriver->beginScene(true,true,SColor(0,200,200,200));
-	for(int i=0;i<6;i++)
-	    m_pDriver->draw2DImage(images[i], imgPos[i], imgSize[i], 0,
+cout<<"he\n";
+	m_pDriver->draw2DImage(title, titlePos, titleSize, 0,
+			    video::SColor(255, 255, 255, 255), true);
+	cout<<"draw\n";
+	/*
+	for(u32 i=0;i<imgAmt;i++){
+		cout<<i;
+	    m_pDriver->draw2DImage(images[i], imgPos[i], imgSize, 0,
 		    video::SColor(255, 255, 255, 255), true);
+	}*/
 	m_pSmgr->drawAll();
 	m_pGuienv->drawAll();
 	m_pDriver->endScene();
@@ -56,15 +85,13 @@ void MenuHandler::deactivate(IState *pNext) {
 
 bool MenuHandler::LoadImage()
 {
-	images = new ITexture*[6];
-	images[0] = m_pDriver->getTexture("asset/images/menu/dancy.png");
-	images[1] = m_pDriver->getTexture("asset/images/menu/startGame1.png");
-	images[2] = m_pDriver->getTexture("asset/images/menu/options1.png");
-	images[3] = m_pDriver->getTexture("asset/images/menu/highScores1.png");
-	images[4] = m_pDriver->getTexture("asset/images/menu/credits1.png");
-	images[5] = m_pDriver->getTexture("asset/images/menu/quit1.png");
+	images = new ITexture*[imgAmt];
+	for (u32 i = 0; i < imgAmt; ++i){
+		cout<<"load:"<<i<<endl;
+		images[i] = m_pDriver->getTexture(imgPath[i]);
+	}
+	title = m_pDriver->getTexture(titlePath);
 	return true;
-
 }
 
 u32 MenuHandler::update() {
@@ -76,7 +103,7 @@ u32 MenuHandler::update() {
 
 	int mouseX = MouseState.Position.X;
 	int mouseY = MouseState.Position.Y;
-	if (MouseState.LeftButtonDown ) {
+	if (MouseState.LeftButtonUp ) {
 		m_bSelect=false;
 		if(mouseX<=500&&mouseX>=300)
 		{
@@ -141,16 +168,17 @@ bool MenuHandler::OnEvent(const SEvent &event) {
 	if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN:
-			MouseState.LeftButtonDown = true;
+			MouseState.LeftButtonUp= false;
 			break;
-		case EMIE_LMOUSE_LEFT_UP:
-			MouseState.LeftButtonDown = false;
-			break;
+ 		case EMIE_LMOUSE_LEFT_UP:
+ 			MouseState.LeftButtonUp = true;
+ 			break;
 		case EMIE_MOUSE_MOVED:
 			MouseState.Position.X = event.MouseInput.X;
 			MouseState.Position.Y = event.MouseInput.Y;
 			break;
 		default:
+			MouseState.LeftButtonUp = false;
 			break;
 		}
 	}

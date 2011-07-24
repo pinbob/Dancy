@@ -1,7 +1,7 @@
 /***********************************************************************
  * Module:  MenuHandler.h
  * Author:  liwenhaosuper
- * Modified: 2011Äê07ÔÂ21ÈÕ 21:04:05
+ * Modified: 2011ï¿½ï¿½07ï¿½ï¿½21ï¿½ï¿½ 21:04:05
  * Purpose: Declaration of the class MenuHandler
  * Comment: Used when the game first start and provides select options
  ***********************************************************************/
@@ -15,14 +15,17 @@
 #pragma comment(lib, "irrKlang.lib")
 #endif
 #include "IState.h"
-#include "irrklang.h"
+#include "irrKlang.h"
 
 using namespace irrklang;
 
 class MenuHandler : public IEventReceiver, public IState
 {
 public:
-	MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine);
+	MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
+			u32 titleWidth, u32 titleHeight, char* titlePath,
+			u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath);
+	~MenuHandler();
 	virtual bool OnEvent (const SEvent &event);
 	virtual u32 update();
 	virtual void deactivate(IState *pNext);
@@ -39,9 +42,9 @@ private:
 	//a struct to record info on the mouse state
 	struct SMouseState {
 		core::position2di Position;
-		bool LeftButtonDown;
+		bool LeftButtonUp;
 		SMouseState() :
-		LeftButtonDown(false) {
+		LeftButtonUp(false) {
 		}
 	} MouseState;
 	bool lastHitStayed;
@@ -56,9 +59,17 @@ public:
 		lastHitStayed = newStatus;
 	}
 private:
+	char* titlePath;
+	ITexture* title;
+	core::rect<s32> titleSize;
+	core::position2d<s32> titlePos;
+
+	u32 imgAmt;
+	char** imgPath;
 	ITexture** images;
-	core::position2d<s32> imgPos[6];
-	core::rect<s32> imgSize[6];
+	core::rect<s32> imgSize;
+	core::position2d<s32>* imgPos;
+
 	//load image files 
 	bool LoadImage();
 };
