@@ -31,6 +31,16 @@ using namespace irrklang;
 
 class IARManager;
 
+
+class GUIElementToToggle {
+public:
+	GUIElementToToggle(IGUIElement *pElement, u32 iTime, bool bVisible):m_pElement(pElement),m_iRemoveTime(iTime),m_bVisible(bVisible){}
+	IGUIElement *m_pElement;
+	u32 m_iRemoveTime;
+	bool m_bVisible;
+};
+
+
 class GameObject:public IState,public IEventReceiver
 {
 public:
@@ -49,8 +59,11 @@ public:
    //get the sound engine of the game
    ISoundEngine *getSoundEngine();
    //setter and getter method of game logic 
-   IGameLogic * SetGameLogic() const { return m_pLogic; }
-   void GetGameLogic(IGameLogic * val) { m_pLogic = val; }
+   IGameLogic * GetGameLogic() const { return m_pLogic; }
+   void SetGameLogic(IGameLogic * val) { m_pLogic = val; }
+   // toggle the count down procedure
+   void toggleCountdown(u32 iState);
+   void addElementToToggle(IGUIElement *pElement, u32 iTime, bool bVisible);
 
 protected:
 private:
@@ -63,10 +76,11 @@ private:
 	IGameLogic *m_pLogic;
 	IGUIImage *m_pCountdown,//responsible for the count down image
 		*m_pGameOver; //responsible for the game over image
-	array<ITexture *> m_aCountdown;
+	array<ITexture *> m_aCountdown;   //count texture
 	bool m_bQuitGame; //whether should quit the game or not
 	u32 m_iNextState, //the next game state
 	    m_iState;    //the current game state
+	list<GUIElementToToggle *> m_lElementsToToggle;
 	
 	//TODO:add more elements here. 
 	//Maybe we should add a progress bar for the GUI thread while a working thread is initializing.
