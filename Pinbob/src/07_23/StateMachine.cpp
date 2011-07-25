@@ -2,20 +2,18 @@
 /***********************************************************************
  * Module:  StateMachine.cpp
  * Author:  liwenhaosuper
- * Modified: 2011ï¿½ï¿½07ï¿½ï¿½21ï¿½ï¿½ 16:39:14
+ * Modified: 2011Äê07ÔÂ21ÈÕ 16:39:14
  * Purpose: Declaration of the class StateMachine
  ***********************************************************************/
-#include <iostream>
-using namespace std;
 
 #include "StateMachine.h"
 #include "irrKlang.h"
 #include "irrlicht.h"
-//#include "IrrOde.h"
 #include "ConfigFileManager.h"
 #include "MenuHandler.h"
-//#include "GameHandler.h"
 #include "SettingHandler.h"
+#include "CCredits.h"
+#include "GameObject.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -32,6 +30,9 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	ConfigFileManager::getSharedInstance()->clearReadersWriters();
 
 	//now create all of the main states, set their index number and add them to the array
+// 	m_pMenu      = new MenuHandler(pDevice,this); 
+// 	addState(m_pMenu);  //index is 1
+		//now create all of the main states, set their index number and add them to the array
 	/* MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
 			u32 titleWidth, u32 titleHeight, char* titlePath,
 			u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath);
@@ -41,7 +42,12 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 			"asset/images/menu/quit1.png"};
 	m_pMenu = new MenuHandler(pDevice, this, 240, 80, "asset/images/menu/dancy.png", 5, 240, 50, imgPath);
 	addState(m_pMenu);
-	//m_pGame      =new GameHandler (pDevice,this);addState(m_pGame);
+
+	m_pCredits   = new CCredits(pDevice,this);
+	addState(m_pCredits); //index is 2
+	m_pGameObject = new GameObject(pDevice,this);
+	addState(m_pGameObject); //index is 3;
+	
 	
 	//add more states here
 
@@ -50,7 +56,7 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	m_pActive=m_pMenu;
 
 	//Let's create something for sound
-	//m_pSndEngine=irrklang::createIrrKlangDevice();
+	m_pSndEngine=irrklang::createIrrKlangDevice();
 
 	//init our members
 	m_pDevice=pDevice;
@@ -83,12 +89,12 @@ void StateMachine::setDrawScene( bool b )
 {
 	m_bDrawScene=b;
 }
-/*
+
 ISoundEngine * StateMachine::getSoundEngine()
 {
 	return m_pSndEngine;
 }
-*/
+
 irr::u32 StateMachine::run()
 {
 	bool bQuit,bSettings=false;
@@ -96,13 +102,11 @@ irr::u32 StateMachine::run()
 	m_bGraphicsChanged=false;
 	//load device from setting files
 	SettingHandler *setup = new SettingHandler("asset/config/Device.xml");
-	m_pDevice = createDevice(video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
-			false, false, false, 0);//setup->createDeviceFromSettings();
+	m_pDevice = setup->createDeviceFromSettings();
 	delete setup;
 	m_pDevice->setWindowCaption(L"PinBob");
 	//main loop
  	do {
- 		/*
  		do {
  			//read the settings from the device settings file and create an Irrlicht device from these settings
  			SettingHandler *setup = new SettingHandler("asset/config/Device.xml");
@@ -110,7 +114,6 @@ irr::u32 StateMachine::run()
  			bSettings=m_pDevice==NULL;
  			delete setup;
  		}while (m_pDevice==NULL);
- 		*/
  
  		m_pDevice->setWindowCaption(L"PinBob");
  		initStates(m_pDevice);
@@ -121,7 +124,7 @@ irr::u32 StateMachine::run()
  		while(m_pDevice->run() && !bQuit && !m_bGraphicsChanged) {
  			//m_bDrawScene is "false" if the active state wants to do all the drawing stuff on it's own
 			//if the active state wants to do all the drawing stuff,just set call" setDrawScene(false)"
- 			if (m_bDrawScene&&m_pDevice->isWindowActive()) {
+ 			if (m_bDrawScene) {
  				m_pDriver->beginScene(true,true,SColor(0,200,200,200));
  				m_pSmgr->drawAll();
  				m_pGuienv->drawAll();
@@ -162,11 +165,10 @@ irr::u32 StateMachine::run()
  			}
  		}
  		if (m_pActive) m_pActive->deactivate(NULL);
- 		cout<<"clearState\n";
+ 
  		clearStates();
  		//CShadowManager::getSharedInstance()->clear();
  		m_pSmgr->getMeshCache()->clear();
- 		cout<<"closeDevice\n";
  		m_pDevice->closeDevice();
  		m_pDevice->drop();
  	}
@@ -183,6 +185,7 @@ irr::f32 StateMachine::getAspectRatio()
 ISceneManager * StateMachine::getPreviewSceneManager()
 {
 	return m_pPreviewManager;
+	
 }
 
 irr::u32 StateMachine::getFps()

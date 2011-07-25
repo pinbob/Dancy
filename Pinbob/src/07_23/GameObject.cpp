@@ -61,7 +61,7 @@ irr::u32 GameObject::update( void )
 	 m_pGuienv->clear();
 	 m_pStateMachine->setDrawScene(true);
 	 m_pDevice->getCursorControl()->setVisible(true);
-	 m_aCountdown.clear();
+	 m_aCountdown.clear(); 
 	 list<GUIElementToToggle *>::Iterator it;
 	 while (m_lElementsToToggle.getSize()>0) {
 		 it=m_lElementsToToggle.begin();
