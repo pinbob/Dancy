@@ -26,8 +26,9 @@ using namespace gui;
 using namespace irrklang;
 
 class MenuHandler;
-class GameHandler;
 class IState;
+class CCredits;
+class GameObject;
 
 class StateMachine
 {
@@ -101,7 +102,8 @@ protected:
 	/*  system element                                                                    */
 	/************************************************************************/
 	MenuHandler           *m_pMenu;					/**< the "main menu" state */
-	GameHandler           *m_pGame;                 /**< the "game" state */
+	CCredits              *m_pCredits;              /**<the "credits" state */
+	GameObject            *m_pGameObject;           /**<the "game" state */
 	//add more elements here
 
 };
