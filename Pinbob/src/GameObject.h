@@ -49,6 +49,7 @@ private:
 	ITexture** widgets;
 	GameEventReceiver eventListener;
 	void _initMenu();
+	u8 lastHit;
 };
 
 #endif /* GAMEOBJECT_H_ */

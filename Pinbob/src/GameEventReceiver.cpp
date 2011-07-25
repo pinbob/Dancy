@@ -35,20 +35,22 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN:
 			hitStatus = _handleMouse(event.MouseInput.X, event.MouseInput.Y);
-			changed = hitStatus == lastHit;
 			printf("mouse at %d,%d .\n", event.MouseInput.X,
 					event.MouseInput.Y);
+			changed = (hitStatus != lastHit);
+			lastHit = hitStatus;
+			mousePressed = true;
 			break;
 		case EMIE_LMOUSE_LEFT_UP:
 			hitStatus = 0;
-			break;
-		case EMIE_MOUSE_MOVED:
+			mousePressed = false;
 			break;
 		default:
+			changed = false;
+			mousePressed = false;
 			break;
 		}
-		changed = hitStatus != lastHit;
-		lastHit = hitStatus;
+
 	}
 	return false;
 }
@@ -68,7 +70,7 @@ u8 GameEventReceiver::_handleMouse(s32 mouseX, s32 mouseY) {
 			result |= DOWN_RIGHT_HIT;
 		}
 	}
-	printf("result is %d", result);
+	//printf("result is %d", result);
 	return result;
 
 }

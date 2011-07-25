@@ -9,7 +9,7 @@
 
 GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 		u32 startTime) :
-		IState(pDevice, pStateMachine) {
+		IState(pDevice, pStateMachine), lastHit(0) {
 	device = pDevice;
 	driver = pStateMachine->m_pDriver;
 	smgr = pStateMachine->m_pSmgr;
@@ -40,8 +40,13 @@ u32 GameObject::update(void) {
 
 	// TODO no handler for hit
 	driver->beginScene(true, true, SColor(0, 200, 200, 200));
-	logic->update(delta, now,
-			eventListener.getChange() ? eventListener.getHitStatus():0);
+	if (eventListener.getMousePressed()
+			&& lastHit != eventListener.getHitStatus()) {
+		lastHit = eventListener.getHitStatus();
+	} else {
+		lastHit = 0;
+	}
+	logic->update(delta, now,lastHit);
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
 		driver->draw2DImage(widgets[i], GAME_MENU_CONFIG[i].position,
 				GAME_MENU_CONFIG[i].size, 0, video::SColor(255, 255, 255, 255),
