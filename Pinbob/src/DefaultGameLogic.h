@@ -32,7 +32,6 @@ protected:
 	void _init(const char* filename);
 	/* a pointer determines current playing progress */
 	std::list<Arrow*>::iterator creationCursor;
-	std::list<Arrow*>::iterator hitCursor;
 	ArManager* armgr;
 	GameInfo* gameInfo;
 	u32 startTime;

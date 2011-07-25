@@ -21,8 +21,8 @@ GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 
 void GameObject::activate(IState* pPrevious) {
 	// suppose actice time is start tiem
-	logic = new DefaultGameLogic(device->getTimer()->getTime(),
-			new ArManager(device, smgr, driver));
+	then = device->getTimer()->getTime();
+	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver));
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
@@ -40,7 +40,8 @@ u32 GameObject::update(void) {
 
 	// TODO no handler for hit
 	driver->beginScene(true, true, SColor(0, 200, 200, 200));
-	logic->update(delta, now,  eventListener.getHitStatus());
+	logic->update(delta, now,
+			eventListener.getChange() ? eventListener.getHitStatus():0);
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
 		driver->draw2DImage(widgets[i], GAME_MENU_CONFIG[i].position,
 				GAME_MENU_CONFIG[i].size, 0, video::SColor(255, 255, 255, 255),

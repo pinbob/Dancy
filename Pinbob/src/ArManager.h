@@ -97,6 +97,8 @@ private:
 	std::list<Arrow*> arrows;
 	/* the parent node of the scene */
 	ISceneNode* mainNode;
+	/* first iterator for displaying */
+	std::list<Arrow*>::iterator sceneCursor;
 };
 
 #endif /* ARMANAGER_H_ */

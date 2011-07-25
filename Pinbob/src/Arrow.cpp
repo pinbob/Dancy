@@ -46,7 +46,8 @@ void Arrow::setDuration(u32 duration) {
 bool Arrow::update(float dist) {
 	currentPosition.Y -= dist;
 #ifdef _DEBUG
-	printf("current z is %f.\n", currentPosition.Y);
+	//printf("dist %f\n", dist);
+	// printf("current z is %f.\n", currentPosition.Y);
 #endif
 	if (currentPosition.Y < 5) {
 		arrowNode->remove();

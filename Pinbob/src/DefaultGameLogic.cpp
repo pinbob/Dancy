@@ -27,7 +27,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 
 	armgr->update(delta, hit);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
-		if (now > (*creationCursor)->getStartTime()) {
+		if (now - startTime > (*creationCursor)->getStartTime()) {
 			(*creationCursor)->setArrowNode(
 					ArrowPrototypeFactory::getInstance()->getArrowPrototype(
 							(*creationCursor)->getArrowType()));
@@ -35,7 +35,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 			break;
 		}
 	}
+	//increment hit cursor
 	if (hit != 0) {
+		printf("hit not zero : %d", hit);
 		for (u8 i = 1; i <= MENU_HIT; i <<= 1) {
 			if (hit & i) {
 				_judgeHit(now, i);
@@ -49,7 +51,11 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 #define DEFAULT_EPSILON 300
 void DefaultGameLogic::_judgeHit(u32 now, u8 hit) {
 	u32 real = now - startTime;
-	for (; hitCursor != armgr->arrows.end(); hitCursor++) {
+
+	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
+			hitCursor != armgr->arrows.end(); hitCursor++) {
+		if ((*hitCursor)->getArrowType() == 0)
+			break;
 		if (abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real)
 				< DEFAULT_EPSILON) {
 			// TODO handle increment score
@@ -60,6 +66,7 @@ void DefaultGameLogic::_judgeHit(u32 now, u8 hit) {
 			break;
 		}
 	}
+
 }
 
 void DefaultGameLogic::_init(const char *filename) {
@@ -70,13 +77,14 @@ void DefaultGameLogic::_init(const char *filename) {
 
 	// TODO delete following lines , I randomly generated
 	// some arrows
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 20; i++) {
 		armgr->arrows.push_back(
 				ArrowFactory::getInstance()->getDefaultArrow(1 << (rand() % 4),
-						(rand() % 10) * 1000, 0));
+						(i) * 1000, 0));
 	}
+	armgr->sceneCursor = armgr->arrows.begin();
 	// TODO delete following lines
-#ifdef DEBUG_SHOW_ARROW_GENERATION
+#ifndef DEBUG_SHOW_ARROW_GENERATION
 	printf("Generating following %d arrows:\n", armgr->arrows.size());
 	for (std::list<Arrow*>::iterator iter = armgr->arrows.begin();
 			iter != armgr->arrows.end(); iter++) {
@@ -85,6 +93,5 @@ void DefaultGameLogic::_init(const char *filename) {
 	printf("print over\n");
 #endif
 	creationCursor = armgr->arrows.begin();
-	hitCursor = armgr->arrows.begin();
 }
 

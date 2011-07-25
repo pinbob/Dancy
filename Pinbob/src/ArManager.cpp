@@ -94,24 +94,23 @@ void ArManager::_loadArrows() {
 #ifdef _DEBUG
 	for (std::list<Arrow*>::iterator iter = arrows.begin();
 			iter != arrows.end(); iter++) {
-		printf("arrow type: %d.\n", (*iter)->getArrowType());
+		// printf("arrow type: %d.\n", (*iter)->getArrowType());
 	}
 #endif
 }
 
 void ArManager::_repaintArrows(u32 deltaTime) {
 	float dist = (deltaTime) * SPEED;
-	for (std::list<Arrow*>::iterator iter = arrows.begin();
+	for (std::list<Arrow*>::iterator iter = sceneCursor;
 			iter != arrows.end(); iter++) {
 		if ((*iter)->getArrowNode() == 0) {
-			printf("break.\n");
 			break;
 		}
-		printf("not break.\n");
 		if (!(*iter)->update(dist)) {
 			// destroy the arrow
-			//(*iter)->getArrowNode()->drop();
-			iter = arrows.erase(iter);
+			mainNode->removeChild((*iter)->getArrowNode());
+			// TODO it may have garbage collection here
+			sceneCursor ++;
 			printf("erased\n");
 		}
 	}

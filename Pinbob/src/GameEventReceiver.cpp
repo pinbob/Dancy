@@ -8,7 +8,7 @@
 #include "GameEventReceiver.h"
 #include "Config.h"
 
-GameEventReceiver::GameEventReceiver():hitStatus(0) {
+GameEventReceiver::GameEventReceiver():hitStatus(0),lastHit(0),changed(false) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -35,7 +35,7 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN:
 			hitStatus = _handleMouse(event.MouseInput.X, event.MouseInput.Y);
-
+			changed = hitStatus == lastHit;
 			printf("mouse at %d,%d .\n", event.MouseInput.X,
 					event.MouseInput.Y);
 			break;
@@ -47,7 +47,8 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 		default:
 			break;
 		}
-
+		changed = hitStatus != lastHit;
+		lastHit = hitStatus;
 	}
 	return false;
 }
@@ -67,6 +68,7 @@ u8 GameEventReceiver::_handleMouse(s32 mouseX, s32 mouseY) {
 			result |= DOWN_RIGHT_HIT;
 		}
 	}
+	printf("result is %d", result);
 	return result;
 
 }
