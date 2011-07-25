@@ -28,18 +28,6 @@ StateMachine::StateMachine()
 
 void StateMachine::initStates( IrrlichtDevice *pDevice )
 {
-#ifdef TEST_YJB
-	m_pDevice = pDevice;
-	m_pDriver = m_pDevice->getVideoDriver();
-	m_pSmgr = m_pDevice->getSceneManager();
-	m_pGuienv = m_pDevice->getGUIEnvironment();
-
-	m_pActive = new GameObject(m_pDevice, this, 1000);
-	m_pPreviewManager = m_pSmgr->createNewSceneManager(false);
-
-	addState(m_pActive);
-	m_pActive->activate(NULL);
-#elif defined TEST
 	//make sure no old (already deleted) config file readers or writers are stored
 	ConfigFileManager::getSharedInstance()->clearReadersWriters();
 
@@ -48,10 +36,10 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 			u32 titleWidth, u32 titleHeight, char* titlePath,
 			u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath);
 	 */
-	char* imgPath[5] = {"asset/images/menu/startGame1.png", "asset/images/menu/options1.png",
-			"asset/images/menu/highScores1.png", "asset/images/menu/credits1.png",
-			"asset/images/menu/quit1.png"};
-	m_pMenu = new MenuHandler(pDevice, this, 240, 80, "asset/images/menu/dancy.png", 5, 240, 50, imgPath);
+	char* imgPath[5] = {"asset/images/menu/credits", "asset/images/menu/quit",
+			"asset/images/menu/startGame", "asset/images/menu/options",
+			"asset/images/menu/highScores"};
+	m_pMenu = new MenuHandler(pDevice, this, 240, 80, "asset/images/menu/dancy.png", 5, 240, 50, imgPath, 2);
 	addState(m_pMenu);
 	//m_pGame      =new GameHandler (pDevice,this);addState(m_pGame);
 	
@@ -76,7 +64,7 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	m_pActive->activate(NULL);
 
 	ConfigFileManager::getSharedInstance()->loadConfig(m_pDevice,"asset/config/SettingManager.xml");
-#endif
+
 }
 
 void StateMachine::clearStates()
