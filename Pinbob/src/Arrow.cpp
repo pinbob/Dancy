@@ -1,74 +1,70 @@
+/*
+ * Arrow.cpp
+ *
+ *  Created on: Jul 19, 2011
+ *      Author: yejiabin
+ */
+
 #include "Arrow.h"
 
-Arrow::Arrow() : arrowType(1), startTime(0), duration(0){}
-<<<<<<< HEAD
-
-Arrow::Arrow(unsigned char arrowType) : startTime(0), duration(0){
-	this->arrowType = arrowType;
+Arrow::Arrow() :
+		arrowType(1), duration(0), arrowNode(0),startTime(0) {
 }
 
-Arrow::Arrow(unsigned char arrowType,
-		unsigned int startTime, unsigned int duration){
-	this->arrowType = arrowType;
-	this->startTime = startTime;
-	this->duration = duration;
+Arrow::Arrow(unsigned char arrowType, u32 startTime, u32 duration,
+		ISceneNode* node) :
+		arrowType(arrowType), startTime(startTime), duration(duration), arrowNode(
+				node) {
+
 }
 
-unsigned char Arrow::getArrowType(){
+unsigned char Arrow::getArrowType() {
 	return arrowType;
 }
 
-unsigned int Arrow::getStartTime(){
-	return startTime;
+void Arrow::setArrowType(unsigned char arrowType) {
+	this->arrowType = arrowType;
 }
 
-unsigned int Arrow::getDuration(){
+ISceneNode *Arrow::getArrowNode() const {
+	return arrowNode;
+}
+
+void Arrow::setArrowNode(ISceneNode *arrowNode) {
+	this->arrowNode = arrowNode;
+	currentPosition = this->arrowNode->getPosition();
+}
+
+u32 Arrow::getDuration() const {
 	return duration;
 }
 
-void Arrow::setArrowType(unsigned char arrowType){
-	this->arrowType = arrowType;
-}
-
-void Arrow::setStartTime(unsigned int startTime){
-	this->startTime = startTime;
-}
-
-=======
-
-Arrow::Arrow(unsigned char arrowType) : startTime(0), duration(0){
-	this->arrowType = arrowType;
-}
-	
-Arrow::Arrow(unsigned char arrowType, 
-		unsigned int startTime, unsigned int duration){
-	this->arrowType = arrowType;
-	this->startTime = startTime;
+void Arrow::setDuration(u32 duration) {
 	this->duration = duration;
 }
 
-unsigned char Arrow::getArrowType(){
-	return arrowType;
+bool Arrow::update(float dist) {
+	currentPosition.Y -= dist;
+#ifdef _DEBUG
+	printf("current z is %f.\n", currentPosition.Y);
+#endif
+	if (currentPosition.Y < 5) {
+		arrowNode->remove();
+		// delete arrowNode;
+		// arrowNode = 0;
+		printf("dropped\n");
+		return false;
+	} else {
+		arrowNode->setPosition(currentPosition);
+		return true;
+	}
 }
 
-unsigned int Arrow::getStartTime(){
+u32 Arrow::getStartTime() const {
 	return startTime;
 }
 
-unsigned int Arrow::getDuration(){
-	return duration;
-}
-
-void Arrow::setArrowType(unsigned char arrowType){
-	this->arrowType = arrowType;
-}
-
-void Arrow::setStartTime(unsigned int startTime){
+void Arrow::setStartTime(u32 startTime) {
 	this->startTime = startTime;
-}
-
->>>>>>> ce36d6621c9e95b98b03f5e1e538ea2d7440a360
-void Arrow::setDuration(unsigned int duration){
-	this->duration = duration;
 }
 

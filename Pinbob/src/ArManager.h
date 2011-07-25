@@ -13,6 +13,8 @@
 #include <irrlicht.h>
 #include "Score.h"
 #include "irrAR.h"
+#include "Config.h"
+#include "IGameLogic.h"
 
 using namespace irr;
 
@@ -29,9 +31,14 @@ class Arrow;
 #define CAMERA 0
 #define PATTERN 1
 #define VCONF 2
+typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
+const pos2d arrowPos[4] = {{-35,35},{35,35},{35,35},{-35,-35}};
 
 class ArManager {
+public:
+	friend class IGameLogic;
+	friend class DefaultGameLogic;
 public:
 	/**
 	 * The constructor
@@ -48,11 +55,10 @@ public:
 	bool init(const char* filename);
 	/**
 	 * the function update the status of scene that AR simulates
-	 * @param last the last frame timestamp
-	 * @param now the current frame timestamp
+	 * @param deltaTime the current frame timestamp
 	 * @param hit the hit information given by main scene
 	 */
-	void update(u32 last, u32 now, u8 hit);
+	void update(u32 deltaTime, u8 hit);
 	/**
 	 * get the current calculated score to MainScene
 	 * @return current score
@@ -65,10 +71,6 @@ public:
 private:
 	/* the speed of dropping arrow */
 	float speed;
-	/* the arrows wait for displaying */
-	std::queue<Arrow> arrowQueue;
-	/* the arrows displaying in the scene */
-	std::list<Arrow> displayQueue;
 	/* score information of the current session */
 	Score score;
 	/* the scene manager */
@@ -88,11 +90,11 @@ private:
 	/* load arrow information */
 	void _loadArrows();
 	/* update arrows */
-	void _updateArrows(u32 last, u32 now, u8 hit);
+	void _repaintArrows(u32 deltaTime);
 	/* our dancer : turtles */
 	ISceneNode* turtleNode;
 	/* arrow nodes displaying in the scene */
-	std::list<ISceneNode*> arrows;
+	std::list<Arrow*> arrows;
 	/* the parent node of the scene */
 	ISceneNode* mainNode;
 };

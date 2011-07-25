@@ -1,41 +1,56 @@
+/*
+ * Arrow.h
+ *
+ *  Created on: Jul 19, 2011
+ *      Author: yejiabin
+ */
+
 #ifndef ARROW_H
 #define ARROW_H
 
-<<<<<<< HEAD
-#ifndef ARROW_H
-#define ARROW_H
+#include <irrlicht.h>
+#include <map>
+typedef float pos2d[2];
+const std::map<unsigned char, pos2d> arrowMap;
 
-=======
->>>>>>> ce36d6621c9e95b98b03f5e1e538ea2d7440a360
-class Arrow{
+using namespace irr;
+
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
+class Arrow {
 public:
 	Arrow();
-	Arrow(unsigned char arrowType);
-<<<<<<< HEAD
-	Arrow(unsigned char arrowType,
-		unsigned int startTime, unsigned int duration);
-
+	Arrow(unsigned char arrowType, u32 startTime,  u32 duration,
+			ISceneNode * node);
 	unsigned char getArrowType();
-	unsigned int getStartTime();
-	unsigned int getDuration();
 
-=======
-	Arrow(unsigned char arrowType, 
-		unsigned int startTime, unsigned int duration);
-		
-	unsigned char getArrowType();
-	unsigned int getStartTime();
-	unsigned int getDuration();
-	
->>>>>>> ce36d6621c9e95b98b03f5e1e538ea2d7440a360
 	void setArrowType(unsigned char arrowType);
-	void setStartTime(unsigned int startTime);
-	void setDuration(unsigned int duration);
 
+	ISceneNode *getArrowNode() const;
+
+	void setArrowNode(ISceneNode *arrowNode);
+
+	/**
+	 * return false if arrow should be dismissed
+	 */
+	bool update(float dist);
+	u32 getDuration() const;
+	void setDuration(u32 duration);
+    u32 getStartTime() const;
+    void setStartTime(u32 startTime);
+
+	virtual ~Arrow() {
+		printf("Arrow is destroyed.\n");
+	}
 private:
 	unsigned char arrowType;
-	unsigned int startTime;
-	unsigned int duration;
+	u32 startTime;
+	u32 duration;
+	ISceneNode* arrowNode;
+	vector3df currentPosition;
 };
 
 #endif

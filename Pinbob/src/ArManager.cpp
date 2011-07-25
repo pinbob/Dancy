@@ -7,9 +7,13 @@
 
 #include <cstdio>
 #include <cstring>
+#include <ctime>
 #include "ArManager.h"
+#include "ArrowFactory.h"
+#include "ArrowPrototypeFactory.h"
 #include "Score.h"
 #include "Arrow.h"
+#include "Config.h"
 
 #define MAX_BUFFER 1024
 
@@ -68,48 +72,50 @@ bool ArManager::init(const char* filename) {
 			vconf);
 #endif
 	_initAR();
-	_loadArrows();
+	//_loadArrows();
 	return true;
 }
 
-#define START_TIME 2000 // start after 2 seconds
-void ArManager::update(u32 last, u32 now, u8 hit) {
+void ArManager::update(u32 deltaTime, u8 hit) {
 	//TODO just simulate random arrow generation
-	if (now > START_TIME) {
-		if ((now / 1000 - last / 1000) > 0) {
-			//add an arrow
-			//IAnimatedMesh *arrowMesh = smgr->getMesh("asset/images/left-bottom.png");
-			//ISceneNode *newArrow = smgr->addAnimatedMeshSceneNode(arrowMesh, this->mainNode);
-			// arrows.push_back()
-			//	printf("It's %d seconds.\n", now/1000);
-		}
-	}
-	printf("It's %d seconds.\n", now / 1000);
-	_updateArrows(last, now, hit);
+	_repaintArrows(deltaTime);
 	armgr->run();
 	armgr->drawBackground();
 }
 
 void ArManager::_loadArrows() {
+	// TODO we may have a specific file to load
+//ArrowFactory::getInstance();
+	ArrowFactory* arrowFactory = ArrowFactory::getInstance();
 
+	// TODO Just a test
+	srand(time(NULL));
+
+#ifdef _DEBUG
+	for (std::list<Arrow*>::iterator iter = arrows.begin();
+			iter != arrows.end(); iter++) {
+		printf("arrow type: %d.\n", (*iter)->getArrowType());
+	}
+#endif
 }
 
-void ArManager::_updateArrows(u32 last, u32 now, u8 hit) {
-	IAnimatedMesh* plane = smgr->addHillPlaneMesh("plane", // Name of mesh
-			core::dimension2d<f32>(100, 100), //	Size of a tile of the mesh. (10.0f, 10.0f) would be a good value to start, for example.
-			core::dimension2d<u32>(1, 1), 0, 0, // 	Specifies how much tiles there will be. If you specifiy for example that a tile has the size (10.0f, 10.0f) and the tileCount is (10,10), than you get a field of 100 tiles which has the dimension 100.0fx100.0f.
-			core::dimension2d<f32>(0, 0), //material
-			core::dimension2d<f32>(1, 1)); //countHills
-	ISceneNode* arrowNode = smgr->addAnimatedMeshSceneNode(plane, mainNode, 888,
-			vector3df(0, 0, 20));
-	driver->setTextureCreationFlag(ETCF_NO_ALPHA_CHANNEL,false);
-	arrowNode->setMaterialTexture(0,
-			driver->getTexture("asset/images/right-bottom.png"));
-	arrowNode->setMaterialFlag(EMF_LIGHTING, false);
-	arrowNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
-
-	arrowNode->setPosition(vector3df(0,50,0));
-	arrowNode->setScale(vector3df(.3, .3, .3));
+void ArManager::_repaintArrows(u32 deltaTime) {
+	float dist = (deltaTime) * SPEED;
+	for (std::list<Arrow*>::iterator iter = arrows.begin();
+			iter != arrows.end(); iter++) {
+		if ((*iter)->getArrowNode() == 0) {
+			printf("break.\n");
+			break;
+		}
+		printf("not break.\n");
+		if (!(*iter)->update(dist)) {
+			// destroy the arrow
+			//(*iter)->getArrowNode()->drop();
+			iter = arrows.erase(iter);
+			printf("erased\n");
+		}
+	}
+	//printf("walk through.\n");
 }
 
 int ArManager::getScore() {
@@ -135,23 +141,14 @@ void ArManager::_initAR() {
 	turtleNode->setMaterialTexture(1,
 			driver->getTexture("asset/models/ttt.mtl"));
 	turtleNode->getMaterial(1).Shininess = 30.0;
-	//node->setMaterialType(EMT_SOLID_2_LAYER );
-	//node->setMaterialTexture(1, driver->getTexture("asset/models/ttt.mtl"));
-
 	smgr->addLightSceneNode(0, core::vector3df(0, 0, 0),
 			video::SColorf(0.5f, 1.0f, 0.5f, 0.0f), 800.0f);
 	smgr->setAmbientLight(video::SColorf(0.3, 0.3, 0.3, 1));
-	/* Terrain */
-//	IAnimatedMesh* plane = smgr->addHillPlaneMesh("plane", // Name of mesh
-//			core::dimension2d<f32>(10, 10), //	Size of a tile of the mesh. (10.0f, 10.0f) would be a good value to start, for example.
-//			core::dimension2d<u32>(20, 20), 0, 0, // 	Specifies how much tiles there will be. If you specifiy for example that a tile has the size (10.0f, 10.0f) and the tileCount is (10,10), than you get a field of 100 tiles which has the dimension 100.0fx100.0f.
-//			core::dimension2d<f32>(0, 0), //material
-//			core::dimension2d<f32>(10, 10)); //countHills
 	IAnimatedMesh* plane = smgr->getMesh("asset/models/water.obj");
 	ISceneNode* sea = smgr->addWaterSurfaceSceneNode(plane->getMesh(0), 5.0f,
 			300.0f, 40.0f, mainNode);
 	sea->setScale(vector3df(.3, .3, .3));
-	sea->setMaterialTexture(0, driver->getTexture("asset/models/mat.png"));
+	sea->setMaterialTexture(0, driver->getTexture("asset/images/mat.tga"));
 	sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
 	sea->setMaterialFlag(EMF_LIGHTING, false);
 	sea->setMaterialType(video::EMT_REFLECTION_2_LAYER);
@@ -168,12 +165,8 @@ void ArManager::_initAR() {
 	smgr->setAmbientLight(video::SColor(0, 255, 255, 255));
 	//init the camera
 	armgr->beginCamera(cparam_name, 0, vconf);
-	//node for the lady, attached the the hiro pattern
-	//armgr->addARSceneNode(patt_name, node);
-	//node for the fairy and water, attached the the sample1 pattern
-//	mainNode->addChild(turtleNode);
 	armgr->addARSceneNode(patt_name, mainNode, 123);
-	//armgr->addARSceneNode(patt_name, turtleNode2, 123);
 	armgr->fixCamera(camera);
+	ArrowPrototypeFactory::getInstance()->createFactory(smgr, driver, mainNode);
 
 }
