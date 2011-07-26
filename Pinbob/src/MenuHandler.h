@@ -68,6 +68,8 @@ private:
 
 	//load image files 
 	bool LoadImage(u32 focusIndex);
+        //draw menu items
+        void drawMenu();
 };
 
 #endif
