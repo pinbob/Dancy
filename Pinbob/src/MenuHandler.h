@@ -23,7 +23,7 @@ class MenuHandler : public IEventReceiver, public IState
 {
 public:
 	MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
-			u32 titleWidth, u32 titleHeight, char* titlePath,
+			char* backPath, u32 titleWidth, u32 titleHeight, char* titlePath,
 			u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath, u32 focusIndex);
 	~MenuHandler();
 	virtual bool OnEvent (const SEvent &event);
@@ -55,6 +55,9 @@ public:
 	}
 
 private:
+        char* backPath;//background path
+        ITexture* back;
+        
 	char* titlePath;
 	ITexture* title;
 	core::rect<s32> titleSize;

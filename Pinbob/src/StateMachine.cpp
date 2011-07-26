@@ -16,6 +16,7 @@ using namespace std;
 #include "MenuHandler.h"
 //#include "GameHandler.h"
 #include "SettingHandler.h"
+#include "MenuFactory.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -26,21 +27,20 @@ StateMachine::StateMachine()
 	m_bDrawScene=true;
 }
 
+StateMachine::~StateMachine(){
+    delete m_pMenu;
+}
+
 void StateMachine::initStates( IrrlichtDevice *pDevice )
 {
 	//make sure no old (already deleted) config file readers or writers are stored
 	ConfigFileManager::getSharedInstance()->clearReadersWriters();
 
 	//now create all of the main states, set their index number and add them to the array
-	/* MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
-			u32 titleWidth, u32 titleHeight, char* titlePath,
-			u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath);
-	 */
-	char* imgPath[5] = {"asset/images/menu/credits", "asset/images/menu/quit",
-			"asset/images/menu/startGame", "asset/images/menu/options",
-			"asset/images/menu/highScores"};
-	m_pMenu = new MenuHandler(pDevice, this, 240, 80, "asset/images/menu/dancy.png", 5, 240, 50, imgPath, 2);
+        m_pMenu = MenuFactory::createMenuHandler(m_pDevice, this, IState::MAIN_MENU_STATE);
 	addState(m_pMenu);
+        
+        
 	//m_pGame      =new GameHandler (pDevice,this);addState(m_pGame);
 	
 	//add more states here

@@ -1,7 +1,7 @@
 /***********************************************************************
  * Module:  StateMachine.h
  * Author:  liwenhaosuper
- * Modified: 2011Äê07ÔÂ21ÈÕ 16:39:14
+ * Modified: 2011ï¿½ï¿½07ï¿½ï¿½21ï¿½ï¿½ 16:39:14
  * Purpose: Declaration of the class StateMachine
  ***********************************************************************/
 
@@ -33,7 +33,7 @@ class StateMachine
 {
 public:
 	StateMachine();
-	virtual ~StateMachine() { }
+	virtual ~StateMachine();
 	/**
 	  * Initialize all states
 	  * @param pDevice the Irrlicht device to be used
@@ -93,7 +93,7 @@ protected:
 	IGUIFont        *m_pFont;							/**< the new standard font */
 	bool m_bGraphicsChanged;			/**< this flag must be "true" if the graphics mode needs re-initialization, e.g. to chane it */
 	bool m_bDrawScene;						/**< should the state machine draw the scene, or will the active state take care of that? */
-	ISoundEngine *m_pSndEngine;		/**< the sound engine */
+	//ISoundEngine *m_pSndEngine;		/**< the sound engine */
 	u32 m_iFps;
 
 	void addState(IState *pState);

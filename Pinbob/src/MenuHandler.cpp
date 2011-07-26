@@ -13,7 +13,7 @@
 using namespace std;
 
 MenuHandler::MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
-        u32 titleWidth, u32 titleHeight, char* titlePath,
+        char* backPath, u32 titleWidth, u32 titleHeight, char* titlePath,
         u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath, u32 focusIndex) :
 IState(pDevice, pStateMachine), m_focusItem(focusIndex) {
 
@@ -27,6 +27,7 @@ IState(pDevice, pStateMachine), m_focusItem(focusIndex) {
         this->imgPath[i] = imgPath[i];
         cout << "imagePath[" << i << "] = " << this->imgPath[i] << endl;
     }
+    this->backPath = backPath;
     this->titlePath = titlePath;
 
     //image position
@@ -61,6 +62,11 @@ void MenuHandler::activate(IState *pPrevious) {
     m_pStateMachine->setDrawScene(false);
     //draw the scene
     m_pDriver->beginScene(true, true, SColor(0, 200, 200, 200));
+    
+    m_pDriver->draw2DImage(back, core::position2d<s32>(0, 0), 
+            core::rect<s32>(0, 0, m_pDevice->getVideoDriver()->getScreenSize().Width, 
+            m_pDevice->getVideoDriver()->getScreenSize().Height), 0,
+            video::SColor(255, 255, 255, 255), true);
     m_pDriver->draw2DImage(title, titlePos, titleSize, 0,
             video::SColor(255, 255, 255, 255), true);
 
@@ -74,6 +80,7 @@ void MenuHandler::activate(IState *pPrevious) {
 
 void MenuHandler::drawMenu() {
     for (u32 i = 0; i < imgAmt; i++) {
+        /*
         core::position2d<s32> newImgPos;
         newImgPos.X = imgPos[i].X;
         newImgPos.Y = imgPos[i].Y + MouseState.mouseCurPos.Y - MouseState.mouseDownPos.Y;
@@ -119,6 +126,9 @@ void MenuHandler::drawMenu() {
             m_pDriver->draw2DImage(images[i], newImgPos, imgSize, 0,
                     video::SColor(255, 255, 255, 255), true);
         }
+         */
+        m_pDriver->draw2DImage(images[i], imgPos[i], imgSize, 0,
+                video::SColor(255, 255, 255, 255), true);
     }
 }
 
@@ -142,6 +152,7 @@ bool MenuHandler::LoadImage(u32 focusIndex) {
         images[i] = m_pDriver->getTexture(path);
         delete path;
     }
+    back = m_pDriver->getTexture(backPath);
     title = m_pDriver->getTexture(titlePath);
     return true;
 }
@@ -171,12 +182,22 @@ bool MenuHandler::OnEvent(const SEvent &event) {
             case EMIE_LMOUSE_LEFT_UP:
                 //when mouse up, set isMouseDown to be false
                 MouseState.isMouseDown = false;
-                if (event.MouseInput.X > imgPos[0].X
-                        && event.MouseInput.X < imgPos[0].X + imgSize.getWidth()
-                        && event.MouseInput.Y > imgPos[0].Y
-                        && event.MouseInput.Y < imgPos[0].Y + imgSize.getHeight()) {
-                    cout << "Clicked" << this->m_focusItem << endl;
+                for (u32 i = 0; i < imgAmt; ++i) {
+                    //if mouse pos is within imgPos
+                    if (event.MouseInput.X > imgPos[i].X &&
+                            event.MouseInput.X < imgPos[i].X + imgSize.getWidth() &&
+                            event.MouseInput.Y > imgPos[i].Y &&
+                            event.MouseInput.Y < imgPos[i].Y + imgSize.getHeight()) {
+                        //if is not the same as before, reactivate it
+                        if (m_focusItem != i) {
+                            m_focusItem = i;
+                            LoadImage(i);
+                            activate(m_pPrevious);
+                        }
+                        break;
+                    }
                 }
+                cout << "Clicked" << this->m_focusItem << endl;
                 break;
             case EMIE_MOUSE_MOVED:
                 //when mouse move, if is mouseDown, remember where
