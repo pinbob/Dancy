@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/ASceneNode.cpp \
 ../src/ArManager.cpp \
 ../src/Arrow.cpp \
 ../src/ArrowFactory.cpp \
@@ -19,6 +20,7 @@ CPP_SRCS += \
 ../src/main2.cpp 
 
 OBJS += \
+./src/ASceneNode.o \
 ./src/ArManager.o \
 ./src/Arrow.o \
 ./src/ArrowFactory.o \
@@ -34,6 +36,7 @@ OBJS += \
 ./src/main2.o 
 
 CPP_DEPS += \
+./src/ASceneNode.d \
 ./src/ArManager.d \
 ./src/Arrow.d \
 ./src/ArrowFactory.d \

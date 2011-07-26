@@ -31,7 +31,8 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 		default:
 			break;
 		}
-	} else if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
+	}
+	if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN:
 			hitStatus = _handleMouse(event.MouseInput.X, event.MouseInput.Y);

@@ -32,6 +32,6 @@ enum GAME_MENUS {
 /* defines the arrow height */
 #define ARROW_HEIGHT 150.0
 #define SPEED .05
-#define TIME_ELAPSED ARROW_HEIGHT/SPEED
+#define TIME_ELAPSED 3000 // ARROW_HEIGHT/SPEED
 
 #endif /* CONFIG_H_ */

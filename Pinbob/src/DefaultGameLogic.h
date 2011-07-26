@@ -35,6 +35,7 @@ protected:
 	ArManager* armgr;
 	GameInfo* gameInfo;
 	u32 startTime;
+	u8 lastHit;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */

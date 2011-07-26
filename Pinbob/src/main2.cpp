@@ -20,12 +20,55 @@ using namespace io;
 using namespace gui;
 
 int main(int argc, char** argv) {
+#define TEST_ARROW
 	//Create our state machine, start it and delete it when it returns
+#ifdef TEST_ARROW
 	StateMachine *theMachine=new StateMachine();
 	theMachine->run();
 	delete theMachine;
 	return 0;
 }
+#elif defined TEST_YJB
+	IrrlichtDevice *device = createDevice(video::EDT_OPENGL,
+				dimension2d<u32>(640, 480), 24, false, false, false, 0);
+		if (!device)
+			return 1;
+		IVideoDriver* driver = device->getVideoDriver();
+		ISceneManager* smgr = device->getSceneManager();
+		IGUIEnvironment* guienv = device->getGUIEnvironment();
+		/* calls ar manager */
+
+		int lastFPS = -1;
+		u32 then = device->getTimer()->getTime();
+		while (device->run()) {
+			if (device->isWindowActive()) {
+				const u32 now = device->getTimer()->getTime();
+				const u32 deltaTime = now - then; // in ms
+				then = now;
+				driver->beginScene(true, true, SColor(255, 0, 0, 0));
+
+				smgr->drawAll();
+				guienv->drawAll();
+				driver->endScene();
+				//Shows FPS in the title screen
+				int fps = driver->getFPS();
+				if (lastFPS != fps) {
+					core::stringw str = L"Pinbob [";
+					str += driver->getName();
+					str += "] FPS:";
+					str += fps;
+					device->setWindowCaption(str.c_str());
+					lastFPS = fps;
+				}
+
+			} else {
+				device->yield();
+			}
+		}
+		driver->drop();
+	return 0;
+}
+#endif
 #ifdef RECOVER
 #include <irrlicht.h>
 #include <iostream>

@@ -40,8 +40,8 @@ u32 GameObject::update(void) {
 
 	// TODO no handler for hit
 	driver->beginScene(true, true, SColor(0, 200, 200, 200));
-	if (eventListener.getMousePressed()
-			&& lastHit != eventListener.getHitStatus()) {
+	//printf("lasthit %d, now %d. \n", lastHit, eventListener.getMousePressed());
+	if (eventListener.getMousePressed()) {
 		lastHit = eventListener.getHitStatus();
 	} else {
 		lastHit = 0;

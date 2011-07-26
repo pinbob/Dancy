@@ -53,7 +53,7 @@ bool Arrow::update(float dist) {
 		arrowNode->remove();
 		// delete arrowNode;
 		// arrowNode = 0;
-		printf("dropped\n");
+		// printf("dropped\n");
 		return false;
 	} else {
 		arrowNode->setPosition(currentPosition);

@@ -12,7 +12,7 @@
 #include <cmath>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr) :
-		startTime(startTime), armgr(armgr), gameInfo(new GameInfo) {
+		startTime(startTime), armgr(armgr), gameInfo(new GameInfo), lastHit(0) {
 	armgr->init("asset/conf/ar.conf");
 	//TODO OKay, no file name specified
 	_init(NULL);
@@ -36,14 +36,14 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		}
 	}
 	//increment hit cursor
-	if (hit != 0) {
-		printf("hit not zero : %d", hit);
+	if (hit != lastHit && hit != 0) {
 		for (u8 i = 1; i <= MENU_HIT; i <<= 1) {
 			if (hit & i) {
 				_judgeHit(now, i);
 			}
 		} // end for
 	} // end if
+	lastHit = hit;
 	return 0;
 }
 
@@ -54,15 +54,19 @@ void DefaultGameLogic::_judgeHit(u32 now, u8 hit) {
 
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
-		if ((*hitCursor)->getArrowType() == 0)
+		if ((*hitCursor)->getArrowNode() == 0)
 			break;
+		printf("cursor type: %d, st: %d, cal: %f", (*hitCursor)->getArrowType(),
+				(*hitCursor)->getStartTime(),
+				abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real));
 		if (abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real)
 				< DEFAULT_EPSILON) {
 			// TODO handle increment score
-			printf("hitted.\n");
+			printf(" hitted %d(hit is %d).\n", (*hitCursor)->getArrowType(),
+					hit);
 		} else {
 			// TODO handle decrement score and miss
-			printf("missed.\n");
+			printf(" missed.\n");
 			break;
 		}
 	}
