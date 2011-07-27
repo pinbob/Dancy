@@ -33,7 +33,7 @@ public:
 
 private:
 	ISoundEngine *m_pSndEngine;//sound engine for menu
-	ISceneNode *m_pMenu;
+	//ISceneNode *m_pMenu;
 	ITimer *m_pTimer;
 	u32 m_focusItem;//shows which menu is focused
 	u32 m_iLastTime;
@@ -69,6 +69,7 @@ private:
 	core::rect<s32> imgSize;
 	core::position2d<s32>* imgPos;
 
+        void drawScene();
 	//load image files 
 	bool LoadImage(u32 focusIndex);
         //draw menu items

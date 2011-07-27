@@ -100,7 +100,7 @@ protected:
 	/************************************************************************/
 	/*  system element                                                                    */
 	/************************************************************************/
-	MenuHandler           *m_pMenu;					/**< the "main menu" state */
+	MenuHandler *m_pMenu[11];					/** all menu state */
 	GameHandler           *m_pGame;                 /**< the "game" state */
 	//add more elements here
 

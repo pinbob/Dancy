@@ -60,6 +60,11 @@ void MenuHandler::activate(IState *pPrevious) {
     m_iLastTime = m_pTimer->getTime();
     //in this IState instance, I choose to draw the scene myself
     m_pStateMachine->setDrawScene(false);
+
+    drawScene();
+}
+
+void MenuHandler::drawScene(){
     //draw the scene
     m_pDriver->beginScene(true, true, SColor(0, 200, 200, 200));
     
@@ -75,7 +80,6 @@ void MenuHandler::activate(IState *pPrevious) {
     m_pSmgr->drawAll();
     m_pGuienv->drawAll();
     m_pDriver->endScene();
-
 }
 
 void MenuHandler::drawMenu() {
@@ -192,12 +196,12 @@ bool MenuHandler::OnEvent(const SEvent &event) {
                         if (m_focusItem != i) {
                             m_focusItem = i;
                             LoadImage(i);
-                            activate(m_pPrevious);
+                            drawScene();
                         }
+                        cout << "Clicked" << this->m_focusItem << endl;
                         break;
                     }
                 }
-                cout << "Clicked" << this->m_focusItem << endl;
                 break;
             case EMIE_MOUSE_MOVED:
                 //when mouse move, if is mouseDown, remember where
@@ -213,7 +217,7 @@ bool MenuHandler::OnEvent(const SEvent &event) {
                             if (m_focusItem != i) {
                                 m_focusItem = i;
                                 LoadImage(i);
-                                activate(m_pPrevious);
+                                drawScene();
                             }
                             break;
                         }

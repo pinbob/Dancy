@@ -27,6 +27,7 @@ class StateMachine;
 class IState
 {
 public:
+   IState(){}
    IState(IrrlichtDevice* pDevice, StateMachine* pStateMachine)
    {
 	   m_pDevice=pDevice;

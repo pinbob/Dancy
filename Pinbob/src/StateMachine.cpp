@@ -28,7 +28,7 @@ StateMachine::StateMachine()
 }
 
 StateMachine::~StateMachine(){
-    delete m_pMenu;
+    delete []m_pMenu;
 }
 
 void StateMachine::initStates( IrrlichtDevice *pDevice )
@@ -37,8 +37,18 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	ConfigFileManager::getSharedInstance()->clearReadersWriters();
 
 	//now create all of the main states, set their index number and add them to the array
-        m_pMenu = MenuFactory::createMenuHandler(m_pDevice, this, IState::MAIN_MENU_STATE);
-	addState(m_pMenu);
+        
+        m_pMenu[IState::MODE_STATE] = 
+                MenuFactory::createMenuHandler(m_pDevice, this, IState::MODE_STATE);
+	addState(m_pMenu[IState::MODE_STATE]);
+        
+        m_pMenu[IState::SONG_STATE] = 
+                MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
+	addState(m_pMenu[IState::SONG_STATE]);
+        
+        m_pMenu[IState::MAIN_MENU_STATE] = 
+                MenuFactory::createMenuHandler(m_pDevice, this, IState::MAIN_MENU_STATE);
+	addState(m_pMenu[IState::MAIN_MENU_STATE]);
         
         
 	//m_pGame      =new GameHandler (pDevice,this);addState(m_pGame);
@@ -47,7 +57,7 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 
 	
 	//first of all,activate the main menu state
-	m_pActive=m_pMenu;
+	m_pActive=m_pMenu[IState::MAIN_MENU_STATE];
 
 	//Let's create something for sound
 	//m_pSndEngine=irrklang::createIrrKlangDevice();
@@ -161,12 +171,12 @@ irr::u32 StateMachine::run()
  				else bQuit=true;
  			}
  		}
- 		if (m_pActive) m_pActive->deactivate(NULL);
- 		cout<<"clearState\n";
+ 		if (m_pActive){
+                    m_pActive->deactivate(NULL);
+                }
  		clearStates();
  		//CShadowManager::getSharedInstance()->clear();
  		m_pSmgr->getMeshCache()->clear();
- 		cout<<"closeDevice\n";
  		m_pDevice->closeDevice();
  		m_pDevice->drop();
  	}
