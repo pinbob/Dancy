@@ -16,13 +16,15 @@ GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 	guienv = pStateMachine->m_pGuienv;
 	then = 0;
 	device->setEventReceiver(&eventListener);
+	lastScore = 99999; // the max score
 	_initMenu();
 }
 
 void GameObject::activate(IState* pPrevious) {
 	// suppose actice time is start tiem
 	then = device->getTimer()->getTime();
-	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver));
+	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
+			&gameInfo);
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
@@ -47,13 +49,7 @@ u32 GameObject::update(void) {
 		lastHit = 0;
 	}
 	logic->update(delta, now, lastHit);
-
-	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
-//		driver->draw2DImage(widgets[i], GAME_MENU_CONFIG[i].position,
-//				GAME_MENU_CONFIG[i].size, 0, video::SColor(255, 255, 255, 255),
-//				true);
-	}
-
+	_updateScore(gameInfo.getScore()->getScore());
 	smgr->drawAll();
 	guienv->drawAll();
 	driver->endScene();
@@ -65,15 +61,35 @@ void GameObject::_initMenu() {
 	widgets = new ITexture*[GAME_MENU_LENGTH];
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
 		widgets[i] = driver->getTexture(GAME_MENU_CONFIG[i].filename);
-	}
-	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
 		guienv->addImage(widgets[i],
 				vector2d<signed int>(GAME_MENU_CONFIG[i].position), true, 0);
 	}
+	guienv->addImage(driver->getTexture("asset/images/score.png"),
+			vector2d<s32>(10, 10), true, 0);
+	char digitFile[19] = "asset/images/x.png";
+	for (int i = 0; i < 10; i++) {
+		digitFile[13] = static_cast<char>(i + '0');digits[i] = driver->getTexture(digitFile);
+	}
+	for (int i = 0; i < SCORE_WIDTH; i++) {
+		score[i] = guienv->addImage(
+				rect<s32>(120 + i * 25, 5, 145 + i * 25, 40), 0);
+		score[i]->setScaleImage(true);
+		score[i]->setUseAlphaChannel(true);
+	}
+	_updateScore(0);
+}
 
-	(guienv->addImage(driver->getTexture("asset/images/score.png"),
-			vector2d<s32>(10, 10), true, 0));
-
+void GameObject::_updateScore(u32 score) {
+	if (score != lastScore) {
+		if (score > 99999) {
+			score = 99999;
+		}
+		for (unsigned int i = 10000, j = 0; i > 0; i /= 10, j++) {
+			this->score[j]->setImage(digits[score / i]);
+			score -= (score/i)*i;
+		}
+	}
+	lastScore = score;
 }
 
 GameObject::~GameObject() {

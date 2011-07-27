@@ -8,7 +8,7 @@
 #include "Arrow.h"
 
 Arrow::Arrow() :
-		arrowType(1), duration(0), arrowNode(0),startTime(0) {
+		arrowType(1), duration(0), arrowNode(0), startTime(0), hitted(false) {
 }
 
 Arrow::Arrow(unsigned char arrowType, u32 startTime, u32 duration,
@@ -67,5 +67,13 @@ u32 Arrow::getStartTime() const {
 
 void Arrow::setStartTime(u32 startTime) {
 	this->startTime = startTime;
+}
+
+bool Arrow::isHitted() const {
+	return hitted;
+}
+
+void Arrow::setHitted(bool hitted) {
+	this->hitted = hitted;
 }
 

@@ -41,12 +41,15 @@ public:
 	void setDuration(u32 duration);
     u32 getStartTime() const;
     void setStartTime(u32 startTime);
+    bool isHitted() const;
+    void setHitted(bool hitted);
 
 	virtual ~Arrow() {
 		printf("Arrow is destroyed.\n");
 	}
 private:
 	unsigned char arrowType;
+	bool hitted;
 	u32 startTime;
 	u32 duration;
 	ISceneNode* arrowNode;

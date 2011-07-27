@@ -12,6 +12,7 @@
 #include "DefaultGameLogic.h"
 #include "Config.h"
 #include "GameEventReceiver.h"
+#include "GameInfo.h"
 
 struct GameMenuConfig {
 	core::position2d<s32> position;
@@ -47,10 +48,14 @@ private:
 	IGUIEnvironment* guienv;
 	u32 then; //last frame time stamp
 	ITexture** widgets;
-	IGUIStaticText* score;
+	ITexture* digits[10]; //ten digits, nothing special
+	GameInfo gameInfo;
+	IGUIImage* score[SCORE_WIDTH];
 	GameEventReceiver eventListener;
 	void _initMenu();
+	void _updateScore(u32 score);
 	u8 lastHit;
+	u32 lastScore;
 };
 
 #endif /* GAMEOBJECT_H_ */

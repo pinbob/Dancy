@@ -11,8 +11,9 @@
 #include "ArrowPrototypeFactory.h"
 #include <cmath>
 
-DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr) :
-		startTime(startTime), armgr(armgr), gameInfo(new GameInfo), lastHit(0) {
+DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
+		GameInfo* gameInfo) :
+		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0) {
 	armgr->init("asset/conf/ar.conf");
 	//TODO OKay, no file name specified
 	_init(NULL);
@@ -65,15 +66,17 @@ void DefaultGameLogic::_judgeHit(u32 now, u8 hit) {
 				abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real));
 		if ((1 << (*hitCursor)->getArrowType()) & hit) {
 			// TODO handle increment score
+			(*hitCursor)->setHitted(true);
+			gameInfo->getScore()->perfectHit();
 			printf(" %d (hit).\n", hit);
 		} else {
 			// TODO handle decrement score and miss
-			printf(" missed.\n");
+			//gameInfo->getScore()->missedHit();
 			break;
 		}
 	}
 	if (!hasArrow) {
-		printf("missed");
+		//gameInfo->getScore()->missedHit();
 	}
 }
 

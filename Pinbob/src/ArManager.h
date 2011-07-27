@@ -27,10 +27,10 @@ using namespace gui;
 /* forward declarations */
 class Arrow;
 
-#define CONFIG_KEY_LENGTH 3
-#define CAMERA 0
-#define PATTERN 1
-#define VCONF 2
+enum CONFIG_KEY{
+	CAMERA,PATTERN,VCONF,CONFIG_KEY_LENGTH
+};
+
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
 const pos2d arrowPos[4] = {{-35,35},{35,35},{35,35},{-35,-35}};

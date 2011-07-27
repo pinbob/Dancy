@@ -17,7 +17,7 @@
 class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
-	DefaultGameLogic(u32 startTime, ArManager* armgr);
+	DefaultGameLogic(u32 startTime, ArManager* armgr,GameInfo* gameinfo);
 
 	/**
 	 * Override the parent update function
