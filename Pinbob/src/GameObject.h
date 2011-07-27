@@ -47,6 +47,7 @@ private:
 	IGUIEnvironment* guienv;
 	u32 then; //last frame time stamp
 	ITexture** widgets;
+	IGUIStaticText* score;
 	GameEventReceiver eventListener;
 	void _initMenu();
 	u8 lastHit;

@@ -46,11 +46,12 @@ u32 GameObject::update(void) {
 	} else {
 		lastHit = 0;
 	}
-	logic->update(delta, now,lastHit);
+	logic->update(delta, now, lastHit);
+
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
-		driver->draw2DImage(widgets[i], GAME_MENU_CONFIG[i].position,
-				GAME_MENU_CONFIG[i].size, 0, video::SColor(255, 255, 255, 255),
-				true);
+//		driver->draw2DImage(widgets[i], GAME_MENU_CONFIG[i].position,
+//				GAME_MENU_CONFIG[i].size, 0, video::SColor(255, 255, 255, 255),
+//				true);
 	}
 
 	smgr->drawAll();
@@ -65,6 +66,14 @@ void GameObject::_initMenu() {
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
 		widgets[i] = driver->getTexture(GAME_MENU_CONFIG[i].filename);
 	}
+	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
+		guienv->addImage(widgets[i],
+				vector2d<signed int>(GAME_MENU_CONFIG[i].position), true, 0);
+	}
+
+	(guienv->addImage(driver->getTexture("asset/images/score.png"),
+			vector2d<s32>(10, 10), true, 0));
+
 }
 
 GameObject::~GameObject() {

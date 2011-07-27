@@ -24,7 +24,6 @@ DefaultGameLogic::~DefaultGameLogic() {
 
 int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	// check new arrows to be show
-
 	armgr->update(delta, hit);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
 		if (now - startTime > (*creationCursor)->getStartTime()) {
@@ -48,29 +47,34 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 }
 
 // TODO remove it
-#define DEFAULT_EPSILON 300
+#define DEFAULT_EPSILON 500
 void DefaultGameLogic::_judgeHit(u32 now, u8 hit) {
 	u32 real = now - startTime;
-
+	// determines whether or not there's arrows in the epsilon area
+	bool hasArrow = false;
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
-		if ((*hitCursor)->getArrowNode() == 0)
+		if ((*hitCursor)->getArrowNode() == 0
+				|| abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real)
+						> DEFAULT_EPSILON) {
 			break;
+		}
+		hasArrow = true;
 		printf("cursor type: %d, st: %d, cal: %f", (*hitCursor)->getArrowType(),
 				(*hitCursor)->getStartTime(),
 				abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real));
-		if (abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real)
-				< DEFAULT_EPSILON) {
+		if ((1 << (*hitCursor)->getArrowType()) & hit) {
 			// TODO handle increment score
-			printf(" hitted %d(hit is %d).\n", (*hitCursor)->getArrowType(),
-					hit);
+			printf(" %d (hit).\n", hit);
 		} else {
 			// TODO handle decrement score and miss
 			printf(" missed.\n");
 			break;
 		}
 	}
-
+	if (!hasArrow) {
+		printf("missed");
+	}
 }
 
 void DefaultGameLogic::_init(const char *filename) {
@@ -81,7 +85,7 @@ void DefaultGameLogic::_init(const char *filename) {
 
 	// TODO delete following lines , I randomly generated
 	// some arrows
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 40; i++) {
 		armgr->arrows.push_back(
 				ArrowFactory::getInstance()->getDefaultArrow(1 << (rand() % 4),
 						(i) * 1000, 0));
