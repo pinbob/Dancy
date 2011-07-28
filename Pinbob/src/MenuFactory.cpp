@@ -3,11 +3,7 @@
         
 MenuHandler* MenuFactory::createMenuHandler(IrrlichtDevice *pDevice, 
          StateMachine *pStateMachine, IState::StateType stateType){
-    switch(stateType){
-        case IState::INIT_STATE:
-            
-            break;
-            
+    switch(stateType){            
         case IState::MAIN_MENU_STATE:{
             char* imgPath[] = {"asset/images/main_menu/0", "asset/images/main_menu/1",
 			"asset/images/main_menu/2", "asset/images/main_menu/3",

@@ -28,6 +28,7 @@ using namespace irrklang;
 class MenuHandler;
 class GameHandler;
 class IState;
+class GameObject;
 
 class StateMachine
 {
@@ -82,7 +83,7 @@ public:
      */
     u32 getFps();
 
-protected:
+public:
 	array<IState*> m_aStates;						/**< a list of all states */
 	IState *m_pActive;										/**< the active state */
 	IrrlichtDevice  *m_pDevice;
@@ -100,8 +101,8 @@ protected:
 	/************************************************************************/
 	/*  system element                                                                    */
 	/************************************************************************/
-	MenuHandler *m_pMenu[11];					/** all menu state */
-	GameHandler           *m_pGame;                 /**< the "game" state */
+	MenuHandler           **m_pMenu;					/** all menu state */         
+	GameObject            *m_pGameObj;              /**< the "game" state */
 	//add more elements here
 
 };

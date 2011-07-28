@@ -1,11 +1,20 @@
 #ifndef __IRRAR_H_INCLUDED__
 #define __IRRAR_H_INCLUDED__
 
-#include <irrlicht/irrlicht.h>
+#include "irrlicht.h"
 #include <AR/video.h>
 #include <AR/param.h>
 #include <AR/ar.h>
 #include <AR/arMulti.h>
+
+#ifdef WIN32
+#include <windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <GL/gl.h>
+#include <GL/glut.h>
+#pragma comment(lib,"irrlicht.lib")
+#endif
 
 //I'm lazy
 using namespace irr;

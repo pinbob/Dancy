@@ -8,8 +8,12 @@
 #ifndef ARROW_H
 #define ARROW_H
 
-#include <irrlicht.h>
+#include "irrlicht.h"
+#ifdef WIN32
+#pragma comment(lib,"irrlicht.lib")
+#endif
 #include <map>
+
 typedef float pos2d[2];
 const std::map<unsigned char, pos2d> arrowMap;
 
@@ -41,12 +45,15 @@ public:
 	void setDuration(u32 duration);
     u32 getStartTime() const;
     void setStartTime(u32 startTime);
+    bool isHitted() const;
+    void setHitted(bool hitted);
 
 	virtual ~Arrow() {
 		printf("Arrow is destroyed.\n");
 	}
 private:
 	unsigned char arrowType;
+	bool hitted;
 	u32 startTime;
 	u32 duration;
 	ISceneNode* arrowNode;

@@ -50,7 +50,7 @@ bool ArManager::init(const char* filename) {
 						cparam_name = new char[strlen(bpt) + 1];strcpy(cparam_name, bpt);
 						cparam_name[strlen(cparam_name)-1] = '\0';
 						break;
-					case PATTERN:
+					case PATTERNS:
 						patt_name = new char[strlen(bpt)+1];
 						strcpy(patt_name, bpt);
 						patt_name[strlen(patt_name)-1] = '\0';
@@ -76,10 +76,32 @@ bool ArManager::init(const char* filename) {
 	return true;
 }
 
+bool ArManager::init_win32(const char* tcparam_name,const char* tpatt_name,char* tvconf)
+{
+	cparam_name = new char[strlen(tcparam_name) + 1];
+	strcpy(cparam_name, tcparam_name);
+	cparam_name[strlen(cparam_name)-1] = '\0';
+
+	patt_name = new char[strlen(tpatt_name)+1];
+	strcpy(patt_name, tpatt_name);
+	patt_name[strlen(patt_name)-1] = '\0';
+
+	vconf = new char[strlen(tvconf)+1];
+	strcpy(vconf, tvconf);
+	vconf[strlen(vconf)-1] = '\0';
+	_initAR();
+	return true;
+}
+
+
+
 void ArManager::update(u32 deltaTime, u8 hit) {
 	//TODO just simulate random arrow generation
-	_repaintArrows(deltaTime);
+	if (deltaTime != 0) {
+		_repaintArrows(deltaTime);
+	}
 	armgr->run();
+	//error occurs
 	armgr->drawBackground();
 }
 
@@ -94,25 +116,24 @@ void ArManager::_loadArrows() {
 #ifdef _DEBUG
 	for (std::list<Arrow*>::iterator iter = arrows.begin();
 			iter != arrows.end(); iter++) {
-		printf("arrow type: %d.\n", (*iter)->getArrowType());
+		// printf("arrow type: %d.\n", (*iter)->getArrowType());
 	}
 #endif
 }
 
 void ArManager::_repaintArrows(u32 deltaTime) {
 	float dist = (deltaTime) * SPEED;
-	for (std::list<Arrow*>::iterator iter = arrows.begin();
+	for (std::list<Arrow*>::iterator iter = sceneCursor;
 			iter != arrows.end(); iter++) {
 		if ((*iter)->getArrowNode() == 0) {
-			printf("break.\n");
 			break;
 		}
-		printf("not break.\n");
 		if (!(*iter)->update(dist)) {
 			// destroy the arrow
-			//(*iter)->getArrowNode()->drop();
-			iter = arrows.erase(iter);
-			printf("erased\n");
+			mainNode->removeChild((*iter)->getArrowNode());
+			// TODO it may have garbage collection here
+			sceneCursor ++;
+		//	printf("erased\n");
 		}
 	}
 	//printf("walk through.\n");

@@ -1,3 +1,4 @@
+
 #include "irrAR.h"
 
 IARManager::IARManager(IrrlichtDevice *device)
@@ -129,7 +130,13 @@ int IARManager::run()
 void IARManager::drawBackground()
 {
 	 dimension2d<u32> scrn_size = this->driver->getScreenSize();
+
+#ifdef WIN32 
+	 dimension2d<u32> img_size = scrn_size;
+#else 
 	 dimension2d<u32> img_size = this->cam_texture->getSize();
+#endif
+	 
 	
 	this->driver->draw2DImage(this->cam_texture, rect<s32>(0,0,scrn_size.Width,scrn_size.Height), rect<s32>(0,0,img_size.Width,img_size.Height));
 }

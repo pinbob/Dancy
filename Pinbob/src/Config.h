@@ -10,23 +10,14 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#define MENU 0
-#define UP_LEFT_AREA 1
-#define DOWN_LEFT_AREA 2
-#define UP_RIGHT_AREA 3
-#define DOWN_RIGHT_AREA 4
-#define LEFT_BAR 5
-#define RIGHT_BAR 6
-#define UP_LEFT_ARROW 7
-#define DOWN_LEFT_ARROW 8
-#define UP_RIGHT_ARROW 9
-#define DOWN_RIGHT_ARROW 10
+
 
 /* hit check */
 #define UP_LEFT_HIT 01
 #define DOWN_LEFT_HIT 02
 #define UP_RIGHT_HIT 04
 #define DOWN_RIGHT_HIT 010
+#define MENU_HIT 020
 
 /* game status */
 //TODO the game procedured may change
@@ -34,6 +25,11 @@
 #define IN_GAME 1
 #define GAME_OVER 2
 
+/* defines the arrow height */
+#define ARROW_HEIGHT 150.0
+#define SPEED .05
+#define TIME_ELAPSED 3000 // ARROW_HEIGHT/SPEED
 
+#define SCORE_WIDTH 5
 
 #endif /* CONFIG_H_ */

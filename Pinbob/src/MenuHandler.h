@@ -36,6 +36,7 @@ private:
 	//ISceneNode *m_pMenu;
 	ITimer *m_pTimer;
 	u32 m_focusItem;//shows which menu is focused
+	static StateType m_lastfocusItem; //remember last focus item
 	u32 m_iLastTime;
 	bool m_bMoving,m_bSelect;
 	IState *m_pPrevious;
@@ -45,8 +46,8 @@ private:
 	struct SMouseState {
 		core::position2di mouseDownPos;
 		core::position2di mouseCurPos;
-		bool isMouseDown;
-		SMouseState() : isMouseDown(false), mouseDownPos(0, 0), mouseCurPos(0, 0){}
+		bool isMouseUp;
+		SMouseState() : isMouseUp(false), mouseDownPos(0, 0), mouseCurPos(0, 0){}
 	} MouseState;
 
 public:
@@ -55,8 +56,8 @@ public:
 	}
 
 private:
-        char* backPath;//background path
-        ITexture* back;
+    char* backPath;//background path
+    ITexture* back;
         
 	char* titlePath;
 	ITexture* title;
@@ -69,11 +70,11 @@ private:
 	core::rect<s32> imgSize;
 	core::position2d<s32>* imgPos;
 
-        void drawScene();
+    void drawScene();
 	//load image files 
 	bool LoadImage(u32 focusIndex);
         //draw menu items
-        void drawMenu();
+    void drawMenu();
 };
 
 #endif

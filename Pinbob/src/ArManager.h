@@ -10,7 +10,10 @@
 
 #include <list>
 #include <queue>
-#include <irrlicht.h>
+#include "irrlicht.h"
+#ifdef WIN32
+#pragma comment(lib,"irrlicht.lib")
+#endif
 #include "Score.h"
 #include "irrAR.h"
 #include "Config.h"
@@ -27,10 +30,10 @@ using namespace gui;
 /* forward declarations */
 class Arrow;
 
-#define CONFIG_KEY_LENGTH 3
-#define CAMERA 0
-#define PATTERN 1
-#define VCONF 2
+enum CONFIG_KEY{
+	CAMERA,PATTERNS,VCONF,CONFIG_KEY_LENGTH
+};
+
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
 const pos2d arrowPos[4] = {{-35,35},{35,35},{35,35},{-35,-35}};
@@ -53,6 +56,10 @@ public:
 	 * @return true if success, otherwise false
 	 */
 	bool init(const char* filename);
+	/************************************************************************/
+	/* init for win32 version                                                                     */
+	/************************************************************************/
+	bool init_win32(const char* cparam_name,const char* patt_name,char* vconf);
 	/**
 	 * the function update the status of scene that AR simulates
 	 * @param deltaTime the current frame timestamp
@@ -97,6 +104,8 @@ private:
 	std::list<Arrow*> arrows;
 	/* the parent node of the scene */
 	ISceneNode* mainNode;
+	/* first iterator for displaying */
+	std::list<Arrow*>::iterator sceneCursor;
 };
 
 #endif /* ARMANAGER_H_ */

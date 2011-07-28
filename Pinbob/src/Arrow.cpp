@@ -8,7 +8,7 @@
 #include "Arrow.h"
 
 Arrow::Arrow() :
-		arrowType(1), duration(0), arrowNode(0),startTime(0) {
+		arrowType(1), duration(0), arrowNode(0), startTime(0), hitted(false) {
 }
 
 Arrow::Arrow(unsigned char arrowType, u32 startTime, u32 duration,
@@ -46,13 +46,14 @@ void Arrow::setDuration(u32 duration) {
 bool Arrow::update(float dist) {
 	currentPosition.Y -= dist;
 #ifdef _DEBUG
-	printf("current z is %f.\n", currentPosition.Y);
+	//printf("dist %f\n", dist);
+	// printf("current z is %f.\n", currentPosition.Y);
 #endif
 	if (currentPosition.Y < 5) {
 		arrowNode->remove();
 		// delete arrowNode;
 		// arrowNode = 0;
-		printf("dropped\n");
+		// printf("dropped\n");
 		return false;
 	} else {
 		arrowNode->setPosition(currentPosition);
@@ -66,5 +67,13 @@ u32 Arrow::getStartTime() const {
 
 void Arrow::setStartTime(u32 startTime) {
 	this->startTime = startTime;
+}
+
+bool Arrow::isHitted() const {
+	return hitted;
+}
+
+void Arrow::setHitted(bool hitted) {
+	this->hitted = hitted;
 }
 

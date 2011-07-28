@@ -11,20 +11,23 @@ using namespace std;
 #include "StateMachine.h"
 #include "irrKlang.h"
 #include "irrlicht.h"
-//#include "IrrOde.h"
 #include "ConfigFileManager.h"
 #include "MenuHandler.h"
-//#include "GameHandler.h"
 #include "SettingHandler.h"
 #include "MenuFactory.h"
+#include "GameObject.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
+
+#define TEST_GAME
 
 StateMachine::StateMachine()
 {
 	m_pActive=NULL;
 	m_bDrawScene=true;
+	m_pMenu = new MenuHandler*[12];
+	
 }
 
 StateMachine::~StateMachine(){
@@ -33,35 +36,6 @@ StateMachine::~StateMachine(){
 
 void StateMachine::initStates( IrrlichtDevice *pDevice )
 {
-	//make sure no old (already deleted) config file readers or writers are stored
-	ConfigFileManager::getSharedInstance()->clearReadersWriters();
-
-	//now create all of the main states, set their index number and add them to the array
-        
-        m_pMenu[IState::MODE_STATE] = 
-                MenuFactory::createMenuHandler(m_pDevice, this, IState::MODE_STATE);
-	addState(m_pMenu[IState::MODE_STATE]);
-        
-        m_pMenu[IState::SONG_STATE] = 
-                MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
-	addState(m_pMenu[IState::SONG_STATE]);
-        
-        m_pMenu[IState::MAIN_MENU_STATE] = 
-                MenuFactory::createMenuHandler(m_pDevice, this, IState::MAIN_MENU_STATE);
-	addState(m_pMenu[IState::MAIN_MENU_STATE]);
-        
-        
-	//m_pGame      =new GameHandler (pDevice,this);addState(m_pGame);
-	
-	//add more states here
-
-	
-	//first of all,activate the main menu state
-	m_pActive=m_pMenu[IState::MAIN_MENU_STATE];
-
-	//Let's create something for sound
-	//m_pSndEngine=irrklang::createIrrKlangDevice();
-
 	//init our members
 	m_pDevice=pDevice;
 	m_pDriver=m_pDevice->getVideoDriver();
@@ -70,10 +44,47 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 
 	//create a new scene manager for the level preview
 	m_pPreviewManager=m_pSmgr->createNewSceneManager(false);
+
+	//make sure no old (already deleted) config file readers or writers are stored
+	ConfigFileManager::getSharedInstance()->clearReadersWriters();
+
+#ifdef TEST_ALL
+	//now create all of the main states, set their index number and add them to the array
+	m_pMenu[IState::MAIN_MENU_STATE] = 
+		MenuFactory::createMenuHandler(m_pDevice, this, IState::MAIN_MENU_STATE);
+	addState(m_pMenu[IState::MAIN_MENU_STATE]);    //1
+
+        m_pMenu[IState::MODE_STATE] = 
+                MenuFactory::createMenuHandler(m_pDevice, this, IState::MODE_STATE);
+	addState(m_pMenu[IState::MODE_STATE]);//2
+        
+         m_pMenu[IState::SONG_STATE] = 
+                 MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
+ 	addState(m_pMenu[IState::SONG_STATE]);//3
+         
+	m_pGameObj = new GameObject(m_pDevice,this,1000);
+	addState(m_pGameObj); //4
+        
+	//add more states here
+
+	
+	//first of all,activate the main menu state
+	m_pActive=m_pMenu[IState::MAIN_MENU_STATE];
+	//m_pActive = m_pGameObj;
+#elif defined TEST_GAME
+	m_pGameObj = new GameObject(m_pDevice,this,1000);
+		addState(m_pGameObj); //4
+	m_pActive=m_pGameObj;
+//	m_pActive=m_pMenu[IState::START_GAME];
+#endif
+	//Let's create something for sound
+	//m_pSndEngine=irrklang::createIrrKlangDevice();
+
+
 	//activate the active state
 	m_pActive->activate(NULL);
 
-	ConfigFileManager::getSharedInstance()->loadConfig(m_pDevice,"asset/config/SettingManager.xml");
+	ConfigFileManager::getSharedInstance()->loadConfig(m_pDevice,"asset/conf/SettingManager.xml");
 
 }
 
@@ -105,23 +116,19 @@ irr::u32 StateMachine::run()
 	s32 lastFPS=-1;
 	m_bGraphicsChanged=false;
 	//load device from setting files
-	SettingHandler *setup = new SettingHandler("asset/config/Device.xml");
+	
+//#ifdef WIN32
+//	SettingHandler *setup = new SettingHandler("asset/conf/Device.xml");
+//	m_pDevice = setup->createDeviceFromSettings();
+//	delete setup;
+//#else 
 	m_pDevice = createDevice(video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
-			false, false, false, 0);//setup->createDeviceFromSettings();
-	delete setup;
+		false, false, false, 0);//setup->createDeviceFromSettings();
+//#endif
+
 	m_pDevice->setWindowCaption(L"PinBob");
 	//main loop
- 	do {
- 		/*
- 		do {
- 			//read the settings from the device settings file and create an Irrlicht device from these settings
- 			SettingHandler *setup = new SettingHandler("asset/config/Device.xml");
- 			m_pDevice = setup->createDeviceFromSettings();
- 			bSettings=m_pDevice==NULL;
- 			delete setup;
- 		}while (m_pDevice==NULL);
- 		*/
- 
+ 	do { 
  		m_pDevice->setWindowCaption(L"PinBob");
  		initStates(m_pDevice);
  		m_bGraphicsChanged=false;
@@ -165,7 +172,7 @@ irr::u32 StateMachine::run()
  					//activate the next state
  					pNext->activate(m_pActive);
  					//save config file on each state change
- 					ConfigFileManager::getSharedInstance()->writeConfig(m_pDevice,"asset/config/SettingManager.xml");
+ 					ConfigFileManager::getSharedInstance()->writeConfig(m_pDevice,"asset/conf/SettingManager.xml");
  					m_pActive=pNext;
  				}
  				else bQuit=true;

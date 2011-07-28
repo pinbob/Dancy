@@ -27,7 +27,6 @@ class StateMachine;
 class IState
 {
 public:
-   IState(){}
    IState(IrrlichtDevice* pDevice, StateMachine* pStateMachine)
    {
 	   m_pDevice=pDevice;
@@ -36,22 +35,18 @@ public:
 	   m_pGuienv=m_pDevice->getGUIEnvironment();
 	   m_pStateMachine=pStateMachine;
    }
-   virtual ~IState(){}
-   
    enum StateType{
-       INIT_STATE = 0,
-       MAIN_MENU_STATE,
-       MODE_STATE,
-       SONG_STATE,
-       DETECT_STATE,
-       INGAME_STATE,
-       GAME_PAUSE_STATE,
-       GAME_OVER_STATE,
-       SCORE_STATE,
-       CREDITS_STATE,
-       OPTIONS_STATE
+	   MAIN_MENU_STATE = 1,   //main menu
+	   MODE_STATE,        //mode menu
+	   SONG_STATE,        //song state  
+	   START_GAME,        //start game
+	   SCORE_STATE,        //high score
+	   CREDITS_STATE,     //credits
+	   OPTIONS_STATE,     //options
+	   QUIT_STATE = 10086       //quit game
    };
-   
+
+   virtual ~IState(){}
    /* This method is called by the state machine on state activation. Must be implemented in subclass
     * @param pPrevious the previously active state */
    virtual void activate(IState* pPrevious)=0;
@@ -76,8 +71,6 @@ protected:
    u32 m_iNum;
    /**< the state machine this state belongs to */
    StateMachine* m_pStateMachine;
-   
-
 };
 
 #endif

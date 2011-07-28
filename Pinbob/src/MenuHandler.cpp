@@ -8,9 +8,12 @@
 
 #include "MenuHandler.h"
 #include "StateMachine.h"
+#include "IState.h"
 #include <string>
 #include <iostream>
 using namespace std;
+
+MenuHandler::StateType MenuHandler::m_lastfocusItem = MAIN_MENU_STATE;
 
 MenuHandler::MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
         char* backPath, u32 titleWidth, u32 titleHeight, char* titlePath,
@@ -45,6 +48,8 @@ IState(pDevice, pStateMachine), m_focusItem(focusIndex) {
 
     LoadImage(m_focusItem);
     pDevice->setEventReceiver(this);
+	//m_bSelect = false;
+	m_focusItem = 0;
 }
 
 MenuHandler::~MenuHandler() {
@@ -54,13 +59,14 @@ MenuHandler::~MenuHandler() {
 }
 
 void MenuHandler::activate(IState *pPrevious) {
+	m_pDevice->setEventReceiver(this);
+	MouseState.isMouseUp = false;
     m_pPrevious = pPrevious;
     m_pTimer = m_pDevice->getTimer();
     while (m_pTimer->isStopped()) m_pTimer->start();
     m_iLastTime = m_pTimer->getTime();
     //in this IState instance, I choose to draw the scene myself
     m_pStateMachine->setDrawScene(false);
-
     drawScene();
 }
 
@@ -84,53 +90,6 @@ void MenuHandler::drawScene(){
 
 void MenuHandler::drawMenu() {
     for (u32 i = 0; i < imgAmt; i++) {
-        /*
-        core::position2d<s32> newImgPos;
-        newImgPos.X = imgPos[i].X;
-        newImgPos.Y = imgPos[i].Y + MouseState.mouseCurPos.Y - MouseState.mouseDownPos.Y;
-        if (newImgPos.Y + imgSize.getHeight() < imgPos[0].Y) {//upper than img border
-            newImgPos.Y += imgSize.getHeight() * imgAmt;
-            m_pDriver->draw2DImage(images[i], newImgPos, imgSize, 0,
-                    video::SColor(255, 255, 255, 255), true);
-
-        } else if (newImgPos.Y < imgPos[0].Y) {//upper half clip
-            core::rect<s32>* clipRect = new core::rect<s32 > (imgPos[0].X, imgPos[0].Y,
-                    newImgPos.X + imgSize.getWidth(), newImgPos.Y + imgSize.getHeight());
-            m_pDriver->draw2DImage(images[i], newImgPos, imgSize, clipRect,
-                    video::SColor(255, 255, 255, 255), true);
-
-            //another half that is at bottom
-            newImgPos.Y += imgSize.getHeight() * imgAmt;
-            clipRect = new core::rect<s32 > (newImgPos.X, newImgPos.Y,
-                    newImgPos.X + imgSize.getWidth(), imgPos[0].Y + imgSize.getHeight() * imgAmt);
-            m_pDriver->draw2DImage(images[i], newImgPos, imgSize, clipRect,
-                    video::SColor(255, 255, 255, 255), true);
-            delete clipRect;
-
-        } else if (newImgPos.Y > imgPos[0].Y + imgSize.getHeight() * imgAmt) {//lower than img border
-            newImgPos.Y -= imgSize.getHeight() * imgAmt;
-            m_pDriver->draw2DImage(images[i], newImgPos, imgSize, 0,
-                    video::SColor(255, 255, 255, 255), true);
-
-        } else if (newImgPos.Y + imgSize.getHeight() > imgPos[0].Y + imgSize.getHeight() * imgAmt) {
-            core::rect<s32>* clipRect = new core::rect<s32 > (0, 0,
-                    newImgPos.X + imgSize.getWidth(), imgPos[0].Y + imgSize.getHeight() * imgAmt);
-            m_pDriver->draw2DImage(images[i], newImgPos, imgSize, clipRect,
-                    video::SColor(255, 255, 255, 255), true);
-
-            //another half that is at top
-            newImgPos.Y -= imgSize.getHeight() * imgAmt;
-            clipRect = new core::rect<s32 > (imgPos[0].X, imgPos[0].Y,
-                    newImgPos.X + imgSize.getWidth(), newImgPos.Y + imgSize.getHeight());
-            m_pDriver->draw2DImage(images[i], newImgPos, imgSize, clipRect,
-                    video::SColor(255, 255, 255, 255), true);
-            delete clipRect;
-
-        } else {
-            m_pDriver->draw2DImage(images[i], newImgPos, imgSize, 0,
-                    video::SColor(255, 255, 255, 255), true);
-        }
-         */
         m_pDriver->draw2DImage(images[i], imgPos[i], imgSize, 0,
                 video::SColor(255, 255, 255, 255), true);
     }
@@ -146,7 +105,7 @@ bool MenuHandler::LoadImage(u32 focusIndex) {
     images = new ITexture*[imgAmt];
     for (u32 i = 0; i < imgAmt; ++i) {
         //append 1.png or 0.png to imgPath
-        char* path = new char[strlen(imgPath[i]) + 5]; //extra space for `1.png'
+        char* path = new char[strlen(imgPath[i]) + 6]; //extra space for `1.png'
         strcpy(path, imgPath[i]);
         if (i == focusIndex) {
             strcat(path, "1.png");
@@ -167,6 +126,76 @@ u32 MenuHandler::update() {
     iThisTime = m_pTimer->getTime();
     iDiff = iThisTime - m_iLastTime;
     m_iLastTime = iThisTime;
+	if(m_bSelect==true&& MouseState.isMouseUp==true)
+	{
+		MouseState.isMouseUp = false;
+		m_bSelect = false;
+		switch(m_focusItem)
+		{
+		case 0: 
+			if(m_lastfocusItem==MAIN_MENU_STATE)  // we are now in main menu
+			{
+				printf("start game option clicked!\n");
+				m_lastfocusItem = MODE_STATE;
+				return MODE_STATE;
+			}
+			else if(m_lastfocusItem ==MODE_STATE) //we are now in mode menu
+			{
+				printf("song state clicked!\n");
+				m_lastfocusItem = SONG_STATE;
+				return SONG_STATE;
+			}
+			else if(m_lastfocusItem == SONG_STATE) //we are now in song state
+			{
+				printf("start game now!\n");
+				m_lastfocusItem = START_GAME;
+				return START_GAME;
+			}
+			break; 
+		case 1:  
+			if(m_lastfocusItem == MAIN_MENU_STATE)//we are now in main menu
+			{
+				printf("options selected\n");
+				m_lastfocusItem = OPTIONS_STATE;
+				return OPTIONS_STATE;
+			}
+			else if(m_lastfocusItem ==MODE_STATE)//we are now in mode menu
+			{
+				printf("back!\n");
+				m_lastfocusItem = MAIN_MENU_STATE;
+				return MAIN_MENU_STATE;
+			}
+			break;     
+		case 2:  
+		   if(m_lastfocusItem == MAIN_MENU_STATE) //now in main menu
+		   {
+			   printf("high score selected\n");
+			   m_lastfocusItem = SCORE_STATE;
+			   return SCORE_STATE;
+		   }
+			break;    
+		case 3:  
+			if(m_lastfocusItem ==MAIN_MENU_STATE)//now in main menu
+			{
+				printf("credits menu selected!\n");
+				m_lastfocusItem = CREDITS_STATE;
+				return CREDITS_STATE;
+			}
+			break;     
+		case 4: 
+			if(m_lastfocusItem ==MAIN_MENU_STATE)//now in main menu
+			{
+				printf("quit state selected!\n");
+				m_lastfocusItem = QUIT_STATE;
+				return QUIT_STATE;
+			}
+			break;   
+		default:
+			break;
+
+		}
+
+	}
 
     return 0;
 }
@@ -179,13 +208,14 @@ bool MenuHandler::OnEvent(const SEvent &event) {
                 MouseState.mouseDownPos.X = event.MouseInput.X;
                 MouseState.mouseDownPos.Y = event.MouseInput.Y;
                 //when mouse down, set isMouseDown to be true
-                MouseState.isMouseDown = true;
+                MouseState.isMouseUp = false;
                 MouseState.mouseCurPos.X = event.MouseInput.X;
                 MouseState.mouseCurPos.Y = event.MouseInput.Y;
+				m_bSelect = false;
                 break;
             case EMIE_LMOUSE_LEFT_UP:
                 //when mouse up, set isMouseDown to be false
-                MouseState.isMouseDown = false;
+                MouseState.isMouseUp = true;
                 for (u32 i = 0; i < imgAmt; ++i) {
                     //if mouse pos is within imgPos
                     if (event.MouseInput.X > imgPos[i].X &&
@@ -193,20 +223,19 @@ bool MenuHandler::OnEvent(const SEvent &event) {
                             event.MouseInput.Y > imgPos[i].Y &&
                             event.MouseInput.Y < imgPos[i].Y + imgSize.getHeight()) {
                         //if is not the same as before, reactivate it
-                        if (m_focusItem != i) {
-                            m_focusItem = i;
-                            LoadImage(i);
-                            drawScene();
-                        }
-                        cout << "Clicked" << this->m_focusItem << endl;
+                            if (m_focusItem != i) {
+                                m_focusItem = i;
+                                LoadImage(i);
+                                drawScene();
+							}
+						m_bSelect = true;
                         break;
                     }
                 }
                 break;
             case EMIE_MOUSE_MOVED:
                 //when mouse move, if is mouseDown, remember where
-                if (MouseState.isMouseDown) {
-                    m_bSelect = false;
+                if (!MouseState.isMouseUp) {
                     for (u32 i = 0; i < imgAmt; ++i) {
                         //if mouse pos is within imgPos
                         if (event.MouseInput.X > imgPos[i].X &&
@@ -218,15 +247,16 @@ bool MenuHandler::OnEvent(const SEvent &event) {
                                 m_focusItem = i;
                                 LoadImage(i);
                                 drawScene();
-                            }
+							}
+							m_bSelect = true;
                             break;
-                        }
+						}
                     }
                 }
                 break;
             default:
                 break;
         }
-    }
+	}
     return false;
 }

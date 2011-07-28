@@ -17,7 +17,7 @@
 class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
-	DefaultGameLogic(u32 startTime, ArManager* armgr);
+	DefaultGameLogic(u32 startTime, ArManager* armgr,GameInfo* gameinfo);
 
 	/**
 	 * Override the parent update function
@@ -32,10 +32,13 @@ protected:
 	void _init(const char* filename);
 	/* a pointer determines current playing progress */
 	std::list<Arrow*>::iterator creationCursor;
-	std::list<Arrow*>::iterator hitCursor;
+	std::list<Arrow*>::iterator missedCursor;
 	ArManager* armgr;
 	GameInfo* gameInfo;
+	u32 state;
 	u32 startTime;
+	u32 timePassed;
+	u8 lastHit;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */

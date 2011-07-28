@@ -5,7 +5,7 @@
  *      Author: yejiabin
  */
 
-#ifndef TEST
+#ifdef TEST
 
 #include <irrlicht.h>
 #include <iostream>
@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 			const u32 deltaTime = now - then; // in ms
 			then = now;
 			driver->beginScene(true, true, SColor(255, 0, 0, 0));
-			arMgr->update(then, now, 0);
+
 			smgr->drawAll();
 			guienv->drawAll();
 			driver->endScene();
@@ -55,6 +55,7 @@ int main(int argc, char** argv) {
 				device->setWindowCaption(str.c_str());
 				lastFPS = fps;
 			}
+
 		} else {
 			device->yield();
 		}
