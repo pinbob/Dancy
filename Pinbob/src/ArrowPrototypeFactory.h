@@ -8,14 +8,10 @@
 #ifndef ARROWPROTOTYPEFACTORY_H_
 #define ARROWPROTOTYPEFACTORY_H_
 
-<<<<<<< HEAD
 #include "irrlicht.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
 #endif
-=======
-#include <irrlicht.h>
->>>>>>> yjb
 
 using namespace irr;
 
@@ -29,11 +25,12 @@ struct ArrowInfo {
 	float posX, posY;
 	const char *texture;
 };
+#define DIST 37
 const ArrowInfo ARROW_INFOS[4] = {
-		{ 35, -35, "asset/images/ulArrowGame.tga" },
-		{ 35, 35,"asset/images/dlArrowGame.tga" },
-		{ -35, -35,"asset/images/urArrowGame.tga" },
-		{ -35, 35,"asset/images/drArrowGame.tga" } };
+		{ DIST, -DIST, "asset/images/ulArrowGame.tga" },
+		{ DIST, DIST,"asset/images/dlArrowGame.tga" },
+		{ -DIST, -DIST,"asset/images/urArrowGame.tga" },
+		{ -DIST, DIST,"asset/images/drArrowGame.tga" } };
 
 class ArrowPrototypeFactory {
 public:

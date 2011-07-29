@@ -25,6 +25,8 @@ public:
 	virtual int update(u32 delta, u32 now, u8 hit);
 
 	virtual ~DefaultGameLogic();
+    u32 getState() const;
+    void setState(u32 state);
 protected:
 	void _judgeHit(u32 now, u8 hit);
 	// TODO automatically generating arrows according a
@@ -32,18 +34,12 @@ protected:
 	void _init(const char* filename);
 	/* a pointer determines current playing progress */
 	std::list<Arrow*>::iterator creationCursor;
-<<<<<<< HEAD
 	std::list<Arrow*>::iterator missedCursor;
-=======
->>>>>>> yjb
 	ArManager* armgr;
 	GameInfo* gameInfo;
 	u32 state;
 	u32 startTime;
-<<<<<<< HEAD
 	u32 timePassed;
-=======
->>>>>>> yjb
 	u8 lastHit;
 };
 

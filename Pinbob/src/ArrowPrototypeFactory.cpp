@@ -45,7 +45,7 @@ void ArrowPrototypeFactory::createFactory(ISceneManager* smgr,
 
 		prototypes[i]->setPosition(
 				vector3df(ARROW_INFOS[i].posX, ARROW_HEIGHT, ARROW_INFOS[i].posY));
-		prototypes[i]->setScale(vector3df(.3, .3, .3));
+		prototypes[i]->setScale(vector3df(.35, .35, .35));
 		prototypes[i]->setVisible(false);
 	}
 }

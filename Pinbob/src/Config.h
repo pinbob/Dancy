@@ -10,15 +10,7 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-<<<<<<< HEAD
 
-=======
-enum GAME_MENUS {
-	MENU, UP_LEFT_AREA, DOWN_LEFT_AREA,
-	UP_RIGHT_AREA, DOWN_RIGHT_AREA,
-	GAME_MENU_LENGTH
-};
->>>>>>> yjb
 
 /* hit check */
 #define UP_LEFT_HIT 01

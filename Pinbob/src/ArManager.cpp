@@ -170,9 +170,9 @@ void ArManager::_initAR() {
 			300.0f, 40.0f, mainNode);
 	sea->setScale(vector3df(.3, .3, .3));
 	sea->setMaterialTexture(0, driver->getTexture("asset/images/mat.tga"));
-	sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
+	//sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
 	sea->setMaterialFlag(EMF_LIGHTING, false);
-	sea->setMaterialType(video::EMT_REFLECTION_2_LAYER);
+	//sea->setMaterialType(video::EMT_REFLECTION_2_LAYER);
 
 	vector3df camera_pos = vector3df(0, 0, 0);
 	vector3df camera_target = vector3df(0, 0, 1);

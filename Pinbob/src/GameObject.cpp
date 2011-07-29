@@ -13,31 +13,21 @@ GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 	device = pDevice;
 	driver = pDevice->getVideoDriver();
 	smgr = pDevice->getSceneManager();
-	guienv =pDevice->getGUIEnvironment();
+	guienv = pDevice->getGUIEnvironment();
 	then = 0;
 	device->setEventReceiver(&eventListener);
 	lastScore = 99999; // the max score
-<<<<<<< HEAD
-	
-=======
-	_initMenu();
->>>>>>> yjb
+
 }
 
 void GameObject::activate(IState* pPrevious) {
 	// suppose actice time is start tiem
-<<<<<<< HEAD
 	device->setEventReceiver(&eventListener);
 	_initMenu();
 	then = device->getTimer()->getTime();
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
 			&gameInfo);
 
-=======
-	then = device->getTimer()->getTime();
-	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
-			&gameInfo);
->>>>>>> yjb
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
@@ -56,19 +46,15 @@ u32 GameObject::update(void) {
 	// TODO no handler for hit
 	driver->beginScene(true, true, SColor(0, 200, 200, 200));
 	//printf("lasthit %d, now %d. \n", lastHit, eventListener.getMousePressed());
-<<<<<<< HEAD
 	//if (eventListener.getMousePressed()) {
-	//printf("last hit %d .\n", lastHit);
+	printf("last hit %d, ", lastHit);
 	//switch (eventListener.getHitStatus())
-	if (lastHit & CLICK_STATE) {
-		lastHit = 0;
-	} else {
-		lastHit = eventListener.getHitStatus();
-	}
-	//} else {
-	//	lastHit = 0;
-	//}
-	switch (logic->update(delta, now, lastHit)) {
+
+	lastHit = eventListener.getHitStatus();
+	int res = logic->update(delta, now, lastHit);
+	printf("update result %d.\n", res);
+
+	switch (res) {
 	case IG_UPDATE:
 		_updateScore(gameInfo.getScore()->getScore());
 		break;
@@ -80,15 +66,6 @@ u32 GameObject::update(void) {
 		break;
 	}
 	m_pStateMachine->setDrawScene(false);
-=======
-	if (eventListener.getMousePressed()) {
-		lastHit = eventListener.getHitStatus();
-	} else {
-		lastHit = 0;
-	}
-	logic->update(delta, now, lastHit);
-	_updateScore(gameInfo.getScore()->getScore());
->>>>>>> yjb
 	smgr->drawAll();
 	guienv->drawAll();
 	driver->endScene();
@@ -118,12 +95,14 @@ void GameObject::_showPauseMenu() {
 			lastHit = 0;
 			break;
 		case GP_RESTART:
+
 			break;
 		case GP_MAIN_MENU:
 			break;
 		default:
 			break;
 		}
+		lastHit = 0;
 	}
 }
 
@@ -135,10 +114,7 @@ void GameObject::_initMenu() {
 		guienv->addImage(widgets[i],
 				vector2d<signed int>(GAME_MENU_CONFIG[i].position), true, 0);
 	}
-<<<<<<< HEAD
 	/* the score */
-=======
->>>>>>> yjb
 	guienv->addImage(driver->getTexture("asset/images/score.png"),
 			vector2d<s32>(10, 10), true, 0);
 	char digitFile[19] = "asset/images/x.png";
@@ -152,7 +128,6 @@ void GameObject::_initMenu() {
 		score[i]->setUseAlphaChannel(true);
 	}
 	_updateScore(0);
-<<<<<<< HEAD
 	/* pause scene */
 	for (int i = 0; i < GP_LENGTH; i++) {
 		pauseMenu[i] = guienv->addImage(
@@ -161,8 +136,6 @@ void GameObject::_initMenu() {
 		pauseMenu[i]->setVisible(false);
 	}
 
-=======
->>>>>>> yjb
 }
 
 void GameObject::_updateScore(u32 score) {
@@ -172,7 +145,6 @@ void GameObject::_updateScore(u32 score) {
 		}
 		for (unsigned int i = 10000, j = 0; i > 0; i /= 10, j++) {
 			this->score[j]->setImage(digits[score / i]);
-<<<<<<< HEAD
 			score -= (score / i) * i;
 		}
 	}
@@ -184,12 +156,7 @@ void GameObject::_hidePauseMenu() {
 		//if (pauseMenu[i]->isVisible())
 		//	break;
 		pauseMenu[i]->setVisible(false);
-=======
-			score -= (score/i)*i;
-		}
->>>>>>> yjb
 	}
-	lastScore = score;
 }
 
 GameObject::~GameObject() {

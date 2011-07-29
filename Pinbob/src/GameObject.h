@@ -39,7 +39,11 @@ const GameMenuConfig GAME_MENU_CONFIG[GAME_MENU_LENGTH] = { { position2d<s32>(
 		"asset/images/drArea.png" } };
 
 enum PauseMenu {
-	GP_CONTINUE, GP_MAIN_MENU, GP_RESTART, GP_MENU_HEAD, GP_LENGTH
+	GP_CONTINUE,
+	GP_MAIN_MENU,
+	GP_RESTART,
+	GP_MENU_HEAD,
+	GP_LENGTH
 };
 
 struct ResourceLayout {
@@ -77,23 +81,16 @@ private:
 	u32 then; //last frame time stamp
 	ITexture** widgets;
 	ITexture* digits[10]; //ten digits, nothing special
-<<<<<<< HEAD
 	//ITexture* pauseMenu[GP_LENGTH];
 	IGUIImage* pauseMenu[GP_LENGTH];
-=======
->>>>>>> yjb
 	GameInfo gameInfo;
 	IGUIImage* score[SCORE_WIDTH];
 	GameEventReceiver eventListener;
 	void _initMenu();
 	void _updateScore(u32 score);
-<<<<<<< HEAD
 	void _showPauseMenu();
 	void _hidePauseMenu();
 	u32 lastHit;
-=======
-	u8 lastHit;
->>>>>>> yjb
 	u32 lastScore;
 };
 

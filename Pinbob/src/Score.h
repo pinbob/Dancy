@@ -48,11 +48,8 @@ private:
 
 	unsigned int score;
 
-<<<<<<< HEAD
 	stack<unsigned int> combo;
 
-=======
->>>>>>> yjb
 	void setCombo(bool isCombo);
 };
 

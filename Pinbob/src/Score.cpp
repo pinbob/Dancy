@@ -92,15 +92,5 @@ unsigned int Score::getMissedCount(){
 }
 
 unsigned int Score::getScore(){
-<<<<<<< HEAD
 	return score;
-=======
-	int score = perfectCount * 5 + wellDoneCount * 3 + goodCount * 1
-			- missedCount * 1;
-	if (score < 0) {
-		return 0;
-	} else {
-		return score;
-	}
->>>>>>> yjb
 }

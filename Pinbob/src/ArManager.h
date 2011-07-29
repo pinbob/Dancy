@@ -31,16 +31,12 @@ using namespace gui;
 class Arrow;
 
 enum CONFIG_KEY{
-<<<<<<< HEAD
 	CAMERA,PATTERNS,VCONF,CONFIG_KEY_LENGTH
-=======
-	CAMERA,PATTERN,VCONF,CONFIG_KEY_LENGTH
->>>>>>> yjb
 };
 
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
-const pos2d arrowPos[4] = {{-35,35},{35,35},{35,35},{-35,-35}};
+const pos2d arrowPos[4] = {{-50,50},{50,50},{50,50},{-50,-50}};
 
 class ArManager {
 public:

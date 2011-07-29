@@ -14,15 +14,11 @@
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		GameInfo* gameInfo) :
-<<<<<<< HEAD
 		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0),
 		timePassed(0), state(IG_UPDATE) {
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
-=======
-		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0) {
->>>>>>> yjb
 	armgr->init("asset/conf/ar.conf");
 #endif
 	//TODO OKay, no file name specified
@@ -35,7 +31,6 @@ DefaultGameLogic::~DefaultGameLogic() {
 
 int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	// check new arrows to be show
-<<<<<<< HEAD
 	// TODO maybe there's a bug
 	if (((hit == MENU_HIT) && state == IG_UPDATE) || state == IG_PAUSE) {
 		state = IG_PAUSE;
@@ -48,11 +43,6 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	armgr->update(delta, hit);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
 		if (timePassed > (*creationCursor)->getStartTime()) {
-=======
-	armgr->update(delta, hit);
-	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
-		if (now - startTime > (*creationCursor)->getStartTime()) {
->>>>>>> yjb
 			(*creationCursor)->setArrowNode(
 					ArrowPrototypeFactory::getInstance()->getArrowPrototype(
 							(*creationCursor)->getArrowType()));
@@ -60,15 +50,12 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 			break;
 		}
 	}
-<<<<<<< HEAD
 	//calculate missing
 	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
 		if (!(*missedCursor)->isHitted()) {
 			gameInfo->getScore()->missedHit();
 		}
 	}
-=======
->>>>>>> yjb
 	//increment hit cursor
 	if (hit != lastHit && hit != 0) {
 		for (u8 i = 1; i <= MENU_HIT; i <<= 1) {
@@ -78,42 +65,25 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		} // end for
 	} // end if
 	lastHit = hit;
-<<<<<<< HEAD
 	return IG_UPDATE;
-=======
-	return 0;
->>>>>>> yjb
 }
 
 // TODO remove it
 #define DEFAULT_EPSILON 500
-<<<<<<< HEAD
 void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
-=======
-void DefaultGameLogic::_judgeHit(u32 now, u8 hit) {
-	u32 real = now - startTime;
->>>>>>> yjb
 	// determines whether or not there's arrows in the epsilon area
 	bool hasArrow = false;
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
 		if ((*hitCursor)->getArrowNode() == 0
-<<<<<<< HEAD
 				|| abs((int)((*hitCursor)->getStartTime() + TIME_ELAPSED - timePassed))
-=======
-				|| abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real)
->>>>>>> yjb
 						> DEFAULT_EPSILON) {
 			break;
 		}
 		hasArrow = true;
 		printf("cursor type: %d, st: %d, cal: %f", (*hitCursor)->getArrowType(),
 				(*hitCursor)->getStartTime(),
-<<<<<<< HEAD
 				abs((int)((*hitCursor)->getStartTime() + TIME_ELAPSED - timePassed)));
-=======
-				abs((*hitCursor)->getStartTime() + TIME_ELAPSED - real));
->>>>>>> yjb
 		if ((1 << (*hitCursor)->getArrowType()) & hit) {
 			// TODO handle increment score
 			(*hitCursor)->setHitted(true);
@@ -154,9 +124,18 @@ void DefaultGameLogic::_init(const char *filename) {
 	printf("print over\n");
 #endif
 	creationCursor = armgr->arrows.begin();
-<<<<<<< HEAD
 	missedCursor = armgr->arrows.begin();
-=======
->>>>>>> yjb
 }
+
+u32 DefaultGameLogic::getState() const
+{
+    return state;
+}
+
+void DefaultGameLogic::setState(u32 state)
+{
+    this->state = state;
+}
+
+
 
