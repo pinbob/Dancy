@@ -10,10 +10,14 @@
 
 #include "Arrow.h"
 #include <map>
+<<<<<<< HEAD
 #include "irrlicht.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
 #endif
+=======
+#include <irrlicht.h>
+>>>>>>> yjb
 typedef float pos2d[2];
 using namespace irr;
 

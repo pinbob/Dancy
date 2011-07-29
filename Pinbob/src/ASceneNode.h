@@ -8,11 +8,16 @@
 #ifndef ASCENENODE_H_
 #define ASCENENODE_H_
 
+<<<<<<< HEAD
 #include "irrlicht.h"
 #include "ISceneNode.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
 #endif
+=======
+#include <irrlicht.h>
+#include <ISceneNode.h>
+>>>>>>> yjb
 
 using namespace irr;
 using namespace core;

@@ -31,7 +31,11 @@ using namespace gui;
 class Arrow;
 
 enum CONFIG_KEY{
+<<<<<<< HEAD
 	CAMERA,PATTERNS,VCONF,CONFIG_KEY_LENGTH
+=======
+	CAMERA,PATTERN,VCONF,CONFIG_KEY_LENGTH
+>>>>>>> yjb
 };
 
 typedef float pos2d[2];

@@ -8,6 +8,7 @@
 #ifndef GAMEEVENERECEIVER_H_
 #define GAMEEVENERECEIVER_H_
 
+<<<<<<< HEAD
 #include "irrlicht.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
@@ -24,11 +25,18 @@ typedef enum{
 	IG_MOUSE_OTHER
 } IG_MOUSE_STATE;
 
+=======
+#include <irrlicht.h>
+
+using namespace irr;
+
+>>>>>>> yjb
 class GameEventReceiver: public irr::IEventReceiver {
 public:
 	GameEventReceiver();
 	virtual bool OnEvent(const SEvent& event);
 	virtual ~GameEventReceiver();
+<<<<<<< HEAD
     u32 getHitStatus() const;
     void setHitStatus(u32 hitStatus);
     u32 getStatus() const;
@@ -44,6 +52,18 @@ private:
 	u32 hitStatus;
 	u8 mouseState;
 	u32 status;
+=======
+    u8 getHitStatus() const;
+    void setHitStatus(u8 hitStatus);
+    bool getChange() const { return changed; }
+    bool getMousePressed() const { return mousePressed; }
+private:
+	u8 _handleMouse(s32 mouseX, s32 mouseY);
+	u8 hitStatus;
+	u8 lastHit;
+	bool changed;
+	bool mousePressed;
+>>>>>>> yjb
 };
 
 #endif /* GAMEEVENERECEIVER_H_ */

@@ -181,7 +181,9 @@ src/ArManager.d src/ArManager.o: ../src/ArManager.cpp ../src/ArManager.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/ar.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Arrow.h
+ /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Config.h \
+ ../src/IGameLogic.h ../src/GameInfo.h ../src/ArrowFactory.h \
+ ../src/Arrow.h ../src/ArrowPrototypeFactory.h
 
 ../src/ArManager.h:
 
@@ -553,4 +555,14 @@ src/ArManager.d src/ArManager.o: ../src/ArManager.cpp ../src/ArManager.h \
 
 /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h:
 
+../src/Config.h:
+
+../src/IGameLogic.h:
+
+../src/GameInfo.h:
+
+../src/ArrowFactory.h:
+
 ../src/Arrow.h:
+
+../src/ArrowPrototypeFactory.h:

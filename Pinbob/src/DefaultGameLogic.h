@@ -32,12 +32,18 @@ protected:
 	void _init(const char* filename);
 	/* a pointer determines current playing progress */
 	std::list<Arrow*>::iterator creationCursor;
+<<<<<<< HEAD
 	std::list<Arrow*>::iterator missedCursor;
+=======
+>>>>>>> yjb
 	ArManager* armgr;
 	GameInfo* gameInfo;
 	u32 state;
 	u32 startTime;
+<<<<<<< HEAD
 	u32 timePassed;
+=======
+>>>>>>> yjb
 	u8 lastHit;
 };
 

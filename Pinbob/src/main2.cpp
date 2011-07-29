@@ -19,11 +19,18 @@ using namespace video;
 using namespace io;
 using namespace gui;
 
+<<<<<<< HEAD
 
 #define TEST_ARROW
 	//Create our state machine, start it and delete it when it returns
 #ifndef TEST_ARROW
 int main(int argc, char** argv) {
+=======
+int main(int argc, char** argv) {
+#define TEST_ARROW
+	//Create our state machine, start it and delete it when it returns
+#ifdef TEST_ARROW
+>>>>>>> yjb
 	StateMachine *theMachine=new StateMachine();
 	theMachine->run();
 	delete theMachine;

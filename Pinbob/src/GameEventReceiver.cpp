@@ -7,10 +7,17 @@
 
 #include "GameEventReceiver.h"
 #include "Config.h"
+<<<<<<< HEAD
 #include "GameObject.h"
 
 GameEventReceiver::GameEventReceiver() :
 		hitStatus(0), mouseState(IG_MOUSE_OTHER), status(IG_UPDATE) {
+=======
+
+GameEventReceiver::GameEventReceiver():hitStatus(0),lastHit(0),changed(false) {
+	// TODO Auto-generated constructor stub
+
+>>>>>>> yjb
 }
 
 bool GameEventReceiver::OnEvent(const SEvent& event) {
@@ -38,6 +45,7 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 			hitStatus = _handleMouse(event.MouseInput.X, event.MouseInput.Y);
 			printf("mouse at %d,%d .\n", event.MouseInput.X,
 					event.MouseInput.Y);
+<<<<<<< HEAD
 			mouseState = IG_MOUSE_DOWN;
 			break;
 		case EMIE_LMOUSE_LEFT_UP:
@@ -53,10 +61,27 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 
 	} else {
 		hitStatus = 0;
+=======
+			changed = (hitStatus != lastHit);
+			lastHit = hitStatus;
+			mousePressed = true;
+			break;
+		case EMIE_LMOUSE_LEFT_UP:
+			hitStatus = 0;
+			mousePressed = false;
+			break;
+		default:
+			changed = false;
+			mousePressed = false;
+			break;
+		}
+
+>>>>>>> yjb
 	}
 	return false;
 }
 
+<<<<<<< HEAD
 u32 GameEventReceiver::_handleMouse(s32 mouseX, s32 mouseY) {
 	switch (status) {
 	case IG_UPDATE:
@@ -112,6 +137,9 @@ u32 GameEventReceiver::_handleUpdateUp(s32 mouseX, s32 mouseY) {
 }
 
 u32 GameEventReceiver::_handleUpdate(s32 mouseX, s32 mouseY) {
+=======
+u8 GameEventReceiver::_handleMouse(s32 mouseX, s32 mouseY) {
+>>>>>>> yjb
 	u8 result = 0;
 	if (mouseX <= 130) {
 		if (mouseY >= 130 && mouseY < 240) {
@@ -125,6 +153,7 @@ u32 GameEventReceiver::_handleUpdate(s32 mouseX, s32 mouseY) {
 		} else if (mouseY >= 240 && mouseY <= 350) {
 			result |= DOWN_RIGHT_HIT;
 		}
+<<<<<<< HEAD
 	} else if (mouseX >= 225 && mouseX <= 415) {
 		if (mouseY >= 410) {
 			result |= MENU_HIT;
@@ -158,3 +187,27 @@ void GameEventReceiver::setMouseState(u8 mouseState) {
 	this->mouseState = mouseState;
 }
 
+=======
+	}
+	//printf("result is %d", result);
+	return result;
+
+}
+
+GameEventReceiver::~GameEventReceiver() {
+	// TODO Auto-generated destructor stub
+}
+
+u8 GameEventReceiver::getHitStatus() const
+{
+    return hitStatus;
+}
+
+void GameEventReceiver::setHitStatus(u8 hitStatus)
+{
+    this->hitStatus = hitStatus;
+}
+
+
+
+>>>>>>> yjb

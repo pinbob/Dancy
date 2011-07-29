@@ -8,10 +8,14 @@
 #ifndef ARROWPROTOTYPEFACTORY_H_
 #define ARROWPROTOTYPEFACTORY_H_
 
+<<<<<<< HEAD
 #include "irrlicht.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
 #endif
+=======
+#include <irrlicht.h>
+>>>>>>> yjb
 
 using namespace irr;
 
