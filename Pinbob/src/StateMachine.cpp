@@ -48,7 +48,7 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	//make sure no old (already deleted) config file readers or writers are stored
 	ConfigFileManager::getSharedInstance()->clearReadersWriters();
 
-#ifdef TEST_ALL
+#ifndef TEST_ALL
 	//now create all of the main states, set their index number and add them to the array
 	m_pMenu[IState::MAIN_MENU_STATE] = 
 		MenuFactory::createMenuHandler(m_pDevice, this, IState::MAIN_MENU_STATE);
