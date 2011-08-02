@@ -25,9 +25,13 @@ void GameObject::activate(IState* pPrevious) {
 	device->setEventReceiver(&eventListener);
 	_initMenu();
 	then = device->getTimer()->getTime();
-	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
-			&gameInfo);
 
+	soundEngine = createIrrKlangDevice();
+	if (!soundEngine) {
+		throw int(1); // TODO handle exception later
+	}
+	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
+			&gameInfo, soundEngine);
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
@@ -44,15 +48,16 @@ u32 GameObject::update(void) {
 	then = now;
 
 	// TODO no handler for hit
-	driver->beginScene(true, true, SColor(0, 200, 200, 200));
+	driver->beginScene(true, true, 0); // SColor(0, 255, 255, 255));
 	//printf("lasthit %d, now %d. \n", lastHit, eventListener.getMousePressed());
 	//if (eventListener.getMousePressed()) {
-	printf("last hit %d, ", lastHit);
+	//printf("last hit %d, ", lastHit);
 	//switch (eventListener.getHitStatus())
-
+	//scene::ICameraSceneNode* camera = smgr->addCameraSceneNode();
+	//	camera->setPosition(core::vector3df(-200, 200, -200));
 	lastHit = eventListener.getHitStatus();
 	int res = logic->update(delta, now, lastHit);
-	printf("update result %d.\n", res);
+	//printf("update result %d.\n", res);
 
 	switch (res) {
 	case IG_UPDATE:

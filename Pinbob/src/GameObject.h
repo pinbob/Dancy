@@ -13,6 +13,10 @@
 #include "Config.h"
 #include "GameEventReceiver.h"
 #include "GameInfo.h"
+#include "../include/conio.h"
+#include "irrKlang.h"
+#include "NotesLoader.h"
+#include "NoteData.h"
 
 struct GameMenuConfig {
 	core::position2d<s32> position;
@@ -86,6 +90,7 @@ private:
 	GameInfo gameInfo;
 	IGUIImage* score[SCORE_WIDTH];
 	GameEventReceiver eventListener;
+	ISoundEngine *soundEngine;
 	void _initMenu();
 	void _updateScore(u32 score);
 	void _showPauseMenu();

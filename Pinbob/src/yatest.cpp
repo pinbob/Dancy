@@ -5,8 +5,9 @@
 #include <signal.h>
 #include <vector>
 
-#include "../include/irrKlang.h"
+#ifdef TEST_SOUND
 #include "../include/conio.h"
+#include "../include/irrKlang.h"
 #include "./NotesLoader.h"
 #include "./NoteData.h"
 
@@ -58,15 +59,17 @@ int main() {
     return 0;
   }
 
-  engine->play2D("../asset/models/getout.ogg");
+  engine->play2D("./asset/models/Canon.ogg");
+
 
   while (1) {
     sleep(1);
-    if (count >= 520) {
+    if (count >= 10020) {
       engine->drop();
       break;
     }
   }
+
   vector<TapNote> v = note_data.get_panel(3);
   for (int i = 0; i < 600; i++) {
     if (*(char *)&v[i] != 0)
@@ -74,3 +77,5 @@ int main() {
   }
   return 0;
 }
+
+#endif

@@ -13,9 +13,10 @@
 #include <cmath>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
-		GameInfo* gameInfo) :
-		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0),
-		timePassed(0), state(IG_UPDATE) {
+		GameInfo* gameInfo, ISoundEngine* soundEngine) :
+		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0), timePassed(
+				0), state(IG_UPDATE), soundEngine(soundEngine), musicState(
+				MUSIC_PRE) {
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
@@ -30,6 +31,10 @@ DefaultGameLogic::~DefaultGameLogic() {
 }
 
 int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
+	if (musicState == MUSIC_PRE) {
+		soundEngine->play2D("./asset/models/Canon.ogg", true);
+		musicState = MUSIC_PLAYING;
+	}
 	// check new arrows to be show
 	// TODO maybe there's a bug
 	if (((hit == MENU_HIT) && state == IG_UPDATE) || state == IG_PAUSE) {
@@ -76,14 +81,20 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
 		if ((*hitCursor)->getArrowNode() == 0
-				|| abs((int)((*hitCursor)->getStartTime() + TIME_ELAPSED - timePassed))
+				|| abs(
+						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
+								- timePassed))
 						> DEFAULT_EPSILON) {
 			break;
 		}
 		hasArrow = true;
-		printf("cursor type: %d, st: %d, cal: %f", (*hitCursor)->getArrowType(),
+		printf(
+				"cursor type: %d, st: %d, cal: %f",
+				(*hitCursor)->getArrowType(),
 				(*hitCursor)->getStartTime(),
-				abs((int)((*hitCursor)->getStartTime() + TIME_ELAPSED - timePassed)));
+				abs(
+						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
+								- timePassed)));
 		if ((1 << (*hitCursor)->getArrowType()) & hit) {
 			// TODO handle increment score
 			(*hitCursor)->setHitted(true);
@@ -101,6 +112,10 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 }
 
 void DefaultGameLogic::_init(const char *filename) {
+	// TODO pass the filename of the song
+
+	// TODO like the song file it should load a certain BSM
+	notesLoader.LoadFromFile(NULL, &noteData);
 	// TODO maybe do something
 	// FILE* fp = fopen(filename, "r");
 	// fread();
@@ -108,10 +123,19 @@ void DefaultGameLogic::_init(const char *filename) {
 
 	// TODO delete following lines , I randomly generated
 	// some arrows
-	for (int i = 0; i < 40; i++) {
-		armgr->arrows.push_back(
-				ArrowFactory::getInstance()->getDefaultArrow(1 << (rand() % 4),
-						(i) * 1000, 0));
+	//noteData.get_panel()
+	ROW row;
+	u32 arrs;
+	for (int i = 0; i < 300; i++) {
+		row = noteData.GetNoteAtTime(i * 80);
+		if (BITFLAG(row)) {
+			arrs = row.left_ ? UP_LEFT_HIT : 0 | row.right_ ? UP_RIGHT_HIT :
+					0 | row.down_ ? DOWN_LEFT_HIT :
+					0 | row.up_ ? DOWN_RIGHT_HIT : 0;
+			armgr->arrows.push_back(
+					ArrowFactory::getInstance()->getDefaultArrow(arrs, (i) * 80,
+							0));
+		}
 	}
 	armgr->sceneCursor = armgr->arrows.begin();
 	// TODO delete following lines
@@ -125,17 +149,14 @@ void DefaultGameLogic::_init(const char *filename) {
 #endif
 	creationCursor = armgr->arrows.begin();
 	missedCursor = armgr->arrows.begin();
+
 }
 
-u32 DefaultGameLogic::getState() const
-{
-    return state;
+u32 DefaultGameLogic::getState() const {
+	return state;
 }
 
-void DefaultGameLogic::setState(u32 state)
-{
-    this->state = state;
+void DefaultGameLogic::setState(u32 state) {
+	this->state = state;
 }
-
-
 

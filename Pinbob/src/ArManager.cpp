@@ -176,12 +176,12 @@ void ArManager::_initAR() {
 
     /****** init ball ******/
     
-    ballNode = smgr->addSphereSceneNode(20, 32, mainNode);
-    ballNode->setMaterialTexture(0, driver->getTexture("asset/models/fireball.bmp"));
-    ballNode->setMaterialFlag(EMF_LIGHTING, false);
-    ballNode->addAnimator(smgr->createFlyStraightAnimator(
-        vector3df(0, -20, 0), vector3df(0, 50, 0), 500, true, true));
-    
+//    ballNode = smgr->addSphereSceneNode(20, 32, mainNode);
+//    ballNode->setMaterialTexture(0, driver->getTexture("asset/models/fireball.bmp"));
+//    ballNode->setMaterialFlag(EMF_LIGHTING, false);
+//    ballNode->addAnimator(smgr->createFlyStraightAnimator(
+//        vector3df(0, -20, 0), vector3df(0, 50, 0), 500, true, true));
+//
     /******* End of init ball *******/
 
 
