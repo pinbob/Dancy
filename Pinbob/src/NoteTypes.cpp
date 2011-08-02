@@ -1,6 +1,6 @@
 // #include "global.h"
-#include "note_config.h"
-#include "NoteTypes.h"
+#include "./note_config.h"
+#include "./NoteTypes.h"
 
 using std::string;
 

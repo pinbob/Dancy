@@ -3,7 +3,7 @@
 #include <stdio.h>
 using std::vector;
 
-#include "NoteData.h"
+#include "./NoteData.h"
 
 void NoteData::PadTapNotes(int rows) {
   int rows_needed_more = rows - tap_notes_[0].size() + 1;
@@ -68,7 +68,6 @@ ROW NoteData::GetNoteAtTime(unsigned time) {
     return ROW{0, 0, 0, 0, 0};
   } else {
     last_idx_ = idx + 1;
-    // printf("%x\n", *(char *)(&row));
     return row;
   }
 }

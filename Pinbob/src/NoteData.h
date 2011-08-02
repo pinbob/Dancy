@@ -1,8 +1,8 @@
 #ifndef NOTEDATA_H
 #define NOTEDATA_H
 
-#include "NoteTypes.h"
-#include "note_config.h"
+#include "./NoteTypes.h"
+#include "./note_config.h"
 #include <map>
 #include <vector>
 /* #include "Attack.h" */

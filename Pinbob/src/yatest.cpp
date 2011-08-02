@@ -1,14 +1,15 @@
 #include <stdio.h>
-#include "NotesLoader.h"
-#include "NoteData.h"
 #include <cstdlib>
 #include <ctime>
 #include <sys/time.h>
 #include <signal.h>
 #include <vector>
 
-#include "./include/irrKlang.h"
-#include "./include/conio.h"
+#include "../include/irrKlang.h"
+#include "../include/conio.h"
+#include "./NotesLoader.h"
+#include "./NoteData.h"
+
 using namespace std;
 using namespace irrklang;
 
@@ -57,7 +58,7 @@ int main() {
     return 0;
   }
 
-  engine->play2D("./getout.ogg");
+  engine->play2D("../asset/models/getout.ogg");
 
   while (1) {
     sleep(1);

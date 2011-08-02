@@ -55,7 +55,7 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
 
   ifstream file_reader;
 // #ifdef DEBUG__
-  file_reader.open("OBLIVION_7a.bms", ifstream::in);
+  file_reader.open("../asset/models/OBLIVION_7a.bms", ifstream::in);
 // #else
 //   file_reader.open(path, ifstream::in);
 // #endif /* DEBUG__ */
