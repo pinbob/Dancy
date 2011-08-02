@@ -99,6 +99,7 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 			// TODO handle increment score
 			(*hitCursor)->setHitted(true);
 			gameInfo->getScore()->perfectHit();
+			armgr->setHitImageStatus(HI_PERFECT);
 			printf(" %d (hit).\n", hit);
 		} else {
 			// TODO handle decrement score and miss

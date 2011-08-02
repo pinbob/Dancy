@@ -59,6 +59,9 @@ u32 GameObject::update(void) {
 	int res = logic->update(delta, now, lastHit);
 	//printf("update result %d.\n", res);
 
+//	driver->draw2DImage(driver->getTexture("asset/images/perfect.png"),
+//			rect<s32>(120,140,520,340), rect < s32 > (0,0,400, 200),
+//			0, &SColor(255, 255, 255, 255), true);
 	switch (res) {
 	case IG_UPDATE:
 		_updateScore(gameInfo.getScore()->getScore());
@@ -71,6 +74,14 @@ u32 GameObject::update(void) {
 		break;
 	}
 	m_pStateMachine->setDrawScene(false);
+
+	IImage* img = driver->createImage(driver->getTexture("asset/images/perfect.tga"),
+			vector2d<s32>(120, 140), dimension2d<u32>(400, 200));
+
+//	driver->draw2DImage(driver->getTexture("asset/images/perfect.tga"),
+//			rect<s32>(120, 140, 520, 340), rect<s32>(0, 0, 400, 200), 0,
+//			&SColor(255, 255, 255, 255), true);
+	//img->copyToScaling(hitImage,100,200);
 	smgr->drawAll();
 	guienv->drawAll();
 	driver->endScene();
@@ -126,6 +137,7 @@ void GameObject::_initMenu() {
 	for (int i = 0; i < 10; i++) {
 		digitFile[13] = static_cast<char>(i + '0');digits[i] = driver->getTexture(digitFile);
 	}
+
 	for (int i = 0; i < SCORE_WIDTH; i++) {
 		score[i] = guienv->addImage(
 				rect<s32>(120 + i * 25, 5, 145 + i * 25, 40), 0);
@@ -133,6 +145,15 @@ void GameObject::_initMenu() {
 		score[i]->setUseAlphaChannel(true);
 	}
 	_updateScore(0);
+	/* initialize hit image */
+//	for (int i=0; i< HI_LENGTH; i++) {
+////		hitImage[i] = guienv->addImage(
+////				driver->getTexture(HI_LAYOUT[i].filename),
+////				HI_LAYOUT[i].position);
+////		hitImage[i]->setVisible(false);
+//		hitImage[i] = guienv->addImage(rect<s32>(120,140,520,340));
+//		hitImage[i]->setScaleImage(true);
+//	}
 	/* pause scene */
 	for (int i = 0; i < GP_LENGTH; i++) {
 		pauseMenu[i] = guienv->addImage(
