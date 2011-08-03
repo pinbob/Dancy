@@ -33,10 +33,15 @@ class Arrow;
 enum CONFIG_KEY{
 	CAMERA,PATTERNS,VCONF,CONFIG_KEY_LENGTH
 };
+enum HitImage {
+	HI_PERFECT,
+	HI_LENGTH
+};
 
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
 const pos2d arrowPos[4] = {{-50,50},{50,50},{50,50},{-50,-50}};
+//char* hitImageFile[1] = {"asset/images/perfect.png"};
 
 class ArManager {
 public:
@@ -75,6 +80,8 @@ public:
 	 * The destructor
 	 */
 	virtual ~ArManager();
+    u32 getHitImageStatus() const;
+    void setHitImageStatus(u32 hitImageStatus);
 private:
 	/* the speed of dropping arrow */
 	float speed;
@@ -99,13 +106,20 @@ private:
 	/* update arrows */
 	void _repaintArrows(u32 deltaTime);
 	/* our dancer : turtles */
-	ISceneNode* turtleNode;
+	//ISceneNode* turtleNode;
 	/* arrow nodes displaying in the scene */
 	std::list<Arrow*> arrows;
 	/* the parent node of the scene */
 	ISceneNode* mainNode;
 	/* first iterator for displaying */
 	std::list<Arrow*>::iterator sceneCursor;
+
+	ISceneNode* ballNode;
+	ISceneNode* hitImageNode;
+	ITexture* hitImage[1];
+
+	u32 hitImageStatus ;
+	f32 hitImageScale ;
 };
 
 #endif /* ARMANAGER_H_ */

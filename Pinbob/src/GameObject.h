@@ -50,6 +50,7 @@ enum PauseMenu {
 	GP_LENGTH
 };
 
+
 struct ResourceLayout {
 	const char* filename;
 	vector2d<s32> position;
@@ -87,6 +88,7 @@ private:
 	ITexture* digits[10]; //ten digits, nothing special
 	//ITexture* pauseMenu[GP_LENGTH];
 	IGUIImage* pauseMenu[GP_LENGTH];
+	IGUIImage* hitImage[HI_LENGTH];
 	GameInfo gameInfo;
 	IGUIImage* score[SCORE_WIDTH];
 	GameEventReceiver eventListener;
