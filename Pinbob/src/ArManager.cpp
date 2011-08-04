@@ -99,7 +99,8 @@ void ArManager::update(u32 deltaTime, u8 hit) {
 	}
 	if (hitImageStatus != HI_LENGTH) {
 		hitImageNode->setVisible(true);
-		hitImageNode->setScale(vector3df(hitImageScale,hitImageScale,hitImageScale));
+		hitImageNode->setScale(
+				vector3df(hitImageScale, hitImageScale, hitImageScale));
 		hitImageScale += .05;
 		if (hitImageScale >= 1.5) {
 			hitImageScale = .1;
@@ -107,9 +108,7 @@ void ArManager::update(u32 deltaTime, u8 hit) {
 			hitImageNode->setVisible(false);
 		}
 	}
-//	printf("%f, %f, %f \n", ballNode->getAbsolutePosition().X,
-//			ballNode->getAbsolutePosition().Y,
-//			ballNode->getAbsolutePosition().Z);
+
 	armgr->run();
 	//error occurs
 	armgr->drawBackground();
@@ -131,15 +130,15 @@ void ArManager::_loadArrows() {
 #endif
 }
 
-u32 ArManager::getHitImageStatus() const
-{
-    return hitImageStatus;
+u32 ArManager::getHitImageStatus() const {
+	return hitImageStatus;
 }
 
-void ArManager::setHitImageStatus(u32 hitImageStatus)
-{
-    this->hitImageStatus = hitImageStatus;
+void ArManager::setHitImageStatus(u32 hitImageStatus) {
+	this->hitImageStatus = hitImageStatus;
 }
+
+
 
 void ArManager::_repaintArrows(u32 deltaTime) {
 	float dist = (deltaTime) * SPEED;
@@ -212,7 +211,7 @@ void ArManager::_initAR() {
 	ICameraSceneNode* camera = smgr->addCameraSceneNode(0, camera_pos,
 			camera_target);
 	smgr->addLightSceneNode(0, core::vector3df(-0, 0, 50),
-				video::SColorf(1.0f, 1.0f, 1.0f),500);
+			video::SColorf(1.0f, 1.0f, 1.0f), 500);
 	// add white light
 	smgr->addLightSceneNode(mainNode, core::vector3df(-15, 5, -105),
 			video::SColorf(1.0f, 1.0f, 1.0f));
@@ -222,23 +221,26 @@ void ArManager::_initAR() {
 		hitImage[i] = driver->getTexture("asset/images/perfect.png");
 	}
 
-	IAnimatedMesh* hitImageMesh = smgr->addHillPlaneMesh(
+	IMesh* hitImageMesh = smgr->addHillPlaneMesh(
 			"hitImage", // Name of mesh
 			core::dimension2d<f32>(200, 100), core::dimension2d<u32>(1, 1), 0,
 			0, core::dimension2d<f32>(0, 0), //material
 			core::dimension2d<f32>(1, 1));
 
-	hitImageNode = smgr->addAnimatedMeshSceneNode(hitImageMesh,
+	hitImageNode = smgr->addMeshSceneNode(hitImageMesh,
 			smgr->getRootSceneNode());
-	hitImageNode->setPosition(vector3df(0,0,200));
+	hitImageNode->setPosition(vector3df(0, 0, 200));
 	hitImageNode->setVisible(true);
-	hitImageNode->setMaterialTexture(0,hitImage[0]);
-	hitImageNode->setRotation(vector3df(90,0,0));
+	hitImageNode->setMaterialTexture(0, hitImage[0]);
+	hitImageNode->setRotation(vector3df(90, 0, 0));
 	hitImageNode->setMaterialFlag(EMF_LIGHTING, false);
 	hitImageNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 	hitImageNode->setVisible(false);
 	hitImageStatus = HI_LENGTH;
 	hitImageScale = .1;
+
+	/* set the hit plane */
+
 	// set ambient light
 	//smgr->setAmbientLight(video::SColor(0, 255, 255, 255));
 	//init the camera

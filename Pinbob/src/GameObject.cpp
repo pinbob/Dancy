@@ -31,7 +31,7 @@ void GameObject::activate(IState* pPrevious) {
 		throw int(1); // TODO handle exception later
 	}
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
-			&gameInfo, soundEngine);
+			&gameInfo, soundEngine, this);
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
@@ -51,7 +51,7 @@ u32 GameObject::update(void) {
 	driver->beginScene(true, true, 0); // SColor(0, 255, 255, 255));
 	//printf("lasthit %d, now %d. \n", lastHit, eventListener.getMousePressed());
 	//if (eventListener.getMousePressed()) {
-	//printf("last hit %d, ", lastHit);
+	printf("last hit %d, \n", lastHit);
 	//switch (eventListener.getHitStatus())
 	//scene::ICameraSceneNode* camera = smgr->addCameraSceneNode();
 	//	camera->setPosition(core::vector3df(-200, 200, -200));
@@ -64,6 +64,15 @@ u32 GameObject::update(void) {
 //			0, &SColor(255, 255, 255, 255), true);
 	switch (res) {
 	case IG_UPDATE:
+		for (int i=0; i<4; i++) {
+			if (lastHit & (1<<i)) {
+				widgets[i+1]->setVisible(false);
+				widgets[i+5]->setVisible(true);
+			} else {
+				widgets[i+1]->setVisible(true);
+				widgets[i+5]->setVisible(false);
+			}
+		}
 		_updateScore(gameInfo.getScore()->getScore());
 		break;
 	case IG_PAUSE:
@@ -124,11 +133,13 @@ void GameObject::_showPauseMenu() {
 
 void GameObject::_initMenu() {
 	/* menu items */
-	widgets = new ITexture*[GAME_MENU_LENGTH];
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
-		widgets[i] = driver->getTexture(GAME_MENU_CONFIG[i].filename);
-		guienv->addImage(widgets[i],
+		widgets[i] =
+		guienv->addImage(driver->getTexture(GAME_MENU_CONFIG[i].filename),
 				vector2d<signed int>(GAME_MENU_CONFIG[i].position), true, 0);
+		if (i >= UP_LEFT_AREA_PRESSED) {
+			widgets[i]->setVisible(false);
+		}
 	}
 	/* the score */
 	guienv->addImage(driver->getTexture("asset/images/score.png"),

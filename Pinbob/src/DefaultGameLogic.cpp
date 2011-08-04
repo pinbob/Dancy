@@ -13,10 +13,10 @@
 #include <cmath>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
-		GameInfo* gameInfo, ISoundEngine* soundEngine) :
+		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct) :
 		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0), timePassed(
 				0), state(IG_UPDATE), soundEngine(soundEngine), musicState(
-				MUSIC_PRE) {
+				MUSIC_PRE), gameObject(gameObject) {
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
@@ -63,9 +63,10 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	}
 	//increment hit cursor
 	if (hit != lastHit && hit != 0) {
-		for (u8 i = 1; i <= MENU_HIT; i <<= 1) {
-			if (hit & i) {
-				_judgeHit(timePassed, i);
+		for (u8 i = 0; i < 4; i ++) {
+			if (hit & (i << 1)) {
+
+				_judgeHit(timePassed, i << 1);
 			}
 		} // end for
 	} // end if

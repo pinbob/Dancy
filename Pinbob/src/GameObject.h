@@ -30,6 +30,10 @@ enum GAME_MENUS {
 	DOWN_LEFT_AREA,
 	UP_RIGHT_AREA,
 	DOWN_RIGHT_AREA,
+	UP_LEFT_AREA_PRESSED,
+	DOWN_LEFT_AREA_PRESSED,
+	UP_RIGHT_AREA_PRESSED,
+	DOWN_RIGHT_AREA_PRESSED,
 	GAME_MENU_LENGTH
 };
 
@@ -40,16 +44,16 @@ const GameMenuConfig GAME_MENU_CONFIG[GAME_MENU_LENGTH] = { { position2d<s32>(
 		130, 110), "asset/images/dlArea.png" }, { position2d<s32>(510, 130),
 		rect<s32>(0, 0, 130, 110), "asset/images/urArea.png" }, {
 		position2d<s32>(510, 240), rect<s32>(0, 0, 130, 110),
-		"asset/images/drArea.png" } };
+		"asset/images/drArea.png" }, { position2d<s32>(0, 130), rect<s32>(0, 0,
+		130, 110), "asset/images/ulArea1.png" }, { position2d<s32>(0, 240), rect<
+		s32>(0, 0, 130, 110), "asset/images/dlArea1.png" }, { position2d<s32>(
+		510, 130), rect<s32>(0, 0, 130, 110), "asset/images/urArea1.png" }, {
+		position2d<s32>(510, 240), rect<s32>(0, 0, 130, 110),
+		"asset/images/drArea1.png" } };
 
 enum PauseMenu {
-	GP_CONTINUE,
-	GP_MAIN_MENU,
-	GP_RESTART,
-	GP_MENU_HEAD,
-	GP_LENGTH
+	GP_CONTINUE, GP_MAIN_MENU, GP_RESTART, GP_MENU_HEAD, GP_LENGTH
 };
-
 
 struct ResourceLayout {
 	const char* filename;
@@ -84,7 +88,7 @@ private:
 	ISceneManager* smgr;
 	IGUIEnvironment* guienv;
 	u32 then; //last frame time stamp
-	ITexture** widgets;
+	IGUIImage* widgets[GAME_MENU_LENGTH];
 	ITexture* digits[10]; //ten digits, nothing special
 	//ITexture* pauseMenu[GP_LENGTH];
 	IGUIImage* pauseMenu[GP_LENGTH];

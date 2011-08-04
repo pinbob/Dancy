@@ -46,13 +46,13 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 			mouseState = IG_MOUSE_UP;
 			break;
 		default:
-			hitStatus = 0;
+			//hitStatus = 0;
 			mouseState = IG_MOUSE_OTHER;
 			break;
 		}
 
 	} else {
-		hitStatus = 0;
+		//hitStatus = 0;
 	}
 	// printf ("event received: %d", hitStatus);
 	return false;
@@ -77,6 +77,7 @@ GameEventReceiver::~GameEventReceiver() {
 }
 
 u32 GameEventReceiver::getHitStatus() const {
+	printf("Hit status is %d n\n", hitStatus);
 	return hitStatus;
 }
 

@@ -28,7 +28,7 @@ class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
 	DefaultGameLogic(u32 startTime, ArManager* armgr, GameInfo* gameinfo,
-			ISoundEngine* soundEngine);
+			ISoundEngine* soundEngine, GameObject* gameObject);
 
 	/**
 	 * Override the parent update function
@@ -48,6 +48,7 @@ protected:
 	std::list<Arrow*>::iterator missedCursor;
 	ArManager* armgr;
 	GameInfo* gameInfo;
+	GameObject* gameObject;
 	u32 state;
 	u32 startTime;
 	u32 timePassed;

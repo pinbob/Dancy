@@ -82,6 +82,8 @@ public:
 	virtual ~ArManager();
     u32 getHitImageStatus() const;
     void setHitImageStatus(u32 hitImageStatus);
+    u8 getShowHitPlane() const;
+    void setShowHitPlane(u8 showHitPlane);
 private:
 	/* the speed of dropping arrow */
 	float speed;
@@ -120,6 +122,8 @@ private:
 
 	u32 hitImageStatus ;
 	f32 hitImageScale ;
+
+
 };
 
 #endif /* ARMANAGER_H_ */
