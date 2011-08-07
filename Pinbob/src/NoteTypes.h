@@ -2,7 +2,7 @@
 #define NOTE_TYPES_H
 
 #include <string>
-#include "./note_config.h"
+#include "note_config.h"
 
 struct TapNote
 {
