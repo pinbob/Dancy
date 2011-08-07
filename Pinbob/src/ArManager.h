@@ -35,13 +35,17 @@ enum CONFIG_KEY{
 };
 enum HitImage {
 	HI_PERFECT,
+	HI_WELL_DONE,
+	HI_GOOD,
+	HI_BAD,
+	HI_MISSED,
 	HI_LENGTH
 };
 
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
 const pos2d arrowPos[4] = {{-50,50},{50,50},{50,50},{-50,-50}};
-//char* hitImageFile[1] = {"asset/images/perfect.png"};
+//const char* hitImageFile[1] = {"asset/images/perfect.png"};
 
 class ArManager {
 public:
@@ -69,8 +73,9 @@ public:
 	 * the function update the status of scene that AR simulates
 	 * @param deltaTime the current frame timestamp
 	 * @param hit the hit information given by main scene
+	 * @return zero if marker
 	 */
-	void update(u32 deltaTime, u8 hit);
+	int update(u32 deltaTime, u8 hit);
 	/**
 	 * get the current calculated score to MainScene
 	 * @return current score

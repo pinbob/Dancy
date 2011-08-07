@@ -92,8 +92,7 @@ bool ArManager::init_win32(const char* tcparam_name, const char* tpatt_name,
     return true;
 }
 
-void ArManager::update(u32 deltaTime, u8 hit) {
-	//TODO just simulate random arrow generation
+int ArManager::update(u32 deltaTime, u8 hit) {
 	if (deltaTime != 0) {
 		_repaintArrows(deltaTime);
 	}
@@ -109,9 +108,9 @@ void ArManager::update(u32 deltaTime, u8 hit) {
 		}
 	}
 
-	armgr->run();
-	//error occurs
+	int dectected = armgr->run();
 	armgr->drawBackground();
+	return dectected;
 }
 
 void ArManager::_loadArrows() {

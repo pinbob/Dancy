@@ -61,7 +61,7 @@ struct ResourceLayout {
 };
 
 enum IN_GAME_SUBSTATE {
-	IG_UPDATE, IG_PAUSE
+	IG_DETECT, IG_UPDATE, IG_PAUSE
 };
 
 const ResourceLayout GP_LAYOUT[GP_LENGTH] = { { "asset/images/GP_continue.png",
@@ -93,6 +93,7 @@ private:
 	//ITexture* pauseMenu[GP_LENGTH];
 	IGUIImage* pauseMenu[GP_LENGTH];
 	IGUIImage* hitImage[HI_LENGTH];
+	IGUIImage* detectImage;
 	GameInfo gameInfo;
 	IGUIImage* score[SCORE_WIDTH];
 	GameEventReceiver eventListener;

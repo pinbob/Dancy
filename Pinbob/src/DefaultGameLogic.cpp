@@ -15,8 +15,8 @@
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct) :
 		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0), timePassed(
-				0), state(IG_UPDATE), soundEngine(soundEngine), musicState(
-				MUSIC_PRE), gameObject(gameObject) {
+				0), state(IG_DETECT), soundEngine(soundEngine), musicState(
+				MUSIC_PRE), gameObject(gameObject), musicOffset(0) {
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
@@ -31,10 +31,6 @@ DefaultGameLogic::~DefaultGameLogic() {
 }
 
 int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
-	if (musicState == MUSIC_PRE) {
-		soundEngine->play2D("./asset/models/Canon.ogg", true);
-		musicState = MUSIC_PLAYING;
-	}
 	// check new arrows to be show
 	// TODO maybe there's a bug
 	if (((hit == MENU_HIT) && state == IG_UPDATE) || state == IG_PAUSE) {
@@ -42,15 +38,35 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		armgr->update(0, hit);
 		//printf("paused\n");
 		return IG_PAUSE;
+	} else if (state == IG_DETECT) {
+		if (armgr->update(0, hit)) {
+			printf("detected.\n");
+			state = IG_UPDATE;
+			return state;
+		} else {
+			// marker still not detect
+			return IG_DETECT;
+		}
+	}
+
+	if (musicState == MUSIC_PRE && timePassed > PREPARE_TIME) {
+		soundEngine->play2D("./asset/models/Canon.ogg", true);
+		musicOffset = timePassed - PREPARE_TIME;
+		musicState = MUSIC_PLAYING;
 	}
 	//printf("run\n");
 	timePassed += delta;
 	armgr->update(delta, hit);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
-		if (timePassed > (*creationCursor)->getStartTime()) {
+		if (timePassed + TIME_ELAPSED
+				> (*creationCursor)->getStartTime() + PREPARE_TIME + musicOffset) {
+			float offset = (timePassed + TIME_ELAPSED
+					- (*creationCursor)->getStartTime() - PREPARE_TIME
+					+ musicOffset) * SPEED;
 			(*creationCursor)->setArrowNode(
 					ArrowPrototypeFactory::getInstance()->getArrowPrototype(
-							(*creationCursor)->getArrowType()));
+							(*creationCursor)->getArrowType(), offset));
+
 		} else {
 			break;
 		}
@@ -63,10 +79,11 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	}
 	//increment hit cursor
 	if (hit != lastHit && hit != 0) {
-		for (u8 i = 0; i < 4; i ++) {
-			if (hit & (i << 1)) {
+		for (u8 i = 0; i < 4; i++) {
 
-				_judgeHit(timePassed, i << 1);
+			if (hit & (1 << i)) {
+
+				_judgeHit(timePassed, 1 << i);
 			}
 		} // end for
 	} // end if
@@ -79,16 +96,18 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 	// determines whether or not there's arrows in the epsilon area
 	bool hasArrow = false;
+	//printf("hit is %d\n", hit);
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
-		if ((*hitCursor)->getArrowNode() == 0
-				|| abs(
-						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
-								- timePassed))
-						> DEFAULT_EPSILON) {
+		int gap = abs(
+				(int) ((*hitCursor)->getStartTime() + PREPARE_TIME + musicOffset
+						- timePassed));
+		//printf("hit gap %d.\n",);
+		if ((*hitCursor)->getArrowNode() == 0 || gap > BAD_EPSILON) {
 			break;
 		}
 		hasArrow = true;
+#ifdef _DEBUG
 		printf(
 				"cursor type: %d, st: %d, cal: %f",
 				(*hitCursor)->getArrowType(),
@@ -96,12 +115,24 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 				abs(
 						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
 								- timePassed)));
+#endif
 		if ((1 << (*hitCursor)->getArrowType()) & hit) {
 			// TODO handle increment score
 			(*hitCursor)->setHitted(true);
-			gameInfo->getScore()->perfectHit();
-			armgr->setHitImageStatus(HI_PERFECT);
-			printf(" %d (hit).\n", hit);
+			if (gap < PERFECT_EPSILON) {
+				gameInfo->getScore()->perfectHit();
+				armgr->setHitImageStatus(HI_PERFECT);
+				printf("perfect hit\n");
+			} else if (gap < WELLDONE_EPSILON) {
+				gameInfo->getScore()->wellDoneHit();
+				printf("well done hit\n");
+			} else if (gap < GOOD_EPSILON) {
+				gameInfo->getScore()->goodHit();
+				printf("good hit\n");
+			} else {
+				gameInfo->getScore()->badHit();
+				printf("bad hit\n");
+			}
 		} else {
 			// TODO handle decrement score and miss
 			//gameInfo->getScore()->missedHit();
@@ -128,7 +159,7 @@ void DefaultGameLogic::_init(const char *filename) {
 	//noteData.get_panel()
 	ROW row;
 	u32 arrs;
-	for (int i = 0; i < 300; i++) {
+	for (int i = 0; i < 400; i++) {
 		row = noteData.GetNoteAtTime(i * 80);
 		if (BITFLAG(row)) {
 			arrs = row.left_ ? UP_LEFT_HIT : 0 | row.right_ ? UP_RIGHT_HIT :

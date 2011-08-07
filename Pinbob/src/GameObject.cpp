@@ -47,23 +47,16 @@ u32 GameObject::update(void) {
 	const u32 delta = now - then;
 	then = now;
 
-	// TODO no handler for hit
-	driver->beginScene(true, true, 0); // SColor(0, 255, 255, 255));
-	//printf("lasthit %d, now %d. \n", lastHit, eventListener.getMousePressed());
-	//if (eventListener.getMousePressed()) {
-	printf("last hit %d, \n", lastHit);
-	//switch (eventListener.getHitStatus())
-	//scene::ICameraSceneNode* camera = smgr->addCameraSceneNode();
-	//	camera->setPosition(core::vector3df(-200, 200, -200));
+	driver->beginScene(true, true, 0);
 	lastHit = eventListener.getHitStatus();
 	int res = logic->update(delta, now, lastHit);
-	//printf("update result %d.\n", res);
-
-//	driver->draw2DImage(driver->getTexture("asset/images/perfect.png"),
-//			rect<s32>(120,140,520,340), rect < s32 > (0,0,400, 200),
-//			0, &SColor(255, 255, 255, 255), true);
 	switch (res) {
+	case IG_DETECT:
+		break;
 	case IG_UPDATE:
+		if (detectImage->isVisible()) {
+			detectImage->setVisible(false);
+		}
 		for (int i=0; i<4; i++) {
 			if (lastHit & (1<<i)) {
 				widgets[i+1]->setVisible(false);
@@ -84,13 +77,6 @@ u32 GameObject::update(void) {
 	}
 	m_pStateMachine->setDrawScene(false);
 
-	IImage* img = driver->createImage(driver->getTexture("asset/images/perfect.tga"),
-			vector2d<s32>(120, 140), dimension2d<u32>(400, 200));
-
-//	driver->draw2DImage(driver->getTexture("asset/images/perfect.tga"),
-//			rect<s32>(120, 140, 520, 340), rect<s32>(0, 0, 400, 200), 0,
-//			&SColor(255, 255, 255, 255), true);
-	//img->copyToScaling(hitImage,100,200);
 	smgr->drawAll();
 	guienv->drawAll();
 	driver->endScene();
@@ -156,15 +142,13 @@ void GameObject::_initMenu() {
 		score[i]->setUseAlphaChannel(true);
 	}
 	_updateScore(0);
-	/* initialize hit image */
-//	for (int i=0; i< HI_LENGTH; i++) {
-////		hitImage[i] = guienv->addImage(
-////				driver->getTexture(HI_LAYOUT[i].filename),
-////				HI_LAYOUT[i].position);
-////		hitImage[i]->setVisible(false);
-//		hitImage[i] = guienv->addImage(rect<s32>(120,140,520,340));
-//		hitImage[i]->setScaleImage(true);
-//	}
+
+	/* detect the marker */
+	detectImage = guienv->addImage(
+			driver->getTexture("asset/images/detect.png"),
+			vector2d<s32>(280,200), true
+	);
+
 	/* pause scene */
 	for (int i = 0; i < GP_LENGTH; i++) {
 		pauseMenu[i] = guienv->addImage(

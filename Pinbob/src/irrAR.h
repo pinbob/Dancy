@@ -49,7 +49,7 @@ class IARManager
 		void our_argConvGLcpara2(double cparam[3][4], int width, int height, double gnear, double gfar, float m[16]);
 		void our_convert_trans_para(double para[3][4], double gl_para[16]);
 		ITexture* update_ITexture(ITexture *dest, ARUint8 *dataPtr);
-		void translate_nodes(ARUint8 *ardata);
+		int translate_nodes(ARUint8 *ardata);
 		
 		
 		//Irrlicht
