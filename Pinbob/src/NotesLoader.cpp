@@ -1,12 +1,17 @@
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
 #include <string>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <dirent.h>
 
 #include "./note_config.h"
 #include "./NotesLoader.h"
 #include "./NoteData.h"
 #include "./NoteTypes.h"
+#include "./SongCollection.h"
+#include "./Song.h"
 
 using std::ifstream;
 using std::string;
@@ -29,6 +34,10 @@ enum {
   BMS_RIGHT
 };
 
+NotesLoader::NotesLoader(): song_num_(0) {}
+
+NotesLoader::~NotesLoader() {
+}
 
 
 void NotesLoader::MapBMSToNote(int panel, int &panel_out, TapNote &tap_note_out) {
@@ -48,20 +57,22 @@ void NotesLoader::MapBMSToNote(int panel, int &panel_out, TapNote &tap_note_out)
 }
 
 
-bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *output*/) {
+bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *output*/, struct SongInfo &info) {
   // NoteData *note_data = new NoteData;
   note_data->set_num_panels(MAX_NOTE_PANELS);
   // ResetPanelsMagic();
 
   ifstream file_reader;
 // #ifdef DEBUG__
-  file_reader.open("../asset/models/OBLIVION_7a.bms", ifstream::in);
+  file_reader.open(path, ifstream::in);
 // #else
 //   file_reader.open(path, ifstream::in);
 // #endif /* DEBUG__ */
 
-  if (!file_reader.good())
+  if (!file_reader.good()) {
+    printf("%s", "fail to open file");
     return false;
+  }
 
   while (file_reader.good()) {
     string line;
@@ -89,9 +100,18 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
     }
     // Done splitting 1 line
 
-    if (line.find("#PLAYER") != string::npos) {}
-    if (line.find("#TITLE") != string::npos) {}
-    if (line.find("#PLAYLEVEL") != string::npos) {}
+    if (line.find("#TITLE") != string::npos) {
+      info.title_ = value;
+    }
+    if (line.find("#GENRE") != string::npos) {
+      info.genre_ = value;
+    }
+    if (line.find("#ARTIST") != string::npos) {
+      info.artist_ = value;
+    }
+    if (line.find("#DIFFICULTY") != string::npos) {
+      info.difficulty_ = atoi(value.c_str());
+    }
     if (line.find("#BPM") != string::npos) {
       note_data->set_bpm(atoi(value.c_str()));
     }
@@ -138,19 +158,79 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
     }
   }
 
-// #ifdef DEBUG__
-//   for (int i = 0; i < note_data->num_panels(); i++) {
-//     for (int j = 0; j < (int)note_data->get_panel(i).size(); j++)
-//       // std::cout<< note_data->tap_note(i, j).type << "\n";
-//       // if (note_data->tap_note(i, j).type_ == TAP_EMPTY.type_
-//       //     && note_data->tap_note(i, j).source_ == TAP_EMPTY.source_
-//       //     && note_data->tap_note(i, j).attackIndex_ == TAP_EMPTY.attackIndex_)
-//       //   std::cout << "1";
-//       if (note_data->tap_note(i, j).type_ != 0)
-//         std::cout << note_data->tap_note(i, j).type_;
-//     std::cout << note_data->get_panel(i).size() << std::endl;
-//   }
-// #endif /* DEBUG__ */
-  // delete note_data;
   return true;
 }
+
+void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
+  DIR           *d;                     // directory file descriptor
+  struct dirent *dir;                   // directory struct
+  NoteData       data;                  // temporary data to hole note data
+
+  // Look for song folders in the given directory
+  d = opendir(path);
+  if (d) {
+    while ((dir = readdir(d)) != NULL) {
+      if (dir->d_type == DT_DIR && strcmp(dir->d_name, "..") != 0 && strcmp(dir->d_name, ".") != 0) {
+        strncpy(song_list_[song_num_], dir->d_name, FILE_NAME_MAX_LEN - 1);
+        ++song_num_;
+      }
+    }
+    closedir(d);
+  } else {
+    perror(path);
+    return;
+  }
+  
+  char *sub_dir;
+  
+  // For every song folder, search for its different bms files
+  // and add them to the NoteData array in Class Song
+  for (int i = 0; i < song_num_; ++i) {
+    int len = strlen(path) + strlen(song_list_[i]) + 2;
+    sub_dir = new char[len];
+    memset(sub_dir, 0, sizeof(char) * len);
+    strncpy(sub_dir, path, strlen(path));
+    strncat(sub_dir, "/", 1);
+    d = opendir(strncat(sub_dir, song_list_[i], strlen(song_list_[i])));
+
+    // count total files in the folder
+    int bms_file_count = 0;
+
+    // temp array to store NoteData
+    NoteData notes_of_a_song[10];
+    struct SongInfo info;
+    // Load bms files(regular file REG) of the same song folder
+    if (d) {
+      while ((dir = readdir(d)) != NULL) {
+        if (dir->d_type == DT_REG && strcmp(dir->d_name + strlen(dir->d_name) - 4, ".bms") == 0) {
+          char *file_dir = new char[len + strlen(dir->d_name) + 1];
+          memset(file_dir, 0, sizeof(char) * (len + strlen(dir->d_name) + 1));
+          strncpy(file_dir, sub_dir, strlen(sub_dir));
+          strncat(file_dir, "/", 1);
+          strncat(file_dir, dir->d_name, strlen(dir->d_name));
+
+          LoadFromFile(file_dir, &notes_of_a_song[bms_file_count], info);
+          delete[](file_dir);
+          ++bms_file_count;
+        }
+      }
+    }
+
+    closedir(d);
+    
+    Song song;
+    
+    // copy temp note data into song object
+    for (int i = 0; i < bms_file_count; ++i) {
+      song.alternatives_.push_back(notes_of_a_song[i]);
+    }
+    song.main_title_ = info.title_;
+    song.artist_ = info.artist_;
+    song.genre_ = info.genre_;
+    song.difficulty_ = info.difficulty_;
+    // add one song to the song collection
+    collection->song_list_.push_back(song);
+    delete[](sub_dir);
+  }
+}
+
