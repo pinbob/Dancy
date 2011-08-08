@@ -76,6 +76,7 @@ public:
 	 * @return zero if marker
 	 */
 	int update(u32 deltaTime, u8 hit);
+	int update(u32 timePassed);
 	/**
 	 * get the current calculated score to MainScene
 	 * @return current score

@@ -113,6 +113,19 @@ int ArManager::update(u32 deltaTime, u8 hit) {
 	return dectected;
 }
 
+int ArManager::update(u32 timePassed) {
+    prepareNode->setMaterialTexture(0, prepareImage[timePassed / 1000]);
+    f32 scale = 0.001 * (timePassed % 1000) + 0.1;// 0.1 ~ 1.1, turns bigger 0.001 times per msec
+    prepareNode->setScale(vector3df(scale, scale, scale));
+    armgr->run();
+    //error occurs
+    armgr->drawBackground();
+    
+    int dectected = armgr->run();
+    armgr->drawBackground();
+    return dectected;
+}
+
 void ArManager::_loadArrows() {
 	// TODO we may have a specific file to load
 	//ArrowFactory::getInstance();
