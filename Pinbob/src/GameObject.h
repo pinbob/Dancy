@@ -90,6 +90,7 @@ private:
 	u32 then; //last frame time stamp
 	IGUIImage* widgets[GAME_MENU_LENGTH];
 	ITexture* digits[10]; //ten digits, nothing special
+
 	//ITexture* pauseMenu[GP_LENGTH];
 	IGUIImage* pauseMenu[GP_LENGTH];
 	IGUIImage* hitImage[HI_LENGTH];

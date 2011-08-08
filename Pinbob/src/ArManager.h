@@ -76,12 +76,13 @@ public:
 	 * @return zero if marker
 	 */
 	int update(u32 deltaTime, u8 hit);
-	int update(u32 timePassed);
 	/**
 	 * get the current calculated score to MainScene
 	 * @return current score
 	 */
 	int getScore();
+	void updateCountdown(u32 timePassed);
+	void destroyCountdown();
 	/**
 	 * The destructor
 	 */
@@ -121,6 +122,9 @@ private:
 	ISceneNode* mainNode;
 	/* first iterator for displaying */
 	std::list<Arrow*>::iterator sceneCursor;
+
+	ITexture* prepareImage[5];
+	ISceneNode* prepareNode;
 
 	ISceneNode* ballNode;
 	ISceneNode* hitImageNode;

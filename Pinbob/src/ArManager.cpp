@@ -92,6 +92,18 @@ bool ArManager::init_win32(const char* tcparam_name, const char* tpatt_name,
     return true;
 }
 
+void ArManager::updateCountdown(u32 timePassed) {
+	prepareNode->setVisible(true);
+    prepareNode->setMaterialTexture(0, prepareImage[timePassed / 1000]);
+    f32 scale = 0.001 * (timePassed % 1000) + 0.1;// 0.1 ~ 1.1, turns bigger 0.001 times per msec
+    prepareNode->setScale(vector3df(scale, scale, scale));
+}
+
+void ArManager::destroyCountdown() {
+	if (prepareNode->isVisible())
+		prepareNode->setVisible(false);
+}
+
 int ArManager::update(u32 deltaTime, u8 hit) {
 	if (deltaTime != 0) {
 		_repaintArrows(deltaTime);
@@ -111,19 +123,6 @@ int ArManager::update(u32 deltaTime, u8 hit) {
 	int dectected = armgr->run();
 	armgr->drawBackground();
 	return dectected;
-}
-
-int ArManager::update(u32 timePassed) {
-    prepareNode->setMaterialTexture(0, prepareImage[timePassed / 1000]);
-    f32 scale = 0.001 * (timePassed % 1000) + 0.1;// 0.1 ~ 1.1, turns bigger 0.001 times per msec
-    prepareNode->setScale(vector3df(scale, scale, scale));
-    armgr->run();
-    //error occurs
-    armgr->drawBackground();
-    
-    int dectected = armgr->run();
-    armgr->drawBackground();
-    return dectected;
 }
 
 void ArManager::_loadArrows() {
@@ -252,6 +251,28 @@ void ArManager::_initAR() {
 	hitImageScale = .1;
 
 	/* set the hit plane */
+
+    /* setting preparation */
+    prepareImage[0] = driver->getTexture("asset/images/start/3.png");
+    prepareImage[1] = driver->getTexture("asset/images/start/2.png");
+    prepareImage[2] = driver->getTexture("asset/images/start/1.png");
+    prepareImage[3] = driver->getTexture("asset/images/start/ready.png");
+    prepareImage[4] = driver->getTexture("asset/images/start/start.png");
+
+    IMesh* prepareImageMesh = smgr->addHillPlaneMesh(
+            "prepareImage", // Name of mesh
+            core::dimension2d<f32 > (100, 100), core::dimension2d<u32 > (1, 1), 0,
+            0, core::dimension2d<f32 > (0, 0), //material
+            core::dimension2d<f32 > (1, 1));
+
+    prepareNode = smgr->addMeshSceneNode(prepareImageMesh,
+            smgr->getRootSceneNode());
+    prepareNode->setPosition(vector3df(0, 0, 200));
+    prepareNode->setMaterialTexture(0, prepareImage[0]);
+    prepareNode->setRotation(vector3df(90, 0, 0));
+    prepareNode->setMaterialFlag(EMF_LIGHTING, false);
+    prepareNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+    prepareNode->setVisible(false);
 
 	// set ambient light
 	//smgr->setAmbientLight(video::SColor(0, 255, 255, 255));

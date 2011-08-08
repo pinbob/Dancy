@@ -55,44 +55,43 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		musicState = MUSIC_PLAYING;
 	}
 	//printf("run\n");
-
-	if (timePassed < 5000) {//3..2..1..ready..start             
-        printf("timePassed: %d\n", timePassed);
-        armgr->update(timePassed);
-   } else {//in game
-		armgr->update(delta, hit);
-		for (; creationCursor != armgr->arrows.end(); creationCursor++) {
-			if (timePassed + TIME_ELAPSED
-					> (*creationCursor)->getStartTime() + PREPARE_TIME + musicOffset) {
-				float offset = (timePassed + TIME_ELAPSED
-						- (*creationCursor)->getStartTime() - PREPARE_TIME
-						+ musicOffset) * SPEED;
-				(*creationCursor)->setArrowNode(
-						ArrowPrototypeFactory::getInstance()->getArrowPrototype(
-								(*creationCursor)->getArrowType(), offset));
-	
-			} else {
-				break;
-			}
-		}
-		//calculate missing
-		for (; missedCursor != armgr->sceneCursor; missedCursor++) {
-			if (!(*missedCursor)->isHitted()) {
-				gameInfo->getScore()->missedHit();
-			}
-		}
-		//increment hit cursor
-		if (hit != lastHit && hit != 0) {
-			for (u8 i = 0; i < 4; i++) {
-	
-				if (hit & (1 << i)) {
-	
-					_judgeHit(timePassed, 1 << i);
-				}
-			} // end for
-		} // end if
-	}
 	timePassed += delta;
+	if (timePassed < PREPARE_TIME) {
+		armgr->updateCountdown(timePassed);
+	} else {
+		armgr->destroyCountdown();
+	}
+	armgr->update(delta, hit);
+	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
+		if (timePassed + TIME_ELAPSED
+				> (*creationCursor)->getStartTime() + PREPARE_TIME + musicOffset) {
+			float offset = (timePassed + TIME_ELAPSED
+					- (*creationCursor)->getStartTime() - PREPARE_TIME
+					+ musicOffset) * SPEED;
+			(*creationCursor)->setArrowNode(
+					ArrowPrototypeFactory::getInstance()->getArrowPrototype(
+							(*creationCursor)->getArrowType(), offset));
+
+		} else {
+			break;
+		}
+	}
+	//calculate missing
+	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
+		if (!(*missedCursor)->isHitted()) {
+			gameInfo->getScore()->missedHit();
+		}
+	}
+	//increment hit cursor
+	if (hit != lastHit && hit != 0) {
+		for (u8 i = 0; i < 4; i++) {
+
+			if (hit & (1 << i)) {
+
+				_judgeHit(timePassed, 1 << i);
+			}
+		} // end for
+	} // end if
 	lastHit = hit;
 	return IG_UPDATE;
 }
