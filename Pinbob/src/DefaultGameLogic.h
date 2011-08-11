@@ -24,6 +24,7 @@
 #define	 MUSIC_PAUSE 2
 //} ;
 #define BITFLAG(row) (*(int *)&(row) & 0x0000000f)
+#define PREPARE_TIME 5000
 class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
