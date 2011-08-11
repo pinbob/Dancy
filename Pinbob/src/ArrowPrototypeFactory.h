@@ -26,11 +26,14 @@ struct ArrowInfo {
 	const char *texture;
 };
 #define DIST 37
+#define CENTER_X 100
+#define CENTER_Y 100
+
 const ArrowInfo ARROW_INFOS[4] = {
-		{ DIST, -DIST, "asset/images/ulArrowGame.tga" },
-		{ DIST, DIST,"asset/images/dlArrowGame.tga" },
-		{ -DIST, -DIST,"asset/images/urArrowGame.tga" },
-		{ -DIST, DIST,"asset/images/drArrowGame.tga" } };
+		{ CENTER_X+DIST, CENTER_Y-DIST, "asset/images/ulArrowGame.tga" },
+		{ CENTER_X+DIST, CENTER_Y+DIST,"asset/images/dlArrowGame.tga" },
+		{ CENTER_X-DIST, CENTER_Y-DIST,"asset/images/urArrowGame.tga" },
+		{ CENTER_X-DIST, CENTER_Y+DIST,"asset/images/drArrowGame.tga" } };
 
 class ArrowPrototypeFactory {
 public:
@@ -44,7 +47,10 @@ public:
 	void createFactory(ISceneManager* smgr, IVideoDriver* driver,
 			ISceneNode* parent);
 
-	ISceneNode* getArrowPrototype(unsigned char type);
+	/**
+	 * The offset of the height (for sync time)
+	 */
+	ISceneNode* getArrowPrototype(unsigned char type, float offset = 0.0);
 protected:
 	ArrowPrototypeFactory();
 private:

@@ -11,6 +11,11 @@
 #include <stack>
 using namespace std;
 
+#define PERFECT_EPSILON 100
+#define WELLDONE_EPSILON 300
+#define GOOD_EPSILON 500
+#define BAD_EPSILON 700
+
 class Score{
 public:
 	Score();
