@@ -57,6 +57,7 @@ protected:
 	NotesLoader notesLoader;
 	NoteData noteData;
 	int musicState;
+	u32 musicOffset;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */
