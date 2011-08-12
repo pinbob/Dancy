@@ -94,9 +94,9 @@ bool ArManager::init_win32(const char* tcparam_name, const char* tpatt_name,
 
 void ArManager::updateCountdown(u32 timePassed) {
 	prepareNode->setVisible(true);
-    prepareNode->setMaterialTexture(0, prepareImage[timePassed / 1000]);
-    f32 scale = 0.001 * (timePassed % 1000) + 0.1;// 0.1 ~ 1.1, turns bigger 0.001 times per msec
-    prepareNode->setScale(vector3df(scale, scale, scale));
+	prepareNode->setMaterialTexture(0, prepareImage[timePassed / 1000]);
+	f32 scale = 0.001 * (timePassed % 1000) + 0.1; // 0.1 ~ 1.1, turns bigger 0.001 times per msec
+	prepareNode->setScale(vector3df(scale, scale, scale));
 }
 
 void ArManager::destroyCountdown() {
@@ -149,8 +149,6 @@ void ArManager::setHitImageStatus(u32 hitImageStatus) {
 	this->hitImageStatus = hitImageStatus;
 }
 
-
-
 void ArManager::_repaintArrows(u32 deltaTime) {
 	float dist = (deltaTime) * SPEED;
 	for (std::list<Arrow*>::iterator iter = sceneCursor; iter != arrows.end();
@@ -196,13 +194,20 @@ void ArManager::_initAR() {
 	smgr->addLightSceneNode(0, core::vector3df(0, 0, 0),
 			video::SColorf(0.5f, 1.0f, 0.5f, 0.0f), 800.0f);
 	smgr->setAmbientLight(video::SColorf(0.3, 0.3, 0.3, 1));
-	IAnimatedMesh* plane = smgr->getMesh("asset/models/water.obj");
-	ISceneNode* sea = smgr->addWaterSurfaceSceneNode(plane->getMesh(0), 5.0f,
-			300.0f, 40.0f, mainNode);
-	sea->setScale(vector3df(.3, .3, .3));
+
+	IAnimatedMesh* plane = smgr->addHillPlaneMesh("sea", dimension2df(150, 150),
+			dimension2d<u32>(1, 1));
+	//smgr->getMesh("asset/models/water.obj");
+	ISceneNode* sea = smgr->addAnimatedMeshSceneNode(plane, mainNode);
+	//smgr->addWaterSurfaceSceneNode(plane->getMesh(0), 5.0f,
+	//	300.0f, 40.0f, mainNode);
+
+	//sea->setScale(vector3df(.3, .3, .3));
 	sea->setMaterialTexture(0, driver->getTexture("asset/images/mat.tga"));
 	//sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
 	sea->setMaterialFlag(EMF_LIGHTING, false);
+	sea->setPosition(vector3d<f32>(100,0,100));
+
 	//sea->setMaterialType(video::EMT_REFLECTION_2_LAYER);
 
 	/****** init ball ******/
@@ -212,8 +217,8 @@ void ArManager::_initAR() {
 			driver->getTexture("asset/models/fireball.bmp"));
 	ballNode->setMaterialFlag(EMF_LIGHTING, false);
 	ballNode->addAnimator(
-			smgr->createFlyStraightAnimator(vector3df(0, -20, 0),
-					vector3df(0, 50, 0), 500, true, true));
+			smgr->createFlyStraightAnimator(vector3df(100, -20, 100),
+					vector3df(100, 50, 100), 500, true, true));
 //
 	/******* End of init ball *******/
 
@@ -252,27 +257,27 @@ void ArManager::_initAR() {
 
 	/* set the hit plane */
 
-    /* setting preparation */
-    prepareImage[0] = driver->getTexture("asset/images/start/3.png");
-    prepareImage[1] = driver->getTexture("asset/images/start/2.png");
-    prepareImage[2] = driver->getTexture("asset/images/start/1.png");
-    prepareImage[3] = driver->getTexture("asset/images/start/ready.png");
-    prepareImage[4] = driver->getTexture("asset/images/start/start.png");
+	/* setting preparation */
+	prepareImage[0] = driver->getTexture("asset/images/start/3.png");
+	prepareImage[1] = driver->getTexture("asset/images/start/2.png");
+	prepareImage[2] = driver->getTexture("asset/images/start/1.png");
+	prepareImage[3] = driver->getTexture("asset/images/start/ready.png");
+	prepareImage[4] = driver->getTexture("asset/images/start/start.png");
 
-    IMesh* prepareImageMesh = smgr->addHillPlaneMesh(
-            "prepareImage", // Name of mesh
-            core::dimension2d<f32 > (100, 100), core::dimension2d<u32 > (1, 1), 0,
-            0, core::dimension2d<f32 > (0, 0), //material
-            core::dimension2d<f32 > (1, 1));
+	IMesh* prepareImageMesh = smgr->addHillPlaneMesh(
+			"prepareImage", // Name of mesh
+			core::dimension2d<f32>(100, 100), core::dimension2d<u32>(1, 1), 0,
+			0, core::dimension2d<f32>(0, 0), //material
+			core::dimension2d<f32>(1, 1));
 
-    prepareNode = smgr->addMeshSceneNode(prepareImageMesh,
-            smgr->getRootSceneNode());
-    prepareNode->setPosition(vector3df(0, 0, 200));
-    prepareNode->setMaterialTexture(0, prepareImage[0]);
-    prepareNode->setRotation(vector3df(90, 0, 0));
-    prepareNode->setMaterialFlag(EMF_LIGHTING, false);
-    prepareNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
-    prepareNode->setVisible(false);
+	prepareNode = smgr->addMeshSceneNode(prepareImageMesh,
+			smgr->getRootSceneNode());
+	prepareNode->setPosition(vector3df(0, 0, 200));
+	prepareNode->setMaterialTexture(0, prepareImage[0]);
+	prepareNode->setRotation(vector3df(90, 0, 0));
+	prepareNode->setMaterialFlag(EMF_LIGHTING, false);
+	prepareNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+	prepareNode->setVisible(false);
 
 	// set ambient light
 	//smgr->setAmbientLight(video::SColor(0, 255, 255, 255));
