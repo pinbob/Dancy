@@ -37,6 +37,16 @@ MenuHandler* MenuFactory::createMenuHandler(IrrlichtDevice *pDevice,
             break;
         }
         
+        case IState::CREDITS_STATE:{
+            char* imgPath[] = {"asset/images/credits_menu/back"};
+            MenuHandler* menuHandler = new MenuHandler(
+                    pDevice, pStateMachine, "asset/images/back.png",
+                    500, 152, "asset/images/credits_menu/credit.png",
+                    1, 240, 50, imgPath, 0);
+            return menuHandler;
+            break;
+        }
+        
         default:
             return NULL;
             break;

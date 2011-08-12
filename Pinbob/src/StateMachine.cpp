@@ -61,6 +61,10 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
          m_pMenu[IState::SONG_STATE] = 
                  MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
  	addState(m_pMenu[IState::SONG_STATE]);//3
+        
+        m_pMenu[IState::CREDITS_STATE] = 
+                MenuFactory::createMenuHandler(m_pDevice, this, IState::CREDITS_STATE);
+        addState(m_pMenu[IState::CREDITS_STATE]);//6
          
 	m_pGameObj = new GameObject(m_pDevice,this,1000);
 	addState(m_pGameObj); //4
