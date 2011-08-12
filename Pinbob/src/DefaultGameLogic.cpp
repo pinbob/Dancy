@@ -153,7 +153,9 @@ void DefaultGameLogic::_init(const char *filename) {
 	// TODO pass the filename of the song
 
 	// TODO like the song file it should load a certain BSM
-	notesLoader.LoadFromFile(NULL, &noteData);
+	SongInfo loadedSong;
+	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData, loadedSong);
+	printf("song info: title is %s\n", loadedSong.title_.c_str());
 	// TODO maybe do something
 	// FILE* fp = fopen(filename, "r");
 	// fread();
