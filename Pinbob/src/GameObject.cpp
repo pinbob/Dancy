@@ -146,7 +146,7 @@ void GameObject::_initMenu() {
 	/* detect the marker */
 	detectImage = guienv->addImage(
 			driver->getTexture("asset/images/detect.png"),
-			vector2d<s32>(280,200), true
+			vector2d<s32>(130,150), true
 	);
 
 	/* pause scene */

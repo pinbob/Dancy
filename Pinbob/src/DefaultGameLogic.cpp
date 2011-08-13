@@ -50,7 +50,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	}
 
 	if (musicState == MUSIC_PRE && timePassed > PREPARE_TIME) {
-		soundEngine->play2D("./asset/models/Canon.ogg", true);
+		soundEngine->play2D("./asset/songs/Canon.ogg", true);
 		musicOffset = timePassed - PREPARE_TIME;
 		musicState = MUSIC_PLAYING;
 	}
@@ -124,28 +124,25 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 		if ((1 << (*hitCursor)->getArrowType()) & hit) {
 			// TODO handle increment score
 			(*hitCursor)->setHitted(true);
+			bool hasCombo = true;
 			if (gap < PERFECT_EPSILON) {
 				gameInfo->getScore()->perfectHit();
 				armgr->setHitImageStatus(HI_PERFECT);
-				printf("perfect hit\n");
 			} else if (gap < WELLDONE_EPSILON) {
 				gameInfo->getScore()->wellDoneHit();
-				printf("well done hit\n");
+				armgr->setHitImageStatus(HI_WELL_DONE);
 			} else if (gap < GOOD_EPSILON) {
 				gameInfo->getScore()->goodHit();
-				printf("good hit\n");
+				armgr->setHitImageStatus(HI_GOOD);
 			} else {
 				gameInfo->getScore()->badHit();
-				printf("bad hit\n");
+				armgr->setHitImageStatus(HI_BAD);
+				hasCombo = false;
 			}
+
 		} else {
-			// TODO handle decrement score and miss
-			//gameInfo->getScore()->missedHit();
 			break;
 		}
-	}
-	if (!hasArrow) {
-		//gameInfo->getScore()->missedHit();
 	}
 }
 

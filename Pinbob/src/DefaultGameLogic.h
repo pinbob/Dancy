@@ -23,8 +23,9 @@
 #define 	MUSIC_PLAYING 1
 #define	 MUSIC_PAUSE 2
 //} ;
-#define BITFLAG(row) (*(int *)&(row) & 0x0000000f)
+
 #define PREPARE_TIME 5000
+
 class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
@@ -54,11 +55,11 @@ protected:
 	u32 startTime;
 	u32 timePassed;
 	u8 lastHit;
+	u32 musicOffset;
 	ISoundEngine* soundEngine;
 	NotesLoader notesLoader;
 	NoteData noteData;
 	int musicState;
-	u32 musicOffset;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */

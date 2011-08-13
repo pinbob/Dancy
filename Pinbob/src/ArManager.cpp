@@ -19,7 +19,8 @@
 
 ArManager::ArManager(IrrlichtDevice* device, ISceneManager* smgr,
 		IVideoDriver* driver) :
-		smgr(smgr), driver(driver) {
+		smgr(smgr), driver(driver),
+		hitImageStatus(HI_LENGTH),lastHitStatus(HI_LENGTH){
 	this->armgr = new IARManager(device);
 }
 
@@ -108,18 +109,25 @@ int ArManager::update(u32 deltaTime, u8 hit) {
 	if (deltaTime != 0) {
 		_repaintArrows(deltaTime);
 	}
+	/* show it information */
 	if (hitImageStatus != HI_LENGTH) {
 		hitImageNode->setVisible(true);
-		hitImageNode->setScale(
-				vector3df(hitImageScale, hitImageScale, hitImageScale));
-		hitImageScale += .05;
-		if (hitImageScale >= 1.5) {
-			hitImageScale = .1;
-			hitImageStatus = HI_LENGTH;
-			hitImageNode->setVisible(false);
+		if (hitImageStatus != lastHitStatus) {
+			hitImageScale = 1.2;
+			hitImageNode->setMaterialTexture(0, hitImage[hitImageStatus]);
+			lastHitStatus = hitImageStatus;
+		} else {
+			hitImageScale -= .03;
+			if (hitImageScale <= 0.035) {
+				lastHitStatus = HI_LENGTH;
+				hitImageStatus = HI_LENGTH;
+			} else {
+				hitImageNode->setScale(vector3df(hitImageScale,hitImageScale,hitImageScale));
+			}
 		}
+	} else {
+		hitImageNode->setVisible(false);
 	}
-
 	int dectected = armgr->run();
 	armgr->drawBackground();
 	return dectected;
@@ -233,27 +241,27 @@ void ArManager::_initAR() {
 			video::SColorf(1.0f, 1.0f, 1.0f));
 
 	/* setting hit images */
-	for (int i = 0; i < 1; i++) {
-		hitImage[i] = driver->getTexture("asset/images/perfect.png");
+	for (int i = 0; i < HI_LENGTH; i++) {
+		hitImage[i] = driver->getTexture(hitImageFile[i]);
 	}
 
 	IMesh* hitImageMesh = smgr->addHillPlaneMesh(
 			"hitImage", // Name of mesh
-			core::dimension2d<f32>(200, 100), core::dimension2d<u32>(1, 1), 0,
+			core::dimension2d<f32>(50, 25), core::dimension2d<u32>(1, 1), 0,
 			0, core::dimension2d<f32>(0, 0), //material
 			core::dimension2d<f32>(1, 1));
 
 	hitImageNode = smgr->addMeshSceneNode(hitImageMesh,
 			smgr->getRootSceneNode());
-	hitImageNode->setPosition(vector3df(0, 0, 200));
+	hitImageNode->setPosition(vector3df(55, -57, 200));
 	hitImageNode->setVisible(true);
 	hitImageNode->setMaterialTexture(0, hitImage[0]);
 	hitImageNode->setRotation(vector3df(90, 0, 0));
 	hitImageNode->setMaterialFlag(EMF_LIGHTING, false);
 	hitImageNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 	hitImageNode->setVisible(false);
-	hitImageStatus = HI_LENGTH;
-	hitImageScale = .1;
+	//actually alpha
+	hitImageScale = 1;
 
 	/* set the hit plane */
 

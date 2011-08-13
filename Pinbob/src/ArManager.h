@@ -45,7 +45,11 @@ enum HitImage {
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
 const pos2d arrowPos[4] = {{-50,50},{50,50},{50,50},{-50,-50}};
-//const char* hitImageFile[1] = {"asset/images/perfect.png"};
+
+static const char* hitImageFile[HI_LENGTH] = {"asset/images/perfect.png",
+									"asset/images/wellDone.png",
+									"asset/images/good.png",
+									"asset/images/bad.png","asset/images/missed.png"};
 
 class ArManager {
 public:
@@ -128,9 +132,11 @@ private:
 
 	ISceneNode* ballNode;
 	ISceneNode* hitImageNode;
-	ITexture* hitImage[1];
+	ITexture* hitImage[HI_LENGTH];
 
+	/* records  hit status */
 	u32 hitImageStatus ;
+	u32 lastHitStatus;
 	f32 hitImageScale ;
 
 
