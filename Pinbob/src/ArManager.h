@@ -45,6 +45,7 @@ enum HitImage {
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
 const pos2d arrowPos[4] = {{-50,50},{50,50},{50,50},{-50,-50}};
+const vector3df TIMER_POS = vector3df(-58,64,200);
 
 static const char* hitImageFile[HI_LENGTH] = {"asset/images/perfect.png",
 									"asset/images/wellDone.png",
@@ -80,6 +81,7 @@ public:
 	 * @return zero if marker
 	 */
 	int update(u32 deltaTime, u8 hit);
+	void updateTime(float scale);
 	/**
 	 * get the current calculated score to MainScene
 	 * @return current score
@@ -132,6 +134,7 @@ private:
 
 	ISceneNode* ballNode;
 	ISceneNode* hitImageNode;
+	ISceneNode* timerNode;
 	ITexture* hitImage[HI_LENGTH];
 
 	/* records  hit status */

@@ -61,7 +61,7 @@ struct ResourceLayout {
 };
 
 enum IN_GAME_SUBSTATE {
-	IG_DETECT, IG_UPDATE, IG_PAUSE
+	IG_DETECT, IG_UPDATE, IG_PAUSE, IG_GAMEOVER
 };
 
 const ResourceLayout GP_LAYOUT[GP_LENGTH] = { { "asset/images/GP_continue.png",

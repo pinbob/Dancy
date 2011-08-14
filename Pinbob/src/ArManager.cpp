@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+
 #include "ArManager.h"
 #include "ArrowFactory.h"
 #include "ArrowPrototypeFactory.h"
@@ -133,20 +134,14 @@ int ArManager::update(u32 deltaTime, u8 hit) {
 	return dectected;
 }
 
+void ArManager::updateTime(float scale) {
+	timerNode->setScale(vector3df(scale,1,1));
+	timerNode->setPosition(TIMER_POS);
+}
+
 void ArManager::_loadArrows() {
-	// TODO we may have a specific file to load
-	//ArrowFactory::getInstance();
-	ArrowFactory* arrowFactory = ArrowFactory::getInstance();
-
-	// TODO Just a test
-	srand(time(NULL));
-
-#ifdef _DEBUG
-	for (std::list<Arrow*>::iterator iter = arrows.begin();
-			iter != arrows.end(); iter++) {
-		// printf("arrow type: %d.\n", (*iter)->getArrowType());
-	}
-#endif
+	//TODO no more use of this method
+	// please do clean up work if you see it
 }
 
 u32 ArManager::getHitImageStatus() const {
@@ -286,6 +281,17 @@ void ArManager::_initAR() {
 	prepareNode->setMaterialFlag(EMF_LIGHTING, false);
 	prepareNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 	prepareNode->setVisible(false);
+
+
+	timerNode = smgr->addMeshSceneNode(
+			smgr->addHillPlaneMesh("timerImage",
+			core::dimension2d<f32>(300,2),
+			core::dimension2d<u32>(1,1)), smgr->getRootSceneNode());
+	timerNode->setPosition(TIMER_POS);
+	timerNode->setMaterialTexture(0, driver->getTexture("asset/images/yellow.tga"));
+	timerNode->setRotation(vector3df(90, 0, 0));
+	timerNode->setMaterialFlag(EMF_LIGHTING, false);
+	timerNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 
 	// set ambient light
 	//smgr->setAmbientLight(video::SColor(0, 255, 255, 255));

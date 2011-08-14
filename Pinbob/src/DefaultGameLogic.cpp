@@ -11,12 +11,13 @@
 #include "ArrowPrototypeFactory.h"
 #include "GameObject.h"
 #include <cmath>
+#include <GL/glu.h>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct) :
 		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0), timePassed(
 				0), state(IG_DETECT), soundEngine(soundEngine), musicState(
-				MUSIC_PRE), gameObject(gameObject), musicOffset(0) {
+				MUSIC_PRE), gameObject(gameObject), musicOffset(0), totalTime(0) {
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
@@ -60,6 +61,13 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		armgr->updateCountdown(timePassed);
 	} else {
 		armgr->destroyCountdown();
+		if (timePassed-PREPARE_TIME < totalTime) {
+			float scale = 1.0 - (float)(timePassed-PREPARE_TIME)
+					/(float)totalTime;
+			armgr->updateTime(scale);
+		} else {
+			// TODO gameover state
+		}
 	}
 	armgr->update(delta, hit);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
@@ -96,8 +104,6 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	return IG_UPDATE;
 }
 
-// TODO remove it
-#define DEFAULT_EPSILON 500
 void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 	// determines whether or not there's arrows in the epsilon area
 	bool hasArrow = false;
@@ -113,16 +119,15 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 		}
 		hasArrow = true;
 #ifdef _DEBUG
-		printf(
-				"cursor type: %d, st: %d, cal: %f",
-				(*hitCursor)->getArrowType(),
-				(*hitCursor)->getStartTime(),
-				abs(
-						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
-								- timePassed)));
+//		printf(
+//				"cursor type: %d, st: %d, cal: %f",
+//				(*hitCursor)->getArrowType(),
+//				(*hitCursor)->getStartTime(),
+//				abs(
+//						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
+//								- timePassed)));
 #endif
 		if ((1 << (*hitCursor)->getArrowType()) & hit) {
-			// TODO handle increment score
 			(*hitCursor)->setHitted(true);
 			bool hasCombo = true;
 			if (gap < PERFECT_EPSILON) {
@@ -148,19 +153,13 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 
 void DefaultGameLogic::_init(const char *filename) {
 	// TODO pass the filename of the song
-
-	// TODO like the song file it should load a certain BSM
 	SongInfo loadedSong;
 	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData, loadedSong);
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
-	// TODO maybe do something
-	// FILE* fp = fopen(filename, "r");
-	// fread();
-	// fclose(fp);
 
-	// TODO delete following lines , I randomly generated
-	// some arrows
-	//noteData.get_panel()
+	// TODO song length must be specified
+	totalTime = 100000; // I use 100 seconds for total time arbitrarily
+
 	ROW row;
 	u32 arrs;
 	for (int i = 0; i < 400; i++) {
@@ -176,7 +175,7 @@ void DefaultGameLogic::_init(const char *filename) {
 	}
 	armgr->sceneCursor = armgr->arrows.begin();
 	// TODO delete following lines
-#ifndef DEBUG_SHOW_ARROW_GENERATION
+#ifdef DEBUG_SHOW_ARROW_GENERATION
 	printf("Generating following %d arrows:\n", armgr->arrows.size());
 	for (std::list<Arrow*>::iterator iter = armgr->arrows.begin();
 			iter != armgr->arrows.end(); iter++) {

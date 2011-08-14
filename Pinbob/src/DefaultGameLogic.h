@@ -52,8 +52,10 @@ protected:
 	GameInfo* gameInfo;
 	GameObject* gameObject;
 	u32 state;
+	/* variables controlling time */
 	u32 startTime;
 	u32 timePassed;
+	u32 totalTime;
 	u8 lastHit;
 	u32 musicOffset;
 	ISoundEngine* soundEngine;
