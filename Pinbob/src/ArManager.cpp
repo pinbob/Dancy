@@ -110,8 +110,17 @@ int ArManager::update(u32 deltaTime, u8 hit) {
 	if (deltaTime != 0) {
 		_repaintArrows(deltaTime);
 	}
+        
+        //set combo: perfect, well done, good to be true
+        //else to be false
+        if (score.getCombo() > 0){
+            comboImageNode->setVisible(true);
+        }else{
+            comboImageNode->setVisible(false);
+        }
+        
 	/* show it information */
-	if (hitImageStatus != HI_LENGTH) {
+	if (hitImageStatus != HI_LENGTH) {     
 		hitImageNode->setVisible(true);
 		if (hitImageStatus != lastHitStatus) {
 			hitImageScale = 1.2;
@@ -257,8 +266,21 @@ void ArManager::_initAR() {
 	hitImageNode->setVisible(false);
 	//actually alpha
 	hitImageScale = 1;
-
-	/* set the hit plane */
+        
+        /* combo */
+        comboImage = driver->getTexture("asset/images/combo.png");
+        IMesh* comboMesh = smgr->addHillPlaneMesh("comboImage",
+                core::dimension2d<f32>(50, 12.5), core::dimension2d<u32>(1, 1), 0,
+                0, core::dimension2d<f32>(0, 0), //material
+                core::dimension2d<f32>(1, 1));
+        comboImageNode = smgr->addMeshSceneNode(comboMesh, smgr->getRootSceneNode());
+        comboImageNode->setPosition(vector3df(55, -40, 200));
+        comboImageNode->setVisible(true);
+	comboImageNode->setMaterialTexture(0, comboImage);
+	comboImageNode->setRotation(vector3df(90, 0, 0));
+	comboImageNode->setMaterialFlag(EMF_LIGHTING, false);
+	comboImageNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+	comboImageNode->setVisible(false);
 
 	/* setting preparation */
 	prepareImage[0] = driver->getTexture("asset/images/start/3.png");

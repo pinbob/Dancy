@@ -136,6 +136,9 @@ private:
 	ISceneNode* hitImageNode;
 	ISceneNode* timerNode;
 	ITexture* hitImage[HI_LENGTH];
+        
+        ISceneNode* comboImageNode;
+        ITexture* comboImage;
 
 	/* records  hit status */
 	u32 hitImageStatus ;
