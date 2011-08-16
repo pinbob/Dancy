@@ -97,14 +97,20 @@ private:
 	IGUIImage* detectImage;
 	GameInfo gameInfo;
 	IGUIImage* score[SCORE_WIDTH];
+	IGUIImage* combo[COMBO_WIDTH];
+	IGUIImage* xSign;
 	GameEventReceiver eventListener;
 	ISoundEngine *soundEngine;
 	void _initMenu();
+	/* update both score */
 	void _updateScore(u32 score);
+	/* update combo */
+	void _updateCombo(u32 delta);
 	void _showPauseMenu();
 	void _hidePauseMenu();
 	u32 lastHit;
 	u32 lastScore;
+	int comboLast;
 };
 
 #endif /* GAMEOBJECT_H_ */

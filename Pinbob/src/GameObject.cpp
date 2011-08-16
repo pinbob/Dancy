@@ -9,7 +9,7 @@
 
 GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 		u32 startTime) :
-		IState(pDevice, pStateMachine), lastHit(0) {
+		IState(pDevice, pStateMachine), lastHit(0), comboLast(0) {
 	device = pDevice;
 	driver = pDevice->getVideoDriver();
 	smgr = pDevice->getSceneManager();
@@ -57,16 +57,17 @@ u32 GameObject::update(void) {
 		if (detectImage->isVisible()) {
 			detectImage->setVisible(false);
 		}
-		for (int i=0; i<4; i++) {
-			if (lastHit & (1<<i)) {
-				widgets[i+1]->setVisible(false);
-				widgets[i+5]->setVisible(true);
+		for (int i = 0; i < 4; i++) {
+			if (lastHit & (1 << i)) {
+				widgets[i + 1]->setVisible(false);
+				widgets[i + 5]->setVisible(true);
 			} else {
-				widgets[i+1]->setVisible(true);
-				widgets[i+5]->setVisible(false);
+				widgets[i + 1]->setVisible(true);
+				widgets[i + 5]->setVisible(false);
 			}
 		}
 		_updateScore(gameInfo.getScore()->getScore());
+		_updateCombo(delta);
 		break;
 	case IG_PAUSE:
 		eventListener.setStatus(IG_PAUSE);
@@ -82,6 +83,40 @@ u32 GameObject::update(void) {
 	driver->endScene();
 
 	return 0;
+}
+
+void GameObject::_updateCombo(u32 delta) {
+	u32 combo = this->gameInfo.getScore()->getCombo();
+	if (combo == 0) {
+		xSign->setVisible(false);
+		for (int i = 0; i < COMBO_WIDTH; i++) {
+			this->combo[i]->setVisible(false);
+		}
+		comboLast = 2500;
+	} else {
+		if (comboLast < 0) {
+			comboLast = 2500;
+			xSign->setVisible(false);
+			for (int i = 0; i < COMBO_WIDTH; i++) {
+				this->combo[i]->setVisible(false);
+			}
+		} else if (combo > 1) {
+			xSign->setVisible(true);
+			int counter = 0;
+			if (combo > 999) {
+				combo = 999;
+			}
+			for (int i=100; i>0; i/=10) {
+				if ((combo/i != 0 && counter == 0) || counter !=0) {
+					this->combo[counter]->setVisible(true);
+					this->combo[counter]->setImage(digits[combo/i]);
+					combo -= (combo/i)*i;
+					counter ++;
+				}
+			}
+		}
+		comboLast -= delta;
+	}
 }
 
 void GameObject::_showPauseMenu() {
@@ -120,8 +155,8 @@ void GameObject::_showPauseMenu() {
 void GameObject::_initMenu() {
 	/* menu items */
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
-		widgets[i] =
-		guienv->addImage(driver->getTexture(GAME_MENU_CONFIG[i].filename),
+		widgets[i] = guienv->addImage(
+				driver->getTexture(GAME_MENU_CONFIG[i].filename),
 				vector2d<signed int>(GAME_MENU_CONFIG[i].position), true, 0);
 		if (i >= UP_LEFT_AREA_PRESSED) {
 			widgets[i]->setVisible(false);
@@ -131,8 +166,21 @@ void GameObject::_initMenu() {
 	guienv->addImage(driver->getTexture("asset/images/score.png"),
 			vector2d<s32>(10, 10), true, 0);
 	char digitFile[19] = "asset/images/x.png";
+	xSign = guienv->addImage(rect<s32>(490, 30, 530, 70));
+	xSign->setImage(driver->getTexture(digitFile));
+	xSign->setScaleImage(true);
+	xSign->setUseAlphaChannel(true);
+	xSign->setVisible(false);
 	for (int i = 0; i < 10; i++) {
 		digitFile[13] = static_cast<char>(i + '0');digits[i] = driver->getTexture(digitFile);
+	}
+
+	for (int i = 0; i < COMBO_WIDTH; i++) {
+		combo[i] = guienv->addImage(
+				rect<s32>(540 + i * 25, 25, 565 + i * 25, 60), 0);
+		combo[i]->setScaleImage(true);
+		combo[i]->setUseAlphaChannel(true);\
+		combo[i]->setVisible(false);
 	}
 
 	for (int i = 0; i < SCORE_WIDTH; i++) {
@@ -146,8 +194,7 @@ void GameObject::_initMenu() {
 	/* detect the marker */
 	detectImage = guienv->addImage(
 			driver->getTexture("asset/images/detect.png"),
-			vector2d<s32>(130,150), true
-	);
+			vector2d<s32>(130, 150), true);
 
 	/* pause scene */
 	for (int i = 0; i < GP_LENGTH; i++) {

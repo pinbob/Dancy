@@ -31,5 +31,6 @@
 #define TIME_ELAPSED 3000 // ARROW_HEIGHT/SPEED
 
 #define SCORE_WIDTH 5
+#define COMBO_WIDTH 3
 
 #endif /* CONFIG_H_ */
