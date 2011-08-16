@@ -3,8 +3,13 @@
 #include <time.h>
 using namespace std;
 
-HighScore::HighScore() : MAX_AMT(10), FILE_NAME(".highScore"){
+HighScore::HighScore() : MAX_AMT(10), FILE_NAME("asset/conf/.highScore"){
 	readFile();
+}
+
+HighScore::~HighScore(){
+	delete score;
+	delete scoreTime;
 }
 
 void HighScore::reset(){

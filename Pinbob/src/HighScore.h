@@ -7,7 +7,8 @@ class HighScore{
 public:
 	//Read file and init HighScore variables
 	HighScore();
-	
+	~HighScore();	
+
 	//Reset file and variables
 	void reset();
 
