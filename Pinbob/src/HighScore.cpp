@@ -46,7 +46,7 @@ int HighScore::judgeScore(int newScore){
 			}
 
 			//Move one space backward
-			for (int j = scoreAmt - 1; j > i; --j){
+			for (int j = MAX_AMT - 1; j > i; --j){
 				score[j] = score[j - 1];
 				scoreTime[j] = scoreTime[j - 1];
 			}
