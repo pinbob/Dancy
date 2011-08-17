@@ -29,6 +29,7 @@ class MenuHandler;
 class GameHandler;
 class IState;
 class GameObject;
+class SongListScreen;
 
 class StateMachine
 {
@@ -103,6 +104,7 @@ public:
 	/************************************************************************/
 	MenuHandler           **m_pMenu;					/** all menu state */         
 	GameObject            *m_pGameObj;              /**< the "game" state */
+	SongListScreen        *m_pSelectSongScreen;
 	//add more elements here
 
 };

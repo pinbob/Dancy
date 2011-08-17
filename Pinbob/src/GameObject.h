@@ -81,6 +81,9 @@ public:
 	 *  @return "0" is no state change is wanted, "index of new state-1" to switch to another state, out of bounds index to quit program */
 	virtual u32 update(void);
 	virtual ~GameObject();
+		void setCurrentSong(const char* song){ 
+		currentSong = new char[1024];
+		strcpy(currentSong,song);}
 private:
 	IGameLogic* logic;
 	IrrlichtDevice* device;
@@ -111,6 +114,7 @@ private:
 	u32 lastHit;
 	u32 lastScore;
 	int comboLast;
+	char* currentSong;
 };
 
 #endif /* GAMEOBJECT_H_ */

@@ -16,6 +16,7 @@ using namespace std;
 #include "SettingHandler.h"
 #include "MenuFactory.h"
 #include "GameObject.h"
+#include "SongListScreen.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -58,16 +59,18 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
                 MenuFactory::createMenuHandler(m_pDevice, this, IState::MODE_STATE);
 	addState(m_pMenu[IState::MODE_STATE]);//2
         
-         m_pMenu[IState::SONG_STATE] = 
-                 MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
- 	addState(m_pMenu[IState::SONG_STATE]);//3
+//          m_pMenu[IState::SONG_STATE] = 
+//                  MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
+		 m_pSelectSongScreen = new SongListScreen(m_pDevice,this);
+ //	addState(m_pMenu[IState::SONG_STATE]);//3
+		 addState(m_pSelectSongScreen);
         
         m_pMenu[IState::CREDITS_STATE] = 
                 MenuFactory::createMenuHandler(m_pDevice, this, IState::CREDITS_STATE);
-        addState(m_pMenu[IState::CREDITS_STATE]);//6
+        addState(m_pMenu[IState::CREDITS_STATE]);//4
          
 	m_pGameObj = new GameObject(m_pDevice,this,1000);
-	addState(m_pGameObj); //4
+	addState(m_pGameObj); //5
         
 	//add more states here
 

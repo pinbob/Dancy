@@ -142,14 +142,21 @@ u32 MenuHandler::update() {
 			else if(m_lastfocusItem ==MODE_STATE) //we are now in mode menu
 			{
 				printf("song state clicked!\n");
-				m_lastfocusItem = SONG_STATE;
+				//m_lastfocusItem = SONG_STATE;
+				m_lastfocusItem = MODE_STATE;
 				return SONG_STATE;
 			}
-			else if(m_lastfocusItem == SONG_STATE) //we are now in song state
+//  			else if(m_lastfocusItem == SONG_STATE) //we are now in song state
+//  			{
+//  				printf("start game now!\n");
+//  				m_lastfocusItem = START_GAME;
+//  				return START_GAME;
+//  			}
+			else if(m_lastfocusItem == CREDITS_STATE)
 			{
-				printf("start game now!\n");
-				m_lastfocusItem = START_GAME;
-				return START_GAME;
+				printf("back\n");
+				m_lastfocusItem = MAIN_MENU_STATE;
+				return MAIN_MENU_STATE;
 			}
 			break; 
 		case 1:  

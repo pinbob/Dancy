@@ -39,9 +39,9 @@ public:
 	   MAIN_MENU_STATE = 1,   //main menu
 	   MODE_STATE,        //mode menu
 	   SONG_STATE,        //song state  
-	   START_GAME,        //start game
-	   SCORE_STATE,        //high score
 	   CREDITS_STATE,     //credits
+	   START_GAME,        //start game
+	   SCORE_STATE,        //high score 
 	   OPTIONS_STATE,     //options
 	   QUIT_STATE = 10086       //quit game
    };
