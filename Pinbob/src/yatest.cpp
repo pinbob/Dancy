@@ -1,4 +1,3 @@
-#ifdef YATEST
 #include <stdio.h>
 #include <cstdlib>
 #include <ctime>
@@ -49,7 +48,7 @@ int main() {
   count = 0;
 
   // Step 1: Load a song directory
-  collection.LoadSongs("../asset/songs");
+  collection.LoadSongs("./asset/songs");
   if (collection.song_list().size() != 5) {
     printf("pity\n");
   } else {
@@ -59,6 +58,7 @@ int main() {
   // Step 2: Get the NoteData series for [1] song [2] difficulty
   note_data = &collection.GetNote(0, 0);
   printf("Title: %s\n", collection.GetSong(0).main_title().c_str());
+  printf("Time Total: %f\n", collection.GetSong(0).time());
   
   struct itimerval tick;
   tick.it_value.tv_sec = 1;
@@ -92,4 +92,3 @@ int main() {
   }
   return 0;
 }
-#endif

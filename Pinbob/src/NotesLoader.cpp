@@ -6,6 +6,9 @@
 #include <cstring>
 #include <dirent.h>
 
+#include "vorbis/codec.h"
+#include "vorbis/vorbisfile.h"
+
 #include "./note_config.h"
 #include "./NotesLoader.h"
 #include "./NoteData.h"
@@ -64,9 +67,9 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
 
   ifstream file_reader;
 // #ifdef DEBUG__
-  file_reader.open(path, ifstream::in);
+  // file_reader.open("OBLIVION_7a.bms", ifstream::in);
 // #else
-//   file_reader.open(path, ifstream::in);
+  file_reader.open(path, ifstream::in);
 // #endif /* DEBUG__ */
 
   if (!file_reader.good()) {
@@ -228,6 +231,27 @@ void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
     song.artist_ = info.artist_;
     song.genre_ = info.genre_;
     song.difficulty_ = info.difficulty_;
+
+    OggVorbis_File ov;
+    FILE *fd;
+
+    char *song_name = new char[strlen(sub_dir) + 8];
+    memset(song_name, 0, sizeof(char) * (strlen(sub_dir) + 8));
+    strncpy(song_name, sub_dir, strlen(sub_dir));
+    fd = fopen(strncat(song_name, "/01.ogg", 7), "rb");
+    if (ov_open_callbacks(fd, &ov, NULL, -1, OV_CALLBACKS_NOCLOSE) < 0) {
+      printf("Could not open input as an OggVorbis file.\n");
+      delete[](song_name);
+      return;
+    }
+    delete[](song_name);
+
+    song.set_time(ov_time_total(&ov, -1));
+    fclose(fd);
+    ov_clear(&ov);
+    
+    // printf("time total: %f", ov_time_total(&ov, -1));
+
     // add one song to the song collection
     collection->song_list_.push_back(song);
     delete[](sub_dir);

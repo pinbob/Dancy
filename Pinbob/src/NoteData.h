@@ -20,9 +20,9 @@ struct ROW {
 };
 
 struct SongInfo {
-  std::string title_;
-  std::string genre_;
-  std::string artist_;
+  string title_;
+  string genre_;
+  string artist_;
   int difficulty_;
 };
 
