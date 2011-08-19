@@ -1,8 +1,8 @@
 
+#include "GameObject.h"
 #include "Song.h"
 #include "SongListScreen.h"
 #include "StateMachine.h"
-#include "GameObject.h"
 #include "SongCollection.h"
 
 SongListScreen::SongListScreen(IrrlichtDevice *pDevice,
