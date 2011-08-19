@@ -176,7 +176,39 @@ src/GameEventReceiver.d src/GameEventReceiver.o: \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SMeshBufferTangents.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SSharedMeshBuffer.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h \
- ../src/Config.h
+ ../src/Config.h ../src/GameObject.h ../src/IState.h \
+ ../src/StateMachine.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/irrKlang.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_irrKlangTypes.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_vec3d.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IRefCounted.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IVirtualRefCounted.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ESoundOutputDrivers.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ESoundEngineOptions.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_EStreamModes.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_SAudioStreamFormat.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundEngine.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundSource.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISound.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundEffectControl.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IFileFactory.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundMixedOutputReceiver.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioStream.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioStreamLoader.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IFileReader.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundStopEventReceiver.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundDeviceList.h \
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioRecorder.h \
+ ../src/DefaultGameLogic.h ../src/IGameLogic.h ../src/GameInfo.h \
+ ../src/Score.h ../src/ArManager.h ../src/irrAR.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/video.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/config.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/ar.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
+ /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Arrow.h \
+ ../src/../include/conio.h ../src/NotesLoader.h ../src/NoteData.h \
+ ../src/NoteTypes.h ../src/note_config.h
 
 ../src/GameEventReceiver.h:
 
@@ -533,3 +565,87 @@ src/GameEventReceiver.d src/GameEventReceiver.o: \
 /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h:
 
 ../src/Config.h:
+
+../src/GameObject.h:
+
+../src/IState.h:
+
+../src/StateMachine.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/irrKlang.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_irrKlangTypes.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_vec3d.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IRefCounted.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IVirtualRefCounted.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ESoundOutputDrivers.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ESoundEngineOptions.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_EStreamModes.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_SAudioStreamFormat.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundEngine.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundSource.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISound.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundEffectControl.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IFileFactory.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundMixedOutputReceiver.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioStream.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioStreamLoader.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IFileReader.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundStopEventReceiver.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundDeviceList.h:
+
+/home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioRecorder.h:
+
+../src/DefaultGameLogic.h:
+
+../src/IGameLogic.h:
+
+../src/GameInfo.h:
+
+../src/Score.h:
+
+../src/ArManager.h:
+
+../src/irrAR.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/video.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/config.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/ar.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/param.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h:
+
+/home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h:
+
+../src/Arrow.h:
+
+../src/../include/conio.h:
+
+../src/NotesLoader.h:
+
+../src/NoteData.h:
+
+../src/NoteTypes.h:
+
+../src/note_config.h:

@@ -53,7 +53,7 @@ private:
 
 	unsigned int score;
 
-	stack<unsigned int> combo;
+	std::stack<unsigned int> combo;
 
 	void setCombo(bool isCombo);
 };

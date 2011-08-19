@@ -9,15 +9,28 @@ CPP_SRCS += \
 ../src/Arrow.cpp \
 ../src/ArrowFactory.cpp \
 ../src/ArrowPrototypeFactory.cpp \
+../src/ConfigFileManager.cpp \
 ../src/DefaultGameLogic.cpp \
 ../src/GameEventReceiver.cpp \
 ../src/GameInfo.cpp \
 ../src/GameObject.cpp \
+../src/HighScore.cpp \
+../src/MenuFactory.cpp \
+../src/MenuHandler.cpp \
+../src/NoteData.cpp \
+../src/NoteTypes.cpp \
+../src/NotesLoader.cpp \
 ../src/Score.cpp \
+../src/SettingHandler.cpp \
+../src/Song.cpp \
+../src/SongCollection.cpp \
+../src/SongListScreen.cpp \
 ../src/StateMachine.cpp \
 ../src/irrAR.cpp \
 ../src/main.cpp \
-../src/main2.cpp 
+../src/main2.cpp \
+../src/test.cpp \
+../src/yatest.cpp 
 
 OBJS += \
 ./src/ASceneNode.o \
@@ -25,15 +38,28 @@ OBJS += \
 ./src/Arrow.o \
 ./src/ArrowFactory.o \
 ./src/ArrowPrototypeFactory.o \
+./src/ConfigFileManager.o \
 ./src/DefaultGameLogic.o \
 ./src/GameEventReceiver.o \
 ./src/GameInfo.o \
 ./src/GameObject.o \
+./src/HighScore.o \
+./src/MenuFactory.o \
+./src/MenuHandler.o \
+./src/NoteData.o \
+./src/NoteTypes.o \
+./src/NotesLoader.o \
 ./src/Score.o \
+./src/SettingHandler.o \
+./src/Song.o \
+./src/SongCollection.o \
+./src/SongListScreen.o \
 ./src/StateMachine.o \
 ./src/irrAR.o \
 ./src/main.o \
-./src/main2.o 
+./src/main2.o \
+./src/test.o \
+./src/yatest.o 
 
 CPP_DEPS += \
 ./src/ASceneNode.d \
@@ -41,15 +67,28 @@ CPP_DEPS += \
 ./src/Arrow.d \
 ./src/ArrowFactory.d \
 ./src/ArrowPrototypeFactory.d \
+./src/ConfigFileManager.d \
 ./src/DefaultGameLogic.d \
 ./src/GameEventReceiver.d \
 ./src/GameInfo.d \
 ./src/GameObject.d \
+./src/HighScore.d \
+./src/MenuFactory.d \
+./src/MenuHandler.d \
+./src/NoteData.d \
+./src/NoteTypes.d \
+./src/NotesLoader.d \
 ./src/Score.d \
+./src/SettingHandler.d \
+./src/Song.d \
+./src/SongCollection.d \
+./src/SongListScreen.d \
 ./src/StateMachine.d \
 ./src/irrAR.d \
 ./src/main.d \
-./src/main2.d 
+./src/main2.d \
+./src/test.d \
+./src/yatest.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

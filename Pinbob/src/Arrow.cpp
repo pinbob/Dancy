@@ -8,7 +8,11 @@
 #include "Arrow.h"
 
 Arrow::Arrow() :
-		arrowType(1), duration(0), arrowNode(0), startTime(0), hitted(false) {
+		arrowType(1),
+		hitted(false),
+		startTime(0),
+		duration(0),
+		arrowNode(0) {
 }
 
 Arrow::Arrow(unsigned char arrowType, u32 startTime, u32 duration,

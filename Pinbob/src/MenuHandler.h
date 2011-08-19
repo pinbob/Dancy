@@ -25,7 +25,7 @@ public:
 	MenuHandler(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
 			char* backPath, u32 titleWidth, u32 titleHeight, char* titlePath,
 			u32 imgAmt, u32 imgWidth, u32 imgHeight, char** imgPath, u32 focusIndex);
-	~MenuHandler();
+	virtual ~MenuHandler();
 	virtual bool OnEvent (const SEvent &event);
 	virtual u32 update();
 	virtual void deactivate(IState *pNext);
@@ -47,7 +47,7 @@ private:
 		core::position2di mouseDownPos;
 		core::position2di mouseCurPos;
 		bool isMouseUp;
-		SMouseState() : isMouseUp(false), mouseDownPos(0, 0), mouseCurPos(0, 0){}
+		SMouseState() :  mouseDownPos(0, 0), mouseCurPos(0, 0), isMouseUp(false){}
 	} MouseState;
 
 public:

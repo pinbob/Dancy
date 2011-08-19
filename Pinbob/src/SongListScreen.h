@@ -1,3 +1,6 @@
+#ifndef SONG_LIST_SCREEN_H
+#define SONG_LIST_SCREEN_H
+
 #include "irrlicht.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
@@ -25,9 +28,9 @@ private:
 	IGUIListBox * listbox;
 	SongCollection* songcollection;
 	struct SMouseState {
+		bool isMouseUp;
 		core::position2di mouseDownPos;
 		core::position2di mouseCurPos;
-		bool isMouseUp;
 		SMouseState() : isMouseUp(false), mouseDownPos(0, 0), mouseCurPos(0, 0){}
 	} MouseState;
 	bool m_bSelect;
@@ -35,3 +38,6 @@ private:
 	Song selectedsong;
 
 };
+
+#endif
+

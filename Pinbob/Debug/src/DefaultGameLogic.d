@@ -205,7 +205,10 @@ src/DefaultGameLogic.d src/DefaultGameLogic.o: \
  /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Config.h \
- ../src/Arrow.h ../src/ArrowFactory.h ../src/ArrowPrototypeFactory.h
+ ../src/Arrow.h ../src/../include/conio.h ../src/NotesLoader.h \
+ ../src/NoteData.h ../src/NoteTypes.h ../src/note_config.h \
+ ../src/ArrowFactory.h ../src/ArrowPrototypeFactory.h ../src/GameObject.h \
+ ../src/GameEventReceiver.h
 
 ../src/DefaultGameLogic.h:
 
@@ -633,6 +636,20 @@ src/DefaultGameLogic.d src/DefaultGameLogic.o: \
 
 ../src/Arrow.h:
 
+../src/../include/conio.h:
+
+../src/NotesLoader.h:
+
+../src/NoteData.h:
+
+../src/NoteTypes.h:
+
+../src/note_config.h:
+
 ../src/ArrowFactory.h:
 
 ../src/ArrowPrototypeFactory.h:
+
+../src/GameObject.h:
+
+../src/GameEventReceiver.h:

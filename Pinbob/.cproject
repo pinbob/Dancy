@@ -51,6 +51,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.libs.1152911043" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="Irrlicht"/>
+									<listOptionValue builtIn="false" value="IrrKlang"/>
 									<listOptionValue builtIn="false" value="gstreamer-0.10"/>
 									<listOptionValue builtIn="false" value="ARgsub"/>
 									<listOptionValue builtIn="false" value="ARgsubUtil"/>

@@ -11,7 +11,7 @@
 ArrowPrototypeFactory* ArrowPrototypeFactory::_instance = 0;
 
 ArrowPrototypeFactory::ArrowPrototypeFactory() :
-		smgr(0), parent(0) {
+		parent(0),smgr(0) {
 	for (int i = 0; i < 4; i++) {
 		prototypes[i] = 0;
 	}

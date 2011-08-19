@@ -15,9 +15,10 @@
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct) :
-		startTime(startTime), armgr(armgr), gameInfo(gameInfo), lastHit(0), timePassed(
-				0), state(IG_DETECT), soundEngine(soundEngine), musicState(
-				MUSIC_PRE), gameObject(gameObject), musicOffset(0), totalTime(0) {
+		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
+				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), soundEngine(
+				soundEngine), musicState(MUSIC_PRE), musicOffset(0), totalTime(
+				0) {
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
@@ -61,9 +62,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		armgr->updateCountdown(timePassed);
 	} else {
 		armgr->destroyCountdown();
-		if (timePassed-PREPARE_TIME < totalTime) {
-			float scale = 1.0 - (float)(timePassed-PREPARE_TIME)
-					/(float)totalTime;
+		if (timePassed - PREPARE_TIME < totalTime) {
+			float scale = 1.0
+					- (float) (timePassed - PREPARE_TIME) / (float) totalTime;
 			armgr->updateTime(scale);
 		} else {
 			// TODO gameover state
@@ -154,7 +155,8 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 void DefaultGameLogic::_init(const char *filename) {
 	// TODO pass the filename of the song
 	SongInfo loadedSong;
-	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData, loadedSong);
+	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData,
+			loadedSong);
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 
 	// TODO song length must be specified
