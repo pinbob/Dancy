@@ -19,10 +19,10 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
 				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), soundEngine(
 				soundEngine), musicState(MUSIC_PRE), musicOffset(0), totalTime(
-				0), song(song) {
+				0), song(song),currentSong(0) {
 	if (song->main_title().at(song->main_title().size() - 1) == '\r') {
 		songdir = new char[song->main_title().size()];
-		strncpy(songdir, song->main_title().c_str(), strlen(song->main_title().c_str())-1);
+		strncpy(songdir, song->main_title().c_str(), song->main_title().size());
 		songdir[strlen(songdir)-1] = '\0';
 	} else {
 			songdir = new char[strlen(song->main_title().c_str())+1];
@@ -47,6 +47,10 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	if (((hit == MENU_HIT) && state == IG_UPDATE) || state == IG_PAUSE) {
 		state = IG_PAUSE;
 		armgr->update(0, hit);
+		if (currentSong) { // sanity check
+			currentSong->setIsPaused(true);
+		}
+		musicState = MUSIC_PAUSE;
 		//printf("paused\n");
 		return IG_PAUSE;
 	} else if (state == IG_DETECT) {
@@ -67,7 +71,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		sprintf(songPath, "asset/songs/%s/01.ogg", songdir);
 #ifdef TEST_ALL
 		printf("songpath : %s \n", songPath);
-		soundEngine->play2D(songPath, true);
+		currentSong = soundEngine->play2D(songPath, false, false, true);
 #elif defined TEST_GAME
 		soundEngine->play2D("./asset/songs/Canon.ogg", true);
 #endif
@@ -75,6 +79,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 			free(songPath);
 		}
 		musicOffset = timePassed - PREPARE_TIME;
+		musicState = MUSIC_PLAYING;
+	} else if (musicState == MUSIC_PAUSE) {
+		currentSong->setIsPaused(false);
 		musicState = MUSIC_PLAYING;
 	}
 //printf("run\n");

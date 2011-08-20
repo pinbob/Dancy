@@ -65,6 +65,7 @@ protected:
 	int musicState;
 	char* songdir;
 	Song* song;
+	ISound* currentSong;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */
