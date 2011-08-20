@@ -46,7 +46,7 @@ body{
 	top: 0px;
 	width: 100px;
 	height: 100px;
-	background-image: url("../images/up.jpg");
+	background-image: url("../images/up.png");
 	cursor: n-resize;
 }
 
@@ -57,7 +57,7 @@ body{
 	top: 200px;
 	width: 100px;
 	height: 100px;
-	background-image: url("../images/down.jpg");
+	background-image: url("../images/down.png");
 	cursor: s-resize;
 }
 
@@ -68,7 +68,7 @@ body{
 	top: 100px;
 	width: 100px;
 	height: 100px;
-	background-image: url("../images/right.jpg");
+	background-image: url("../images/right.png");
 	cursor: e-resize;
 }
 
@@ -79,7 +79,7 @@ body{
 	top: 100px;
 	width: 100px;
 	height: 100px;
-	background-image: url("../images/left.jpg");
+	background-image: url("../images/left.png");
 	cursor: w-resize;
 }
 
