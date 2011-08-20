@@ -17,6 +17,7 @@
 #include "irrKlang.h"
 #include "NotesLoader.h"
 #include "NoteData.h"
+#include "Song.h"
 
 //enum MUSIC_STATE {
 #define 	MUSIC_PRE 0
@@ -30,7 +31,7 @@ class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
 	DefaultGameLogic(u32 startTime, ArManager* armgr, GameInfo* gameinfo,
-			ISoundEngine* soundEngine, GameObject* gameObject, char* songdir);
+			ISoundEngine* soundEngine, GameObject* gameObject, Song* songdir);
 
 	/**
 	 * Override the parent update function
@@ -63,6 +64,7 @@ protected:
 	NoteData noteData;
 	int musicState;
 	char* songdir;
+	Song* song;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */

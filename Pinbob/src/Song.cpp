@@ -20,6 +20,7 @@ Song &Song::operator=(const Song &right) {
   difficulty_ = right.difficulty_;
   genre_ = right.genre_;
   credit_ = right.credit_;
+  this->time_ = right.time_;
   alternatives_.resize(right.alternatives_.size());
   memcpy(&alternatives_[0], &right.alternatives_[0], right.alternatives_.size() * sizeof(NoteData));
   return *this;

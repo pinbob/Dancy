@@ -8,7 +8,7 @@
 #pragma comment(lib,"irrlicht.lib")
 #endif
 
-#define TEST_ALL
+
 
 using namespace irr;
 using namespace core;
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     StateMachine *theMachine = new StateMachine();
     theMachine->run();
     delete theMachine;
-#else
+#elif defined TEST_IRR
     IrrlichtDevice *device =
             createDevice(video::EDT_OPENGL, dimension2d<u32 > (640, 480), 16,
             false, false, false, 0);
@@ -54,3 +54,4 @@ int main(int argc, char** argv) {
 #endif
     return 0;
 }
+

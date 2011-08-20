@@ -17,6 +17,7 @@
 #include "irrKlang.h"
 #include "NotesLoader.h"
 #include "NoteData.h"
+#include "Song.h"
 
 struct GameMenuConfig {
 	core::position2d<s32> position;
@@ -81,18 +82,21 @@ public:
 	 *  @return "0" is no state change is wanted, "index of new state-1" to switch to another state, out of bounds index to quit program */
 	virtual u32 update(void);
 	virtual ~GameObject();
-	void setCurrentSong(const char* song){
-		// the song name seems always contains \r
-		if (song[strlen(song)-1] == '\r') {
-			currentSong = new char[strlen(song)];
-			strncpy(currentSong, song, strlen(song)-1);
-			currentSong[strlen(currentSong)-1] = '\0';
-		} else {
-			currentSong = new char[strlen(song)+1];
-			strcpy(currentSong,song);
-		}}
-	const char* getCurrentSong() const
-	{ return currentSong; }
+	void setCurrentSong(Song* song) {
+		this->currentSong = song;
+	}
+//	void setCurrentSong(const char* song){
+//		// the song name seems always contains \r
+//		if (song[strlen(song)-1] == '\r') {
+//			currentSong = new char[strlen(song)];
+//			strncpy(currentSong, song, strlen(song)-1);
+//			currentSong[strlen(currentSong)-1] = '\0';
+//		} else {
+//			currentSong = new char[strlen(song)+1];
+//			strcpy(currentSong,song);
+//		}}
+//	const char* getCurrentSong() const
+//	{ return currentSong; }
 private:
 	IGameLogic* logic;
 	IrrlichtDevice* device;
@@ -123,7 +127,7 @@ private:
 	u32 lastHit;
 	u32 lastScore;
 	int comboLast;
-	char* currentSong;
+	Song* currentSong;
 };
 
 #endif /* GAMEOBJECT_H_ */

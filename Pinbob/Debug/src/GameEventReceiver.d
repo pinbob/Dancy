@@ -208,7 +208,7 @@ src/GameEventReceiver.d src/GameEventReceiver.o: \
  /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Arrow.h \
  ../src/../include/conio.h ../src/NotesLoader.h ../src/NoteData.h \
- ../src/NoteTypes.h ../src/note_config.h
+ ../src/NoteTypes.h ../src/note_config.h ../src/Song.h
 
 ../src/GameEventReceiver.h:
 
@@ -649,3 +649,5 @@ src/GameEventReceiver.d src/GameEventReceiver.o: \
 ../src/NoteTypes.h:
 
 ../src/note_config.h:
+
+../src/Song.h:

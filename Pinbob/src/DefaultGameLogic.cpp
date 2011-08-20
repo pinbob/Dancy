@@ -15,27 +15,35 @@
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct,
-		char* songdir) :
+		Song* song) :
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
 				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), soundEngine(
 				soundEngine), musicState(MUSIC_PRE), musicOffset(0), totalTime(
-				0),songdir(songdir) {
+				0), song(song) {
+	if (song->main_title().at(song->main_title().size() - 1) == '\r') {
+		songdir = new char[song->main_title().size()];
+		strncpy(songdir, song->main_title().c_str(), strlen(song->main_title().c_str())-1);
+		songdir[strlen(songdir)-1] = '\0';
+	} else {
+			songdir = new char[strlen(song->main_title().c_str())+1];
+			strcpy(songdir,song->main_title().c_str());
+		}
 #ifdef WIN32
-	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
+		armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
-	armgr->init("asset/conf/ar.conf");
+		armgr->init("asset/conf/ar.conf");
 #endif
-	//TODO OKay, no file name specified
-	_init(NULL);
-}
+//TODO OKay, no file name specified
+		_init(NULL);
+	}
 
 DefaultGameLogic::~DefaultGameLogic() {
 	delete gameInfo;
 }
 
 int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
-	// check new arrows to be show
-	// TODO maybe there's a bug
+// check new arrows to be show
+// TODO maybe there's a bug
 	if (((hit == MENU_HIT) && state == IG_UPDATE) || state == IG_PAUSE) {
 		state = IG_PAUSE;
 		armgr->update(0, hit);
@@ -53,11 +61,12 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	}
 
 	if (musicState == MUSIC_PRE && timePassed > PREPARE_TIME) {
-		char* songPath = (char*)malloc(strlen(songdir)
-					+strlen("asset/songs/")+strlen("/01.ogg")+1);
+		char* songPath = (char*) malloc(
+				strlen(songdir) + strlen("asset/songs/") + strlen("/01.ogg")
+						+ 1);
 		sprintf(songPath, "asset/songs/%s/01.ogg", songdir);
 #ifdef TEST_ALL
-		printf("songpath : %s \n",songPath);
+		printf("songpath : %s \n", songPath);
 		soundEngine->play2D(songPath, true);
 #elif defined TEST_GAME
 		soundEngine->play2D("./asset/songs/Canon.ogg", true);
@@ -68,7 +77,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		musicOffset = timePassed - PREPARE_TIME;
 		musicState = MUSIC_PLAYING;
 	}
-	//printf("run\n");
+//printf("run\n");
 	timePassed += delta;
 	if (timePassed < PREPARE_TIME) {
 		armgr->updateCountdown(timePassed);
@@ -97,13 +106,13 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 			break;
 		}
 	}
-	//calculate missing
+//calculate missing
 	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
 		if (!(*missedCursor)->isHitted()) {
 			gameInfo->getScore()->missedHit();
 		}
 	}
-	//increment hit cursor
+//increment hit cursor
 	if (hit != lastHit && hit != 0) {
 		for (u8 i = 0; i < 4; i++) {
 
@@ -118,9 +127,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 }
 
 void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
-	// determines whether or not there's arrows in the epsilon area
+// determines whether or not there's arrows in the epsilon area
 	bool hasArrow = false;
-	//printf("hit is %d\n", hit);
+//printf("hit is %d\n", hit);
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
 		int gap = abs(
@@ -165,28 +174,27 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 }
 
 void DefaultGameLogic::_init(const char *filename) {
-	// TODO pass the filename of the song
+// TODO pass the filename of the song
 	SongInfo loadedSong;
-	char* oggPath = (char*)malloc(strlen(songdir)
-			+strlen("asset/songs/")+strlen("/default.bms")+1);
+	char* oggPath = (char*) malloc(
+			strlen(songdir) + strlen("asset/songs/") + strlen("/default.bms")
+					+ 1);
 	sprintf(oggPath, "asset/songs/%s/default.bms", songdir);
 #ifdef TEST_ALL
-	printf("oggpath : %s \n",oggPath);
+	printf("oggpath : %s \n", oggPath);
 
-	notesLoader.LoadFromFile(oggPath, &noteData,
-			loadedSong);
+	notesLoader.LoadFromFile(oggPath, &noteData, loadedSong);
 #elif defined TEST_GAME
 	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData,
-				loadedSong);
+			loadedSong);
 #endif
 	if (oggPath) {
 		free(oggPath);
 	}
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 
-	// TODO song length must be specified
-	totalTime = 100000; // I use 100 seconds for total time arbitrarily
-
+// TODO song length must be specified
+	totalTime = static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
 	ROW row;
 	u32 arrs;
 	for (int i = 0; i < 400; i++) {
@@ -201,7 +209,7 @@ void DefaultGameLogic::_init(const char *filename) {
 		}
 	}
 	armgr->sceneCursor = armgr->arrows.begin();
-	// TODO delete following lines
+// TODO delete following lines
 #ifdef DEBUG_SHOW_ARROW_GENERATION
 	printf("Generating following %d arrows:\n", armgr->arrows.size());
 	for (std::list<Arrow*>::iterator iter = armgr->arrows.begin();

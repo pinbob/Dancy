@@ -207,7 +207,7 @@ src/GameObject.d src/GameObject.o: ../src/GameObject.cpp \
  /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
  /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Config.h \
  ../src/Arrow.h ../src/../include/conio.h ../src/NotesLoader.h \
- ../src/NoteData.h ../src/NoteTypes.h ../src/note_config.h \
+ ../src/NoteData.h ../src/NoteTypes.h ../src/note_config.h ../src/Song.h \
  ../src/GameEventReceiver.h
 
 ../src/GameObject.h:
@@ -647,5 +647,7 @@ src/GameObject.d src/GameObject.o: ../src/GameObject.cpp \
 ../src/NoteTypes.h:
 
 ../src/note_config.h:
+
+../src/Song.h:
 
 ../src/GameEventReceiver.h:
