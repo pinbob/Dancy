@@ -1,0 +1,95 @@
+body{
+	background-color: #ccc;
+	margin: 0px;
+	width: 100%;
+	overflow: hidden;
+	text-align: center;
+}
+
+#title{
+	width: 240px;
+	height: 90px;
+	position: relative;
+	margin-top: 30px;
+	background-image: url("../images/dancy0.jpg");
+}
+
+#subtitle{
+	font-size: 13px;
+	margin-bottom: 20px;
+	text-shadow: #fff 1px 1px 0px;
+}
+
+#mainScene{
+	display: none;
+	color: #ddd;
+	position: fixed;
+	top: 200px;
+	left: 200px;
+	padding: 30px;	
+	text-shadow: #333 1px 1px 0px;
+}
+
+#arrowGroup{
+	min-width: 300px;
+	min-height: 300px;
+	position: absolute;
+	width: auto;
+	height: auto;
+	display: none;
+}
+
+#upArrow{
+	float: left;
+	position: absolute;
+	left: 100px;
+	top: 0px;
+	width: 100px;
+	height: 100px;
+	background-image: url("../images/up.jpg");
+	cursor: n-resize;
+}
+
+#downArrow{
+	float: left;
+	position: absolute;
+	left: 100px;
+	top: 200px;
+	width: 100px;
+	height: 100px;
+	background-image: url("../images/down.jpg");
+	cursor: s-resize;
+}
+
+#rightArrow{
+	float: left;
+	position: absolute;
+	left: 200px;
+	top: 100px;
+	width: 100px;
+	height: 100px;
+	background-image: url("../images/right.jpg");
+	cursor: e-resize;
+}
+
+#leftArrow{
+	float: left;
+	position: absolute;
+	left: 0px;
+	top: 100px;
+	width: 100px;
+	height: 100px;
+	background-image: url("../images/left.jpg");
+	cursor: w-resize;
+}
+
+#centerArrow{
+	float: left;
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	width: 100px;
+	height: 100px;
+	background-image: url("../images/mat.jpg");
+	cursor: crosshair;
+}
