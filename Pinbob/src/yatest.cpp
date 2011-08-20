@@ -1,3 +1,4 @@
+#ifdef YATEST
 #include <stdio.h>
 #include <cstdlib>
 #include <ctime>
@@ -92,3 +93,5 @@ int main() {
   }
   return 0;
 }
+
+#endif

@@ -30,7 +30,7 @@ class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
 	DefaultGameLogic(u32 startTime, ArManager* armgr, GameInfo* gameinfo,
-			ISoundEngine* soundEngine, GameObject* gameObject);
+			ISoundEngine* soundEngine, GameObject* gameObject, char* songdir);
 
 	/**
 	 * Override the parent update function
@@ -62,6 +62,7 @@ protected:
 	NotesLoader notesLoader;
 	NoteData noteData;
 	int musicState;
+	char* songdir;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */

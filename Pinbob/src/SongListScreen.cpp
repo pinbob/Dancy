@@ -11,7 +11,7 @@ SongListScreen::SongListScreen(IrrlichtDevice *pDevice,
 	backPath = "asset/images/back.png";
 	back = m_pDriver->getTexture(backPath);
 	songcollection = new SongCollection();
-	songcollection->LoadSongs("asset/songs/Catch Me");
+	songcollection->LoadSongs("asset/songs");
 	res = 0;
 }
 
@@ -93,6 +93,7 @@ SongListScreen::~SongListScreen() {
 
 void SongListScreen::drawScene() {
 	IGUISkin* skin = m_pGuienv->getSkin();
+	//Font cannot load
 	IGUIFont* font = m_pGuienv->getFont("asset/images/font.png");
 	if (font)
 		skin->setFont(font);
@@ -116,8 +117,9 @@ void SongListScreen::drawScene() {
 	listbox = m_pGuienv->addListBox(
 			rect<s32>(screenWidth / 4, 34 * screenHeight / 100,
 					3 * screenWidth / 4, 9 * screenHeight / 10), 0, true);
-	for (int i = 0; i < 10; i++) {
-		//listbox->addItem(L"song list");
+
+	printf("%d songs loaded.\n", songcollection->song_list().size());
+	for (unsigned int i = 0; i < songcollection->song_list().size(); i++) {
 		listbox->addItem(
 				stringw(songcollection->song_list().at(i).main_title().c_str()).c_str(),
 				1);

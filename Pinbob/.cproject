@@ -51,6 +51,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.libs.1152911043" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="Irrlicht"/>
+									<listOptionValue builtIn="false" value="vorbisfile"/>
 									<listOptionValue builtIn="false" value="IrrKlang"/>
 									<listOptionValue builtIn="false" value="gstreamer-0.10"/>
 									<listOptionValue builtIn="false" value="ARgsub"/>
@@ -74,6 +75,11 @@
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.debug" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.141104446" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1132450896"/>
 							<tool command="g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1463910124" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.343349975">
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1353635900" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="TEST_ARMANAGER"/>
+									<listOptionValue builtIn="false" value="TEST_ALL"/>
+									<listOptionValue builtIn="false" value="_DEBUG"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.240564128" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool command="gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1145254606" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1349530991">

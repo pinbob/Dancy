@@ -14,11 +14,12 @@
 #include <GL/glu.h>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
-		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct) :
+		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct,
+		char* songdir) :
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
 				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), soundEngine(
 				soundEngine), musicState(MUSIC_PRE), musicOffset(0), totalTime(
-				0) {
+				0),songdir(songdir) {
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
@@ -52,7 +53,18 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	}
 
 	if (musicState == MUSIC_PRE && timePassed > PREPARE_TIME) {
+		char* songPath = (char*)malloc(strlen(songdir)
+					+strlen("asset/songs/")+strlen("/01.ogg")+1);
+		sprintf(songPath, "asset/songs/%s/01.ogg", songdir);
+#ifdef TEST_ALL
+		printf("songpath : %s \n",songPath);
+		soundEngine->play2D(songPath, true);
+#elif defined TEST_GAME
 		soundEngine->play2D("./asset/songs/Canon.ogg", true);
+#endif
+		if (songPath) {
+			free(songPath);
+		}
 		musicOffset = timePassed - PREPARE_TIME;
 		musicState = MUSIC_PLAYING;
 	}
@@ -155,8 +167,21 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 void DefaultGameLogic::_init(const char *filename) {
 	// TODO pass the filename of the song
 	SongInfo loadedSong;
-	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData,
+	char* oggPath = (char*)malloc(strlen(songdir)
+			+strlen("asset/songs/")+strlen("/default.bms")+1);
+	sprintf(oggPath, "asset/songs/%s/default.bms", songdir);
+#ifdef TEST_ALL
+	printf("oggpath : %s \n",oggPath);
+
+	notesLoader.LoadFromFile(oggPath, &noteData,
 			loadedSong);
+#elif defined TEST_GAME
+	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData,
+				loadedSong);
+#endif
+	if (oggPath) {
+		free(oggPath);
+	}
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 
 	// TODO song length must be specified

@@ -30,8 +30,9 @@ void GameObject::activate(IState* pPrevious) {
 	if (!soundEngine) {
 		throw int(1); // TODO handle exception later
 	}
+	//FIXME I don't know why should put more arguments
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
-			&gameInfo, soundEngine, this);
+			&gameInfo, soundEngine, this, this->currentSong);
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
