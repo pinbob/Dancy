@@ -143,7 +143,12 @@ void IARManager::drawBackground() {
 #ifdef WIN32 
 	dimension2d<u32> img_size = scrn_size;
 #else 
-	dimension2d<u32> img_size = this->cam_texture->getSize();
+	dimension2d<u32> img_size;
+	if (this->cam_texture) {
+		img_size = this->cam_texture->getSize();
+	} else {
+		img_size = dimension2d<u32>(320,240);
+	}
 #endif
 
 	this->driver->draw2DImage(this->cam_texture,

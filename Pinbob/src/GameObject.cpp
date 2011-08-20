@@ -30,6 +30,7 @@ void GameObject::activate(IState* pPrevious) {
 	if (!soundEngine) {
 		throw int(1); // TODO handle exception later
 	}
+	eventListener.setStatus(IG_UPDATE);
 	//FIXME I don't know why should put more arguments
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
 			&gameInfo, soundEngine, this, this->currentSong);
