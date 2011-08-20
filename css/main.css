@@ -11,6 +11,7 @@ body{
 	height: 90px;
 	position: relative;
 	margin-top: 30px;
+	display: none;
 	background-image: url("../images/dancy0.jpg");
 }
 
@@ -20,13 +21,19 @@ body{
 	text-shadow: #fff 1px 1px 0px;
 }
 
+.info{
+	position: absolute;
+	display: none;
+	z-index: 1;
+}
+
 #mainScene{
 	display: none;
 	color: #ddd;
 	position: fixed;
 	top: 200px;
 	left: 200px;
-	padding: 30px;	
+	padding: 20px;	
 	text-shadow: #333 1px 1px 0px;
 }
 

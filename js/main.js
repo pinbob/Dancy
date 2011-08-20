@@ -12,14 +12,34 @@ function init(){
 	}, function(){
 		$("#title").css("background-image", "url('images/dancy0.jpg')");
 	});
+	$("#title").show();
 
 	//set arrow group to center
 	centerGroup();
 	$("#arrowGroup").fadeIn(2 * SECOND);
 
 	//set main scene
-	$("#mainScene").css("width", window.innerWidth - 460);//centering
-	$("#mainScene").css("height", window.innerHeight - 460);
+	$("#mainScene").css("width", window.innerWidth - 440);//centerin
+	$("#mainScene").css("height", window.innerHeight - 440);
+
+	//set info: 180*60 to center of group
+	$(".info").css("left", 150 - 90);
+	$(".info").css("top", 150 - 30);
+	$("#leftArrow,#rightArrow,#upArrow,#downArrow").mouseout(function(){
+		$(".info").fadeOut(SECOND / 2);
+	});
+	$("#upArrow").mouseenter(function(){
+		$("#who").fadeIn(SECOND);
+	});
+	$("#rightArrow").mouseenter(function(){
+		$("#why").fadeIn(SECOND);
+	});
+	$("#leftArrow").mouseenter(function(){
+		$("#how").fadeIn(SECOND);
+	});
+	$("#downArrow").mouseenter(function(){
+		$("#what").fadeIn(SECOND);
+	});
 
 	//set mouse events handler
 	$("#centerArrow").click(function(){
@@ -33,7 +53,7 @@ function init(){
 		//hide scene
 		$("#mainScene").fadeOut(SECOND, function(){
 			moveGroup(true, groupTop);
-			setTimeout("showScene(1)", SECOND);
+			setTimeout("showScene(4)", SECOND);
 		});
 	});
 	$("#rightArrow").click(function(){
@@ -54,7 +74,7 @@ function init(){
 		//hide scene
 		$("#mainScene").fadeOut(SECOND, function(){
 			moveGroup(groupLeft, true);
-			setTimeout("showScene(4)", SECOND);
+			setTimeout("showScene(1)", SECOND);
 		});
 	});
 }
@@ -92,16 +112,16 @@ function showScene(index){
 	switch(index){
 	case 0:
 		return;
-	case 1:
-		//Who(green)
+	case 4:
+		//Who(red)
 		$("#mainScene").html("<h1>WHO made it</h1><p>Some content...To be accomplished.</p>");
-		$("#mainScene").css("background", "#7a0804");
-		$("#mainScene").css("background", "-moz-linear-gradient(left,  #7a0804 0%, #ab2523 30%, #d43e30 100%)");
-		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#7a0804), color-stop(30%,#ab2523), color-stop(100%,#d43e30))");
-		$("#mainScene").css("background", "-webkit-linear-gradient(left,  #7a0804 0%,#ab2523 30%,#d43e30 100%)");
-		$("#mainScene").css("background", "-o-linear-gradient(left,  #7a0804 0%,#ab2523 30%,#d43e30 100%)");
-		$("#mainScene").css("background", "-ms-linear-gradient(left,  #7a0804 0%,#ab2523 30%,#d43e30 100%)");
-		$("#mainScene").css("background", "linear-gradient(left,  #7a0804 0%,#ab2523 30%,#d43e30 100%)");
+		$("#mainScene").css("background", "#9d2f2c");
+		$("#mainScene").css("background", "-moz-linear-gradient(left,  #9d2f2c 0%, #ab2523 30%, #d45549 100%)");
+		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#9d2f2c), color-stop(30%,#ab2523), color-stop(100%,#d45549))");
+		$("#mainScene").css("background", "-webkit-linear-gradient(left,  #9d2f2c 0%,#ab2523 30%,#d45549 100%)");
+		$("#mainScene").css("background", "-o-linear-gradient(left,  #9d2f2c 0%,#ab2523 30%,#d45549 100%)");
+		$("#mainScene").css("background", "-ms-linear-gradient(left,  #9d2f2c 0%,#ab2523 30%,#d45549 100%)");
+		$("#mainScene").css("background", "linear-gradient(left,  #9d2f2c 0%,#ab2523 30%,#d45549 100%)");
 		break;
 
 	case 2:
@@ -128,8 +148,8 @@ function showScene(index){
 		$("#mainScene").css("background", "linear-gradient(left,  #0d57a7 0%,#147db5 100%)");
 		break;
 
-	case 4:
-		//How(red)
+	case 1:
+		//How(green)
 		$("#mainScene").html("<h1>HOW to play</h1><p>Some content...To be accomplished.</p>");
 		$("#mainScene").css("background", "#2c7a11");
 		$("#mainScene").css("background", "-moz-linear-gradient(left, #2c7a11 0%, #7ca314 100%)");
