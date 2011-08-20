@@ -19,8 +19,8 @@ function init(){
 	$("#arrowGroup").fadeIn(2 * SECOND);
 
 	//set main scene
-	$("#mainScene").css("width", window.innerWidth - 440);//centerin
-	$("#mainScene").css("height", window.innerHeight - 440);
+	$("#mainScene").css("width", window.innerWidth - 500);//centering
+	$("#mainScene").css("height", window.innerHeight - 420);
 
 	//set info: 180*60 to center of group
 	$(".info").css("left", 150 - 90);
@@ -138,7 +138,7 @@ function showScene(index){
 
 	case 3:
 		//What(blue)
-		$("#mainScene").html("<h1>WHAT is Dancy</h1><p>Some content...To be accomplished.</p>");
+		$("#mainScene").html("<h1>WHAT is Dancy</h1><p>Dancy is an <a href='http://en.wikipedia.org/wiki/Augmented_reality'>Augmented reality</a> based game designed for Meego OS.</p>");
 		$("#mainScene").css("background", "#0d57a7");
 		$("#mainScene").css("background", "-moz-linear-gradient(left,  #0d57a7 0%, #147db5 100%)");
 		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#0d57a7), color-stop(100%,#147db5))");
