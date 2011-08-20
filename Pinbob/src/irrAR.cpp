@@ -285,6 +285,8 @@ void IARManager::our_convert_trans_para(double para[3][4], double gl_para[16]) {
 
 ITexture* IARManager::update_ITexture(ITexture *dest, ARUint8 *ardata) {
 	u8* pixels;
+	if (dest == NULL)
+		return NULL;
 	pixels = (u8*) (dest->lock());
 	if (pixels) {
 		int max_pixels = dest->getSize().Width * dest->getSize().Height;
@@ -471,6 +473,7 @@ void IARManager::closeAR() {
 	if (arVideoClose() <0) {
 		printf("Ar can not close");
 	}
+
 	//argCleanup();
 	printf("AR closed\n");
 }

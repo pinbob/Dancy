@@ -38,7 +38,7 @@ void GameObject::activate(IState* pPrevious) {
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
  * @param pNext the next active state */
 void GameObject::deactivate(IState* pNext) {
-
+	soundEngine->drop();
 	m_pDevice->getSceneManager()->clear();
 	m_pDevice->getCursorControl()->setVisible(true);
 	m_pGuienv->clear();
