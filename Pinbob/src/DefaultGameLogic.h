@@ -37,7 +37,7 @@ public:
 	 * Override the parent update function
 	 */
 	virtual int update(u32 delta, u32 now, u8 hit);
-
+	virtual void close();
 	virtual ~DefaultGameLogic();
 	u32 getState() const;
 	void setState(u32 state);

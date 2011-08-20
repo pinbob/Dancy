@@ -28,6 +28,7 @@ public:
 	virtual void setState(u32 newState) {
 		state = newState;
 	}
+	virtual void close() = 0;
 protected:
 	friend class ArManager;
 	u32 state;

@@ -106,6 +106,10 @@ void ArManager::destroyCountdown() {
 		prepareNode->setVisible(false);
 }
 
+void ArManager::close() {
+	armgr->closeAR();
+}
+
 int ArManager::update(u32 deltaTime, u8 hit) {
 	if (deltaTime != 0) {
 		_repaintArrows(deltaTime);
@@ -318,6 +322,7 @@ void ArManager::_initAR() {
 	// set ambient light
 	//smgr->setAmbientLight(video::SColor(0, 255, 255, 255));
 	//init the camera
+
 	armgr->beginCamera(cparam_name, 0, vconf);
 	armgr->addARSceneNode(patt_name, mainNode, 123);
 	armgr->fixCamera(camera);

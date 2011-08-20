@@ -122,7 +122,7 @@ private:
 	void _updateScore(u32 score);
 	/* update combo */
 	void _updateCombo(u32 delta);
-	void _showPauseMenu();
+	u32 _showPauseMenu();
 	void _hidePauseMenu();
 	u32 lastHit;
 	u32 lastScore;

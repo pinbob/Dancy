@@ -464,3 +464,13 @@ void IARManager::our_argConvGLcpara2(double cparam[3][4], int width, int height,
 				+ q[i][2] * trans[2][3] + q[i][3];
 	}
 }
+
+void IARManager::closeAR() {
+	arVideoCapStop();
+
+	if (arVideoClose() <0) {
+		printf("Ar can not close");
+	}
+	//argCleanup();
+	printf("AR closed\n");
+}

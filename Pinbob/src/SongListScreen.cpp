@@ -93,12 +93,12 @@ SongListScreen::~SongListScreen() {
 }
 
 void SongListScreen::drawScene() {
-	IGUISkin* skin = m_pGuienv->getSkin();
+	//IGUISkin* skin = m_pGuienv->getSkin();
 	//Font cannot load
-	IGUIFont* font = m_pGuienv->getFont("asset/images/font.png");
-	if (font)
-		skin->setFont(font);
-	skin->setFont(m_pGuienv->getBuiltInFont(), EGDF_TOOLTIP);
+	//IGUIFont* font = m_pGuienv->getFont("asset/images/font.png");
+//	if (font)
+//		skin->setFont(font);
+//	skin->setFont(m_pGuienv->getBuiltInFont(), EGDF_TOOLTIP);
 	m_pGuienv->addImage(back, core::position2d<s32>(0, 0), -1, 0);
 	u32 screenWidth = m_pDevice->getVideoDriver()->getScreenSize().Width;
 	u32 screenHeight = m_pDevice->getVideoDriver()->getScreenSize().Height;

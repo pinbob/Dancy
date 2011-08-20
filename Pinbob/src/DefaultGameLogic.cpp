@@ -133,6 +133,11 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	return IG_UPDATE;
 }
 
+void DefaultGameLogic::close() {
+	currentSong->drop();
+	armgr->close();
+}
+
 void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 // determines whether or not there's arrows in the epsilon area
 	bool hasArrow = false;

@@ -39,15 +39,18 @@ void GameObject::activate(IState* pPrevious) {
  * @param pNext the next active state */
 void GameObject::deactivate(IState* pNext) {
 
+	m_pDevice->getSceneManager()->clear();
+	m_pDevice->getCursorControl()->setVisible(true);
+	m_pGuienv->clear();
 }
 
 /*  This method is called by the state manager on each form.
  *  @return "0" is no state change is wanted, "index of new state-1" to switch to another state, out of bounds index to quit program */
 u32 GameObject::update(void) {
+	u32 retval = 0;
 	const u32 now = device->getTimer()->getTime();
 	const u32 delta = now - then;
 	then = now;
-
 	driver->beginScene(true, true, 0);
 	lastHit = eventListener.getHitStatus();
 	int res = logic->update(delta, now, lastHit);
@@ -72,7 +75,10 @@ u32 GameObject::update(void) {
 		break;
 	case IG_PAUSE:
 		eventListener.setStatus(IG_PAUSE);
-		_showPauseMenu();
+		if ((retval = _showPauseMenu()) != 0) {
+			logic->close();
+			return retval;
+		}
 		break;
 	default:
 		break;
@@ -83,7 +89,7 @@ u32 GameObject::update(void) {
 	guienv->drawAll();
 	driver->endScene();
 
-	return 0;
+	return retval;
 }
 
 void GameObject::_updateCombo(u32 delta) {
@@ -107,12 +113,12 @@ void GameObject::_updateCombo(u32 delta) {
 			if (combo > 999) {
 				combo = 999;
 			}
-			for (int i=100; i>0; i/=10) {
-				if ((combo/i != 0 && counter == 0) || counter !=0) {
+			for (int i = 100; i > 0; i /= 10) {
+				if ((combo / i != 0 && counter == 0) || counter != 0) {
 					this->combo[counter]->setVisible(true);
-					this->combo[counter]->setImage(digits[combo/i]);
-					combo -= (combo/i)*i;
-					counter ++;
+					this->combo[counter]->setImage(digits[combo / i]);
+					combo -= (combo / i) * i;
+					counter++;
 				}
 			}
 		}
@@ -120,7 +126,7 @@ void GameObject::_updateCombo(u32 delta) {
 	}
 }
 
-void GameObject::_showPauseMenu() {
+u32 GameObject::_showPauseMenu() {
 	for (int i = 0; i < GP_LENGTH; i++) {
 		//if (pauseMenu[i]->isVisible())
 		//	break;
@@ -132,7 +138,7 @@ void GameObject::_showPauseMenu() {
 		pauseMenu[lastHit & (~HOVER_STATE)]->setColor(
 				SColor(125, 255, 255, 255));
 	} else if (lastHit & CLICK_STATE) {
-		printf("in click state, lastHit is %d\n", lastHit);
+		// printf("in click state, lastHit is %d\n", lastHit);
 		switch (lastHit & (~CLICK_STATE)) {
 		case GP_CONTINUE:
 			// resume the game
@@ -142,15 +148,17 @@ void GameObject::_showPauseMenu() {
 			lastHit = 0;
 			break;
 		case GP_RESTART:
-
+			return START_GAME;
 			break;
 		case GP_MAIN_MENU:
+			return MAIN_MENU_STATE;
 			break;
 		default:
 			break;
 		}
 		lastHit = 0;
 	}
+	return 0;
 }
 
 void GameObject::_initMenu() {

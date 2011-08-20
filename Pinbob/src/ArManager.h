@@ -89,6 +89,7 @@ public:
 	int getScore();
 	void updateCountdown(u32 timePassed);
 	void destroyCountdown();
+	void close();
 	/**
 	 * The destructor
 	 */

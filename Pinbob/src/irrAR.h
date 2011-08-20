@@ -41,6 +41,7 @@ class IARManager
 		int run();
 		void drawBackground();
 		void fixCamera(ICameraSceneNode* camera);
+		void closeAR();
 		
 	private:
 		int initCamera(char* cparam_filename, char* vconf_filename, int *xsize, int *ysize);

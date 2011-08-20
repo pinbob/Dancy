@@ -77,7 +77,7 @@ GameEventReceiver::~GameEventReceiver() {
 }
 
 u32 GameEventReceiver::getHitStatus() const {
-	printf("Hit status is %d n\n", hitStatus);
+//	printf("Hit status is %d n\n", hitStatus);
 	return hitStatus;
 }
 
