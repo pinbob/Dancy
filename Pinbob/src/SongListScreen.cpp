@@ -84,12 +84,6 @@ bool SongListScreen::OnEvent(const SEvent& event) {
 }
 
 SongListScreen::~SongListScreen() {
-	if (backPath)
-		delete backPath;
-	if (back)
-		delete back;
-	if (listbox)
-		delete listbox;
 }
 
 void SongListScreen::drawScene() {

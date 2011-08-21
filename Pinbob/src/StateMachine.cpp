@@ -17,6 +17,7 @@ using namespace std;
 #include "MenuFactory.h"
 #include "GameObject.h"
 #include "SongListScreen.h"
+#include "GameOverState.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -73,7 +74,8 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	addState(m_pGameObj); //5
         
 	//add more states here
-
+	m_pGameOverState = new GameOverState(m_pDevice, this);
+	addState(m_pGameOverState); // 6
 	
 	//first of all,activate the main menu state
 	m_pActive=m_pMenu[IState::MAIN_MENU_STATE];

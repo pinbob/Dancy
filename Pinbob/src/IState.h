@@ -1,7 +1,7 @@
 /***********************************************************************
  * Module:  IState.h
  * Author:  liwenhaosuper
- * Modified: 2011Äê07ÔÂ21ÈÕ 16:39:14
+ * Modified: 2011ï¿½ï¿½07ï¿½ï¿½21ï¿½ï¿½ 16:39:14
  * Purpose: Declaration of the class IState
  ***********************************************************************/
 
@@ -41,8 +41,11 @@ public:
 	   SONG_STATE,        //song state  
 	   CREDITS_STATE,     //credits
 	   START_GAME,        //start game
+	   GAME_OVER_STATE,
 	   SCORE_STATE,        //high score 
+
 	   OPTIONS_STATE,     //options
+
 	   QUIT_STATE = 10086       //quit game
    };
 

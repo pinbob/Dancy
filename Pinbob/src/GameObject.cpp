@@ -78,8 +78,11 @@ u32 GameObject::update(void) {
 		eventListener.setStatus(IG_PAUSE);
 		if ((retval = _showPauseMenu()) != 0) {
 			logic->close();
-			return retval;
+			//return retval;
 		}
+		break;
+	case IG_GAMEOVER:
+		retval = GAME_OVER_STATE;
 		break;
 	default:
 		break;
@@ -189,7 +192,7 @@ void GameObject::_initMenu() {
 		combo[i] = guienv->addImage(
 				rect<s32>(540 + i * 25, 25, 565 + i * 25, 60), 0);
 		combo[i]->setScaleImage(true);
-		combo[i]->setUseAlphaChannel(true);\
+		combo[i]->setUseAlphaChannel(true);
 		combo[i]->setVisible(false);
 	}
 
@@ -238,7 +241,5 @@ void GameObject::_hidePauseMenu() {
 }
 
 GameObject::~GameObject() {
-	// TODO Auto-generated destructor stub
-	delete[] widgets;
 }
 

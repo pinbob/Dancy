@@ -14,6 +14,7 @@ CPP_SRCS += \
 ../src/GameEventReceiver.cpp \
 ../src/GameInfo.cpp \
 ../src/GameObject.cpp \
+../src/GameOverState.cpp \
 ../src/HighScore.cpp \
 ../src/MenuFactory.cpp \
 ../src/MenuHandler.cpp \
@@ -43,6 +44,7 @@ OBJS += \
 ./src/GameEventReceiver.o \
 ./src/GameInfo.o \
 ./src/GameObject.o \
+./src/GameOverState.o \
 ./src/HighScore.o \
 ./src/MenuFactory.o \
 ./src/MenuHandler.o \
@@ -72,6 +74,7 @@ CPP_DEPS += \
 ./src/GameEventReceiver.d \
 ./src/GameInfo.d \
 ./src/GameObject.d \
+./src/GameOverState.d \
 ./src/HighScore.d \
 ./src/MenuFactory.d \
 ./src/MenuHandler.d \

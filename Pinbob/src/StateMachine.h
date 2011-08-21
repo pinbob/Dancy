@@ -30,6 +30,7 @@ class GameHandler;
 class IState;
 class GameObject;
 class SongListScreen;
+class GameOverState;
 
 class StateMachine
 {
@@ -106,7 +107,7 @@ public:
 	GameObject            *m_pGameObj;              /**< the "game" state */
 	SongListScreen        *m_pSelectSongScreen;
 	//add more elements here
-
+	GameOverState	      *m_pGameOverState;
 };
 
 #endif

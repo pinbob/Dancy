@@ -25,7 +25,7 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		strncpy(songdir, song->main_title().c_str(), song->main_title().size());
 		songdir[strlen(songdir)-1] = '\0';
 	} else {
-			songdir = new char[strlen(song->main_title().c_str())+1];
+			songdir = new char[song->main_title().size()+1];
 			strcpy(songdir,song->main_title().c_str());
 		}
 #ifdef WIN32
@@ -88,7 +88,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	timePassed += delta;
 	if (timePassed < PREPARE_TIME) {
 		armgr->updateCountdown(timePassed);
-	} else {
+	} else if (timePassed < totalTime){
 		armgr->destroyCountdown();
 		if (timePassed - PREPARE_TIME < totalTime) {
 			float scale = 1.0
@@ -97,6 +97,8 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		} else {
 			// TODO gameover state
 		}
+	} else {
+		return IG_GAMEOVER;
 	}
 	armgr->update(delta, hit);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
@@ -207,8 +209,8 @@ void DefaultGameLogic::_init(const char *filename) {
 	}
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 
-// TODO song length must be specified
-	totalTime = static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
+
+	totalTime =  10000; //static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
 	ROW row;
 	u32 arrs;
 	for (int i = 0; i < 400; i++) {
