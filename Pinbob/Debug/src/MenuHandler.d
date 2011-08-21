@@ -1,5 +1,5 @@
-src/StateMachine.d src/StateMachine.o: ../src/StateMachine.cpp \
- ../src/StateMachine.h \
+src/MenuHandler.d src/MenuHandler.o: ../src/MenuHandler.cpp \
+ ../src/MenuHandler.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/IrrCompileConfig.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/aabbox3d.h \
@@ -176,6 +176,7 @@ src/StateMachine.d src/StateMachine.o: ../src/StateMachine.cpp \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SMeshBufferTangents.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SSharedMeshBuffer.h \
  /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h \
+ ../src/IState.h ../src/StateMachine.h \
  /home/yejiabin/Downloads/irrKlang-1.3.0/include/irrKlang.h \
  /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_irrKlangTypes.h \
  /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_vec3d.h \
@@ -196,23 +197,9 @@ src/StateMachine.d src/StateMachine.o: ../src/StateMachine.cpp \
  /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IFileReader.h \
  /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundStopEventReceiver.h \
  /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundDeviceList.h \
- /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioRecorder.h \
- ../src/IState.h ../src/ConfigFileManager.h ../src/IConfigFileReader.h \
- ../src/IConfigFileWriter.h ../src/MenuHandler.h ../src/SettingHandler.h \
- ../src/MenuFactory.h ../src/GameObject.h ../src/DefaultGameLogic.h \
- ../src/IGameLogic.h ../src/GameInfo.h ../src/Score.h ../src/ArManager.h \
- ../src/irrAR.h /home/yejiabin/Documents/ARToolKit/include/AR/video.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/config.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/ar.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/param.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h \
- /home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h ../src/Config.h \
- ../src/Arrow.h ../src/../include/conio.h ../src/NotesLoader.h \
- ../src/NoteData.h ../src/NoteTypes.h ../src/note_config.h ../src/Song.h \
- ../src/GameEventReceiver.h ../src/SongListScreen.h \
- ../src/SongCollection.h ../src/GameOverState.h
+ /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioRecorder.h
 
-../src/StateMachine.h:
+../src/MenuHandler.h:
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/irrlicht.h:
 
@@ -566,6 +553,10 @@ src/StateMachine.d src/StateMachine.o: ../src/StateMachine.cpp \
 
 /home/yejiabin/Documents/irrlicht-1.7.2/include/SViewFrustum.h:
 
+../src/IState.h:
+
+../src/StateMachine.h:
+
 /home/yejiabin/Downloads/irrKlang-1.3.0/include/irrKlang.h:
 
 /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_irrKlangTypes.h:
@@ -607,67 +598,3 @@ src/StateMachine.d src/StateMachine.o: ../src/StateMachine.cpp \
 /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_ISoundDeviceList.h:
 
 /home/yejiabin/Downloads/irrKlang-1.3.0/include/ik_IAudioRecorder.h:
-
-../src/IState.h:
-
-../src/ConfigFileManager.h:
-
-../src/IConfigFileReader.h:
-
-../src/IConfigFileWriter.h:
-
-../src/MenuHandler.h:
-
-../src/SettingHandler.h:
-
-../src/MenuFactory.h:
-
-../src/GameObject.h:
-
-../src/DefaultGameLogic.h:
-
-../src/IGameLogic.h:
-
-../src/GameInfo.h:
-
-../src/Score.h:
-
-../src/ArManager.h:
-
-../src/irrAR.h:
-
-/home/yejiabin/Documents/ARToolKit/include/AR/video.h:
-
-/home/yejiabin/Documents/ARToolKit/include/AR/config.h:
-
-/home/yejiabin/Documents/ARToolKit/include/AR/ar.h:
-
-/home/yejiabin/Documents/ARToolKit/include/AR/param.h:
-
-/home/yejiabin/Documents/ARToolKit/include/AR/sys/videoGStreamer.h:
-
-/home/yejiabin/Documents/ARToolKit/include/AR/arMulti.h:
-
-../src/Config.h:
-
-../src/Arrow.h:
-
-../src/../include/conio.h:
-
-../src/NotesLoader.h:
-
-../src/NoteData.h:
-
-../src/NoteTypes.h:
-
-../src/note_config.h:
-
-../src/Song.h:
-
-../src/GameEventReceiver.h:
-
-../src/SongListScreen.h:
-
-../src/SongCollection.h:
-
-../src/GameOverState.h:
