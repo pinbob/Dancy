@@ -18,6 +18,7 @@ using namespace std;
 #include "GameObject.h"
 #include "SongListScreen.h"
 #include "GameOverState.h"
+
 #ifdef WIN32
 #include <Windows.h>
 #endif

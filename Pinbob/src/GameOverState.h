@@ -11,6 +11,14 @@
 #include "IState.h"
 #include "GameInfo.h"
 
+static const char* goverImage[5] = {
+		"asset/images/perfect.png",
+		"asset/images/wellDone.png",
+		"asset/images/good.png",
+		"asset/images/bad.png",
+		"asset/images/missed.png"
+};
+
 class GameOverState: public IState, public IEventReceiver {
 public:
 	GameOverState(IrrlichtDevice *pDevice,
@@ -21,7 +29,7 @@ public:
 	virtual void deactivate(IState* pNext);
 	virtual bool OnEvent(const SEvent& event);
 	void setGameInfo(GameInfo* info)
-	{ info = currentInfo; }
+	{ currentInfo = info; }
 private:
 	struct SMouseState {
 		bool isMouseUp;
@@ -34,8 +42,9 @@ private:
 	IGUIImage* back;
 	ITexture* digit[10];
 	void _init();
-	void _showScore();
+	void _showScore(int idx,u32 score);
 	GameInfo* currentInfo;
+	u32 ret; // return value
 };
 
 #endif /* GAMEOVERSTATE_H_ */

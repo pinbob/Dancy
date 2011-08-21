@@ -6,6 +6,7 @@
  */
 
 #include "GameObject.h"
+#include "GameOverState.h"
 
 GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 		u32 startTime) :
@@ -83,6 +84,7 @@ u32 GameObject::update(void) {
 		break;
 	case IG_GAMEOVER:
 		retval = GAME_OVER_STATE;
+		m_pStateMachine->m_pGameOverState->setGameInfo(&gameInfo);
 		break;
 	default:
 		break;
