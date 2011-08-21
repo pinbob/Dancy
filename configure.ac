@@ -4,7 +4,7 @@
 AC_PREREQ([2.65])
 AC_INIT([dancy], [0.5])
 AM_INIT_AUTOMAKE([-Wall -Werror])
-AC_CONFIG_SRCDIR([src/SongCollection.cpp])
+AC_CONFIG_SRCDIR([src/test.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -26,6 +26,6 @@ AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([floor memset pow sqrt strstr])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
 
