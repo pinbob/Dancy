@@ -121,7 +121,7 @@ function showScene(index){
 		return;
 	case 4:
 		//How(green)
-		$("#mainScene").html("<h1>HOW to play</h1><img src='images/screen.png' style='position: absolute; left: 20px; top: 70px;' /><p style='margin-left: 160px''>Dancy is easy to please with. As the picture shown on the left side, there are arrow-like buttons on the screen. When game starts, you should press these buttons as the arrows dropping in the 3D scene. It may looks like <a href='javascript:;' onclick='$(\"#gameImg\").fadeIn(1000);'>this</a>.<br><br>Just enjoy yourself with it!</p>");
+		$("#mainScene").html("<h1>HOW to play</h1><img src='images/screen.png' style='position: absolute; left: 20px; top: 70px;' /><p style='margin-left: 160px''>Dancy is easy to play with. As the picture shown on the left side, there are arrow-like buttons on the screen. When game starts, you should press these buttons as the arrows dropping in the 3D scene. It may looks like <a href='javascript:;' onclick='$(\"#gameImg\").fadeIn(1000);'>this</a>.<br><br>Just enjoy yourself with it!</p>");
 		$("#mainScene").css("background", "#9d2f2c");
 		$("#mainScene").css("background", "-moz-linear-gradient(left,  #9d2f2c 0%, #ab2523 30%, #d45549 100%)");
 		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#9d2f2c), color-stop(30%,#ab2523), color-stop(100%,#d45549))");
