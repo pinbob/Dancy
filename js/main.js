@@ -84,6 +84,11 @@ function init(){
 	$("#gameImg").mouseout(function(){
 		$("#gameImg").fadeOut(SECOND);
 	});
+
+	//download image init
+	$("#download").css("left", (window.innerWidth - 100));
+	$("#download").css("top", (window.innerHeight - 100));
+	$("#download").fadeIn(SECOND);
 }
 
 function centerGroup(){

@@ -43,7 +43,6 @@ body{
 	left: 200px;
 	padding: 10px 50px 10px 50px;	
 	text-shadow: #333 1px 1px 0px;
-	overflow: hidden;
 }
 
 #mainScene h1{
@@ -126,4 +125,9 @@ body{
 	height: 100px;
 	background-image: url("../images/mat.jpg");
 	cursor: crosshair;
+}
+
+#download{
+	display: none;
+	position: absolute;
 }
