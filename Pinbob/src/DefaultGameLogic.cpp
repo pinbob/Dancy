@@ -88,7 +88,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	timePassed += delta;
 	if (timePassed < PREPARE_TIME) {
 		armgr->updateCountdown(timePassed);
-	} else if (timePassed < totalTime){
+	} else if (timePassed < totalTime + PREPARE_TIME){
 		armgr->destroyCountdown();
 		if (timePassed - PREPARE_TIME < totalTime) {
 			float scale = 1.0
@@ -210,7 +210,7 @@ void DefaultGameLogic::_init(const char *filename) {
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 
 
-	totalTime =  10000; //static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
+	totalTime =  5000; //static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
 	ROW row;
 	u32 arrs;
 	for (int i = 0; i < 400; i++) {

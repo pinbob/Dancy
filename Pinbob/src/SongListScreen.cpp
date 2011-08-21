@@ -84,6 +84,7 @@ bool SongListScreen::OnEvent(const SEvent& event) {
 }
 
 SongListScreen::~SongListScreen() {
+
 }
 
 void SongListScreen::drawScene() {
