@@ -210,7 +210,7 @@ void DefaultGameLogic::_init(const char *filename) {
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 
 
-	totalTime =  5000; //static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
+	totalTime = static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
 	ROW row;
 	u32 arrs;
 	for (int i = 0; i < 400; i++) {
