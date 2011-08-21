@@ -77,6 +77,13 @@ function init(){
 			setTimeout("showScene(1)", SECOND);
 		});
 	});
+
+	//gameImg init
+	$("#gameImg").css("left", (window.innerWidth - 710) / 2);
+	$("#gameImg").css("top", (window.innerHeight - 571) / 2);
+	$("#gameImg").mouseout(function(){
+		$("#gameImg").fadeOut(SECOND);
+	});
 }
 
 function centerGroup(){
@@ -113,8 +120,8 @@ function showScene(index){
 	case 0:
 		return;
 	case 4:
-		//Who(red)
-		$("#mainScene").html("<h1>WHO made it</h1><p>Some content...To be accomplished.</p>");
+		//How(green)
+		$("#mainScene").html("<h1>HOW to play</h1><img src='images/screen.png' style='position: absolute; left: 20px; top: 70px;' /><p style='margin-left: 160px''>Dancy is easy to please with. As the picture shown on the left side, there are arrow-like buttons on the screen. When game starts, you should press these buttons as the arrows dropping in the 3D scene. It may looks like <a href='javascript:;' onclick='$(\"#gameImg\").fadeIn(1000);'>this</a>.<br><br>Just enjoy yourself with it!</p>");
 		$("#mainScene").css("background", "#9d2f2c");
 		$("#mainScene").css("background", "-moz-linear-gradient(left,  #9d2f2c 0%, #ab2523 30%, #d45549 100%)");
 		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#9d2f2c), color-stop(30%,#ab2523), color-stop(100%,#d45549))");
@@ -126,7 +133,7 @@ function showScene(index){
 
 	case 2:
 		//Why(yellow)
-		$("#mainScene").html("<h1>WHY would you like it</h1><p>Some content...To be accomplished.</p>");
+		$("#mainScene").html("<h1>WHY would you like it</h1><p>First of all, <i>IT'S COOL!</i><br>Augmented Reality adds to a unique game experience.<br>Dancy is designed specially for MeeGo OS, simple but fancy.<br><br>Tell <a href='mailto:pinbob.sjtu@gmail.com'>me</a> more if you like it. :)</p>");
 		$("#mainScene").css("background", "#9a5c0d");
 		$("#mainScene").css("background", "-moz-linear-gradient(left,  #9a5c0d 0%,  #d3a11c 100%)");
 		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#9a5c0d), color-stop(100%,#d3a11c))");
@@ -138,7 +145,7 @@ function showScene(index){
 
 	case 3:
 		//What(blue)
-		$("#mainScene").html("<h1>WHAT is Dancy</h1><p>Dancy is an <a href='http://en.wikipedia.org/wiki/Augmented_reality'>Augmented reality</a> based game designed for Meego OS.</p>");
+		$("#mainScene").html("<h1>WHAT is Dancy</h1><p>Dancy is an <a href='http://en.wikipedia.org/wiki/Augmented_reality'>Augmented reality</a> based game designed for <a href='https://meego.com/'>Meego OS</a>. It is inspired by dancing mat game which was popular once upon a time.<br><br>Click <a href='javascript:;' onclick='$(\"#gameImg\").fadeIn(1000);'>here</a> to see a demo.</p>");
 		$("#mainScene").css("background", "#0d57a7");
 		$("#mainScene").css("background", "-moz-linear-gradient(left,  #0d57a7 0%, #147db5 100%)");
 		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#0d57a7), color-stop(100%,#147db5))");
@@ -149,8 +156,8 @@ function showScene(index){
 		break;
 
 	case 1:
-		//How(green)
-		$("#mainScene").html("<h1>HOW to play</h1><p>Some content...To be accomplished.</p>");
+		//Who(red)
+		$("#mainScene").html("<h1>WHO made it</h1><p>Dancy is <a href='https://github.com/pinbob' target='_blank'>PinBob</a>'s team work.<br><br>Team member includes:<br><a href='https://github.com/alpha360x' target='_blank'>alpha360x</a>: alpha360x@gmail.com<br><a href='https://github.com/liwenhaosuper'>liwenhaosuper</a>: liwenhaosuper@126.com<br><a href='https://github.com/Ovilia' target='_blank'>Ovilia</a>: zwl.sjtu@gmail.com<br><a href='https://github.com/styx-hy'>styx-hy</a>: tcsyxx6350@gmail.com</p><img src='images/pinbob.png' style='float: right; position: relative; top: -200px;' />");
 		$("#mainScene").css("background", "#2c7a11");
 		$("#mainScene").css("background", "-moz-linear-gradient(left, #2c7a11 0%, #7ca314 100%)");
 		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#2c7a11), color-stop(100%,#7ca314))");

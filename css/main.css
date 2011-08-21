@@ -27,23 +27,36 @@ body{
 	z-index: 1;
 }
 
+#gameImg{
+	position: absolute;
+	width: 710px;
+	height: 571px;
+	z-index: 2;
+	display: none;
+}
+
 #mainScene{
 	display: none;
-	color: #ccc;
+	color: #ddd;
 	position: fixed;
 	top: 200px;
 	left: 200px;
 	padding: 10px 50px 10px 50px;	
 	text-shadow: #333 1px 1px 0px;
+	overflow: hidden;
 }
 
 #mainScene h1{
 	color: #fff;
+	text-shadow: #333 2px 2px 0px;
+	font-family: 'Delius Swash Caps', sans-serif;
 }
 
 #mainScene p{
 	text-align: left;
-	text-indent: 2em;
+	font-family: 'Copse', sans-serif;
+	font-size: 18px;
+	text-shadow: #333 1px 1px 0px;
 }
 
 #mainScene a{
