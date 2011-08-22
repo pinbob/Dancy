@@ -1,5 +1,6 @@
 #include "irrlicht.h"
 #include "StateMachine.h"
+#include <unistd.h>
 
 
 
@@ -19,6 +20,9 @@ using namespace gui;
 
 int main(int argc, char** argv) {
 #ifdef TEST_ALL
+	if (chdir("/usr/local/games/dancy/") < 0) {
+		perror("changed directory error.\n");
+	}
     //Create our state machine, start it and delete it when it returns
     StateMachine *theMachine = new StateMachine();
     theMachine->run();
