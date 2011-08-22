@@ -7,16 +7,12 @@
 
 Name:           dancy
 Version:	1.0a
-Release:
+Release:	1%{?dist}
 Summary:	An augmented reality based game
-Group:
-License:
-Url:
-PreReq:
-Provides:
-BuildRequires:
-Source:
-Patch:
+Group:		Amusements/Games/Other
+License:	GPLv2+
+Url:		http://pinbob.github.com/Dancy/
+PreReq:		gstreamer, gstreamer-devel, freeglut
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 AutoReqProv:    on
 
@@ -29,26 +25,11 @@ Authors:
     Li Wenhao
     Ye Jiabin 
 
-%prep
-%setup
-
-%build
-%configure
-make %{?jobs:-j%jobs}
-
-%install
-%makeinstall
-
 %clean
-rm -rf $RPM_BUILD_ROOT
 
 %post
 %postun
 
 %files
-%defattr(-,root,root)
-%doc ChangeLog README COPYING
 
-%changelog
-* Mon Aug 22 2011 yejiabin@linux-b668
 
