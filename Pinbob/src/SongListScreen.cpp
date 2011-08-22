@@ -95,8 +95,11 @@ void SongListScreen::drawScene() {
 //		skin->setFont(font);
 //	skin->setFont(m_pGuienv->getBuiltInFont(), EGDF_TOOLTIP);
 	m_pGuienv->addImage(back, core::position2d<s32>(0, 0), -1, 0);
-	u32 screenWidth = m_pDevice->getVideoDriver()->getScreenSize().Width;
-	u32 screenHeight = m_pDevice->getVideoDriver()->getScreenSize().Height;
+
+	// get screen size method will misleading the program
+	// so I must fix the screen size
+	u32 screenWidth = 640; //m_pDevice->getVideoDriver()->getScreenSize().Width;
+	u32 screenHeight = 480; //m_pDevice->getVideoDriver()->getScreenSize().Height;
 	m_pGuienv->addImage(
 			m_pDriver->getTexture("asset/images/song_menu/back0.png"),
 			position2d<s32>(0, 0));
