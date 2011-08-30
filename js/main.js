@@ -162,7 +162,7 @@ function showScene(index){
 
 	case 1:
 		//Who(red)
-		$("#mainScene").html("<h1>WHO made it</h1><p>Dancy is <a href='https://github.com/pinbob' target='_blank'>PinBob</a>'s team work.<br><br>Team member includes:<br><a href='https://github.com/alpha360x' target='_blank'>alpha360x</a>: alpha360x@gmail.com<br><a href='https://github.com/liwenhaosuper'>liwenhaosuper</a>: liwenhaosuper@126.com<br><a href='https://github.com/Ovilia' target='_blank'>Ovilia</a>: zwl.sjtu@gmail.com<br><a href='https://github.com/styx-hy'>styx-hy</a>: tcsyxx6350@gmail.com</p><img src='images/pinbob.png' style='float: right; position: relative; top: -200px;' />");
+		$("#mainScene").html("<h1>WHO made it</h1><p>Dancy is <a href='https://github.com/pinbob' target='_blank'>PinBob</a>'s team work.<br><br>Team member includes:<br><a href='https://github.com/styx-hy'>洪扬</a>: tcsyxx6350@gmail.com<br><a href='https://github.com/liwenhaosuper'>利文浩</a>: liwenhaosuper@126.com<br><a href='https://github.com/alpha360x' target='_blank'>叶家彬</a>: alpha360x@gmail.com<br><a href='https://github.com/Ovilia' target='_blank'>张雯莉</a>: zwl.sjtu@gmail.com</p><img src='images/pinbob.png' style='float: right; position: relative; top: -200px;' />");
 		$("#mainScene").css("background", "#2c7a11");
 		$("#mainScene").css("background", "-moz-linear-gradient(left, #2c7a11 0%, #7ca314 100%)");
 		$("#mainScene").css("background", "-webkit-gradient(linear, left top, right top, color-stop(0%,#2c7a11), color-stop(100%,#7ca314))");
