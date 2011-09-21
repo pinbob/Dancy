@@ -38,19 +38,26 @@ enum GAME_MENUS {
 	GAME_MENU_LENGTH
 };
 
-const GameMenuConfig GAME_MENU_CONFIG[GAME_MENU_LENGTH] = { { position2d<s32>(
-		225, 410), rect<s32>(0, 0, 190, 70), "asset/images/menu.png" }, {
-		position2d<s32>(0, 130), rect<s32>(0, 0, 130, 110),
-		"asset/images/ulArea.png" }, { position2d<s32>(0, 240), rect<s32>(0, 0,
-		130, 110), "asset/images/dlArea.png" }, { position2d<s32>(510, 130),
-		rect<s32>(0, 0, 130, 110), "asset/images/urArea.png" }, {
-		position2d<s32>(510, 240), rect<s32>(0, 0, 130, 110),
-		"asset/images/drArea.png" }, { position2d<s32>(0, 130), rect<s32>(0, 0,
-		130, 110), "asset/images/ulArea1.png" }, { position2d<s32>(0, 240), rect<
-		s32>(0, 0, 130, 110), "asset/images/dlArea1.png" }, { position2d<s32>(
-		510, 130), rect<s32>(0, 0, 130, 110), "asset/images/urArea1.png" }, {
-		position2d<s32>(510, 240), rect<s32>(0, 0, 130, 110),
-		"asset/images/drArea1.png" } };
+const GameMenuConfig GAME_MENU_CONFIG[GAME_MENU_LENGTH] = {
+    {position2d<s32>((SCREEN_WIDTH - MENU_WIDTH) / 2, SCREEN_HEIGHT - MENU_HEIGHT), 
+            rect<s32>(0, 0, MENU_WIDTH, MENU_HEIGHT), "asset/images/menu.png" }, 
+    {position2d<s32>(0, SCREEN_HEIGHT / 2 - ARROW_HEIGHT), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/ulArea.png" }, 
+    {position2d<s32>(0, SCREEN_HEIGHT / 2), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/dlArea.png" }, 
+    {position2d<s32>(SCREEN_WIDTH - ARROW_WIDTH, SCREEN_HEIGHT / 2 - ARROW_HEIGHT), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/urArea.png" }, 
+    {position2d<s32>(SCREEN_WIDTH - ARROW_WIDTH, SCREEN_HEIGHT / 2), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/drArea.png" },
+    {position2d<s32>(0, SCREEN_HEIGHT / 2 - ARROW_HEIGHT), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/ulArea1.png" }, 
+    {position2d<s32>(0, SCREEN_HEIGHT / 2), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/dlArea1.png" }, 
+    {position2d<s32>(SCREEN_WIDTH - ARROW_WIDTH, SCREEN_HEIGHT / 2 - ARROW_HEIGHT), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/urArea1.png" }, 
+    {position2d<s32>(SCREEN_WIDTH - ARROW_WIDTH, SCREEN_HEIGHT / 2), 
+            rect<s32>(0, 0, ARROW_WIDTH, ARROW_HEIGHT), "asset/images/drArea1.png" }
+};
 
 enum PauseMenu {
 	GP_CONTINUE, GP_MAIN_MENU, GP_RESTART, GP_MENU_HEAD, GP_LENGTH
@@ -65,10 +72,19 @@ enum IN_GAME_SUBSTATE {
 	IG_DETECT, IG_UPDATE, IG_PAUSE, IG_GAMEOVER
 };
 
-const ResourceLayout GP_LAYOUT[GP_LENGTH] = { { "asset/images/GP_continue.png",
-		vector2d<s32>(200, 200) }, { "asset/images/GP_mainMenu.png", vector2d<
-		s32>(200, 250) }, { "asset/images/GP_restart.png", vector2d<s32>(200,
-		300) }, { "asset/images/GP.png", vector2d<s32>(200, 120) } };
+const ResourceLayout GP_LAYOUT[GP_LENGTH] = {
+    {"asset/images/GP_continue.png", 
+            vector2d<s32>((SCREEN_WIDTH - GP_WIDTH) / 2, 
+            (SCREEN_HEIGHT - GP_HEIGHT * GP_AMT - GP_TITLE_HEIGHT) / 2 + GP_TITLE_HEIGHT)}, 
+    {"asset/images/GP_mainMenu.png", 
+            vector2d<s32>((SCREEN_WIDTH - GP_WIDTH) / 2, 
+            (SCREEN_HEIGHT - GP_HEIGHT * GP_AMT - GP_TITLE_HEIGHT) / 2 + GP_TITLE_HEIGHT + GP_HEIGHT)}, 
+    {"asset/images/GP_restart.png", 
+            vector2d<s32>((SCREEN_WIDTH - GP_WIDTH) / 2, 
+            (SCREEN_HEIGHT - GP_HEIGHT * GP_AMT - GP_TITLE_HEIGHT) / 2 + GP_TITLE_HEIGHT + 2 * GP_HEIGHT)}, 
+    {"asset/images/GP.png", 
+            vector2d<s32>((SCREEN_WIDTH - GP_WIDTH) / 2,
+            (SCREEN_HEIGHT - GP_HEIGHT * GP_AMT - GP_TITLE_HEIGHT) / 2)}};
 
 class GameObject: public IState {
 public:

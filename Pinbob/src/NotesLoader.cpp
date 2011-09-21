@@ -73,7 +73,7 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
 // #endif /* DEBUG__ */
 
   if (!file_reader.good()) {
-    printf("%s", "fail to open file");
+    printf("%s\n", "fail to open file");
     return false;
   }
 

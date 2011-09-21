@@ -33,4 +33,21 @@
 #define SCORE_WIDTH 5
 #define COMBO_WIDTH 3
 
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 600
+
+#define MENU_WIDTH 190
+#define MENU_HEIGHT 70
+
+#define ARROW_WIDTH 130
+#define ARROW_HEIGHT 110
+
+#define GP_WIDTH 240
+#define GP_TITLE_HEIGHT 80
+#define GP_HEIGHT 50
+#define GP_AMT 3
+
+#define DETECT_WIDTH 400
+#define DETECT_HEIGHT 200
+
 #endif /* CONFIG_H_ */

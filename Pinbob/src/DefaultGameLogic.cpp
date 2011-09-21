@@ -193,9 +193,9 @@ void DefaultGameLogic::_init(const char *filename) {
 // TODO pass the filename of the song
 	SongInfo loadedSong;
 	char* oggPath = (char*) malloc(
-			strlen(songdir) + strlen("asset/songs/") + strlen("/default.bms")
+			strlen(songdir) + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/default.bms")
 					+ 1);
-	sprintf(oggPath, "asset/songs/%s/default.bms", songdir);
+	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms", songdir);
 #ifdef TEST_ALL
 	printf("oggpath : %s \n", oggPath);
 
@@ -204,9 +204,9 @@ void DefaultGameLogic::_init(const char *filename) {
 	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData,
 			loadedSong);
 #endif
-	if (oggPath) {
-		free(oggPath);
-	}
+//	if (oggPath) {
+//		free(oggPath);
+//	}
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 
 

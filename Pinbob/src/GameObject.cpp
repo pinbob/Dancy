@@ -7,6 +7,7 @@
 
 #include "GameObject.h"
 #include "GameOverState.h"
+#include "Config.h"
 
 GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 		u32 startTime) :
@@ -209,7 +210,8 @@ void GameObject::_initMenu() {
 	/* detect the marker */
 	detectImage = guienv->addImage(
 			driver->getTexture("asset/images/detect.png"),
-			vector2d<s32>(130, 150), true);
+			vector2d<s32>((SCREEN_WIDTH - DETECT_WIDTH) / 2,
+                        (SCREEN_HEIGHT - DETECT_HEIGHT) / 2), true);
 
 	/* pause scene */
 	for (int i = 0; i < GP_LENGTH; i++) {

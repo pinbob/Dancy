@@ -36,6 +36,7 @@ IState(pDevice, pStateMachine), m_focusItem(focusIndex) {
     //image position
     u32 screenWidth = m_pDevice->getVideoDriver()->getScreenSize().Width;
     u32 screenHeight = m_pDevice->getVideoDriver()->getScreenSize().Height;
+    cout << screenWidth << ", " << screenHeight << '\n';
     this->imgPos = new core::position2d<s32>[imgAmt];
     this->titlePos = position2d<s32 > (
             (screenWidth - titleWidth) / 2,
@@ -212,6 +213,8 @@ bool MenuHandler::OnEvent(const SEvent &event) {
     if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
         switch (event.MouseInput.Event) {
             case EMIE_LMOUSE_PRESSED_DOWN:
+//            	cout<<"Key down: x = "<<event.MouseInput.X<<", y = "
+//            	<<event.MouseInput.Y<<endl;
                 MouseState.mouseDownPos.X = event.MouseInput.X;
                 MouseState.mouseDownPos.Y = event.MouseInput.Y;
                 //when mouse down, set isMouseDown to be true

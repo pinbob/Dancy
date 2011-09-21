@@ -278,7 +278,8 @@ void ArManager::_initAR() {
                 0, core::dimension2d<f32>(0, 0), //material
                 core::dimension2d<f32>(1, 1));
         comboImageNode = smgr->addMeshSceneNode(comboMesh, smgr->getRootSceneNode());
-        comboImageNode->setPosition(vector3df(55, -40, 200));
+        comboImageNode->setPosition(vector3df(
+                driver->getScreenSize().Width / 2 - 100, -40, 200));
         comboImageNode->setVisible(true);
 	comboImageNode->setMaterialTexture(0, comboImage);
 	comboImageNode->setRotation(vector3df(90, 0, 0));

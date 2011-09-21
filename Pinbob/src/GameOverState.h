@@ -45,6 +45,9 @@ private:
 	void _showScore(int idx,u32 score);
 	GameInfo* currentInfo;
 	u32 ret; // return value
+
+
+	u32 swidth, sheight;
 };
 
 #endif /* GAMEOVERSTATE_H_ */

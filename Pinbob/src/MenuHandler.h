@@ -70,6 +70,9 @@ private:
 	core::rect<s32> imgSize;
 	core::position2d<s32>* imgPos;
 
+	/* screen width and height */
+	u32 swidth, sheight;
+
     void drawScene();
 	//load image files 
 	bool LoadImage(u32 focusIndex);
