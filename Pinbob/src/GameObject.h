@@ -17,6 +17,7 @@
 #include "irrKlang.h"
 #include "NotesLoader.h"
 #include "NoteData.h"
+#include "SongCollection.h"
 #include "Song.h"
 
 struct GameMenuConfig {
@@ -144,6 +145,7 @@ private:
 	u32 lastScore;
 	int comboLast;
 	Song* currentSong;
+	SongCollection* songcollection;
 };
 
 #endif /* GAMEOBJECT_H_ */

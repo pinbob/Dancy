@@ -66,9 +66,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 
 	if (musicState == MUSIC_PRE && timePassed > PREPARE_TIME) {
 		char* songPath = (char*) malloc(
-				strlen(songdir) + strlen("asset/songs/") + strlen("/01.ogg")
+				strlen(songdir) + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/01.ogg")
 						+ 1);
-		sprintf(songPath, "asset/songs/%s/01.ogg", songdir);
+		sprintf(songPath, "/usr/local/games/dancy/asset/songs/%s/01.ogg", songdir);
 #ifdef TEST_ALL
 		printf("songpath : %s \n", songPath);
 		currentSong = soundEngine->play2D(songPath, false, false, true);
@@ -192,10 +192,11 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 void DefaultGameLogic::_init(const char *filename) {
 // TODO pass the filename of the song
 	SongInfo loadedSong;
+	//TODO fix following fixed variable
 	char* oggPath = (char*) malloc(
-			strlen(songdir) + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/default.bms")
+			strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/default.bms")
 					+ 1);
-	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms", songdir);
+	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms", "Catch Me");
 #ifdef TEST_ALL
 	printf("oggpath : %s \n", oggPath);
 

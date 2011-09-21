@@ -145,7 +145,8 @@ u32 MenuHandler::update() {
 				printf("song state clicked!\n");
 				//m_lastfocusItem = SONG_STATE;
 				m_lastfocusItem = MODE_STATE;
-				return SONG_STATE;
+				//return SONG_STATE;
+				return START_GAME;
 			}
 //  			else if(m_lastfocusItem == SONG_STATE) //we are now in song state
 //  			{
@@ -161,13 +162,13 @@ u32 MenuHandler::update() {
 			}
 			break; 
 		case 1:  
-			if(m_lastfocusItem == MAIN_MENU_STATE)//we are now in main menu
-			{
-				printf("options selected\n");
-				m_lastfocusItem = OPTIONS_STATE;
-				return OPTIONS_STATE;
-			}
-			else if(m_lastfocusItem ==MODE_STATE)//we are now in mode menu
+//			if(m_lastfocusItem == MAIN_MENU_STATE)//we are now in main menu
+//			{
+//				printf("options selected\n");
+//				m_lastfocusItem = OPTIONS_STATE;
+//				return OPTIONS_STATE;
+//			}
+			if(m_lastfocusItem ==MODE_STATE)//we are now in mode menu
 			{
 				printf("back!\n");
 				m_lastfocusItem = MAIN_MENU_STATE;

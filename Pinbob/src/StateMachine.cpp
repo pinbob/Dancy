@@ -63,9 +63,9 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
         
 //          m_pMenu[IState::SONG_STATE] = 
 //                  MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
-		 m_pSelectSongScreen = new SongListScreen(m_pDevice,this);
+		// m_pSelectSongScreen = new SongListScreen(m_pDevice,this);
  //	addState(m_pMenu[IState::SONG_STATE]);//3
-		 addState(m_pSelectSongScreen);
+		// addState(m_pSelectSongScreen);
         
         m_pMenu[IState::CREDITS_STATE] = 
                 MenuFactory::createMenuHandler(m_pDevice, this, IState::CREDITS_STATE);

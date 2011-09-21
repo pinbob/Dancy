@@ -38,13 +38,13 @@ public:
    enum StateType{
 	   MAIN_MENU_STATE = 1,   //main menu
 	   MODE_STATE,        //mode menu
-	   SONG_STATE,        //song state  
+	   //SONG_STATE,        //song state
 	   CREDITS_STATE,     //credits
 	   START_GAME,        //start game
 	   GAME_OVER_STATE,
 	   SCORE_STATE,        //high score 
 
-	   OPTIONS_STATE,     //options
+	  // OPTIONS_STATE,     //options
 
 	   QUIT_STATE = 10086       //quit game
    };
