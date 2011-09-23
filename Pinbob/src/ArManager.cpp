@@ -222,6 +222,7 @@ void ArManager::_initAR() {
 	sea->setMaterialTexture(0, driver->getTexture("asset/images/mat.tga"));
 	//sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
 	sea->setMaterialFlag(EMF_LIGHTING, false);
+	sea->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 	sea->setPosition(vector3d<f32>(100,0,100));
 
 	//sea->setMaterialType(video::EMT_REFLECTION_2_LAYER);

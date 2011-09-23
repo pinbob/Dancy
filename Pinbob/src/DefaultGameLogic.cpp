@@ -66,9 +66,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 
 	if (musicState == MUSIC_PRE && timePassed > PREPARE_TIME) {
 		char* songPath = (char*) malloc(
-				strlen(songdir) + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/01.ogg")
+				strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/01.ogg")
 						+ 1);
-		sprintf(songPath, "/usr/local/games/dancy/asset/songs/%s/01.ogg", songdir);
+		sprintf(songPath, "/usr/local/games/dancy/asset/songs/%s/01.ogg", "Catch Me");
 #ifdef TEST_ALL
 		printf("songpath : %s \n", songPath);
 		currentSong = soundEngine->play2D(songPath, false, false, true);
@@ -119,6 +119,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
 		if (!(*missedCursor)->isHitted()) {
 			gameInfo->getScore()->missedHit();
+			printf("missed\n");
 		}
 	}
 //increment hit cursor
@@ -145,13 +146,12 @@ void DefaultGameLogic::close() {
 void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 // determines whether or not there's arrows in the epsilon area
 	bool hasArrow = false;
-//printf("hit is %d\n", hit);
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
 		int gap = abs(
 				(int) ((*hitCursor)->getStartTime() + PREPARE_TIME + musicOffset
-						- timePassed));
-		//printf("hit gap %d.\n",);
+						- timePassed - 800)); //FIXME fix the time bug later
+		printf("hit gap %d.\n",gap);
 		if ((*hitCursor)->getArrowNode() == 0 || gap > BAD_EPSILON) {
 			break;
 		}

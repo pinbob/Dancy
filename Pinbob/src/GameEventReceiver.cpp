@@ -36,12 +36,11 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN:
 			hitStatus = _handleMouse(event.MouseInput.X, event.MouseInput.Y);
-			printf("mouse at %d,%d .\n", event.MouseInput.X,
-					event.MouseInput.Y);
+			//printf("mouse at %d,%d .\n", event.MouseInput.X,
+			//		event.MouseInput.Y);
 			mouseState = IG_MOUSE_DOWN;
 			break;
 		case EMIE_LMOUSE_LEFT_UP:
-			printf("up");
 			hitStatus = _handleMouseUp(event.MouseInput.X, event.MouseInput.Y);
 			mouseState = IG_MOUSE_UP;
 			break;
@@ -103,7 +102,7 @@ u32 GameEventReceiver::_handleMouseUp(s32 mouseX, s32 mouseY) {
 }
 
 u32 GameEventReceiver::_handleUpdateUp(s32 mouseX, s32 mouseY) {
-	printf ("handle up\n");
+	// printf ("handle up\n");
 	if (mouseX >= GAME_MENU_CONFIG[MENU].position.X
 			&& mouseX <= GAME_MENU_CONFIG[MENU].position.X
 							+ GAME_MENU_CONFIG[MENU].size.getWidth()) {
@@ -116,16 +115,20 @@ u32 GameEventReceiver::_handleUpdateUp(s32 mouseX, s32 mouseY) {
 
 u32 GameEventReceiver::_handleUpdate(s32 mouseX, s32 mouseY) {
 	u8 result = 0;
-	if (mouseX <= 130) {
-		if (mouseY >= 130 && mouseY < 240) {
+	if (mouseX <= ARROW_WIDTH) {
+		if (mouseY >= SCREEN_HEIGHT / 2 - ARROW_HEIGHT &&
+				mouseY < SCREEN_HEIGHT / 2) {
 			result |= UP_LEFT_HIT;
-		} else if (mouseY >= 240 && mouseY <= 350) {
+		} else if (mouseY >= SCREEN_HEIGHT / 2 &&
+				mouseY <= SCREEN_HEIGHT / 2 + ARROW_HEIGHT) {
 			result |= DOWN_LEFT_HIT;
 		}
-	} else if (mouseX >= 510) {
-		if (mouseY >= 130 && mouseY < 240) {
+	} else if (mouseX >= SCREEN_WIDTH - ARROW_WIDTH) {
+		if (mouseY >= SCREEN_HEIGHT / 2 - ARROW_HEIGHT &&
+						mouseY < SCREEN_HEIGHT / 2) {
 			result |= UP_RIGHT_HIT;
-		} else if (mouseY >= 240 && mouseY <= 350) {
+		} else if (mouseY >= SCREEN_HEIGHT / 2 &&
+				mouseY <= SCREEN_HEIGHT / 2 + ARROW_HEIGHT) {
 			result |= DOWN_RIGHT_HIT;
 		}
 	}

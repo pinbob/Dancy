@@ -11,7 +11,7 @@
 
 GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 		u32 startTime) :
-		IState(pDevice, pStateMachine), lastHit(0), comboLast(0) {
+		IState(pDevice, pStateMachine), lastHit(0), comboLast(0), firstUpdate(true) {
 	device = pDevice;
 	driver = pDevice->getVideoDriver();
 	smgr = pDevice->getSceneManager();
@@ -55,7 +55,13 @@ void GameObject::deactivate(IState* pNext) {
 u32 GameObject::update(void) {
 	u32 retval = 0;
 	const u32 now = device->getTimer()->getTime();
-	const u32 delta = now - then;
+	u32 delta;
+	if (this->firstUpdate) {
+		delta = 0;
+		this->firstUpdate = false;
+	} else {
+		delta = now - then;
+	}
 	then = now;
 	driver->beginScene(true, true, 0);
 	lastHit = eventListener.getHitStatus();

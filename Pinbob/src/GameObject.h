@@ -122,6 +122,7 @@ private:
 	IGUIEnvironment* guienv;
 	u32 then; //last frame time stamp
 	IGUIImage* widgets[GAME_MENU_LENGTH];
+	bool firstUpdate;
 	ITexture* digits[10]; //ten digits, nothing special
 
 	//ITexture* pauseMenu[GP_LENGTH];
