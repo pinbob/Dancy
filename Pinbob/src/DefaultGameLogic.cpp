@@ -10,6 +10,7 @@
 #include "ArrowFactory.h"
 #include "ArrowPrototypeFactory.h"
 #include "GameObject.h"
+#include "GSTPlayer.h"
 #include <cmath>
 #include <GL/glu.h>
 
@@ -17,8 +18,7 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct,
 		Song* song) :
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
-				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), soundEngine(
-				soundEngine), musicState(MUSIC_PRE), musicOffset(0), totalTime(
+				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), musicState(MUSIC_PRE), musicOffset(0), totalTime(
 				0), song(song),currentSong(0) {
 	if (song->main_title().at(song->main_title().size() - 1) == '\r') {
 		songdir = new char[song->main_title().size()];
@@ -47,9 +47,13 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	if (((hit == MENU_HIT) && state == IG_UPDATE) || state == IG_PAUSE) {
 		state = IG_PAUSE;
 		armgr->update(0, hit);
+#ifdef USE_IRR
 		if (currentSong) { // sanity check
 			currentSong->setIsPaused(true);
 		}
+#else
+		gst_pause_song();
+#endif
 		musicState = MUSIC_PAUSE;
 		//printf("paused\n");
 		return IG_PAUSE;
@@ -65,23 +69,29 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	}
 
 	if (musicState == MUSIC_PRE && timePassed > PREPARE_TIME) {
-		char* songPath = (char*) malloc(
-				strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/01.ogg")
-						+ 1);
-		sprintf(songPath, "/usr/local/games/dancy/asset/songs/%s/01.ogg", "Catch Me");
-#ifdef TEST_ALL
+		//char* songPath = (char*) malloc(
+		//		strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/01.ogg")
+		//				+ 1);
+		//sprintf(songPath, "/usr/local/games/dancy/asset/songs/%s/01.ogg", "Catch Me");
+#ifdef USE_IRR
 		printf("songpath : %s \n", songPath);
 		currentSong = soundEngine->play2D(songPath, false, false, true);
-#elif defined TEST_GAME
-		soundEngine->play2D("./asset/songs/Canon.ogg", true);
-#endif
 		if (songPath) {
 			free(songPath);
 		}
+#else
+		//TODO currently the song path is fixed;
+		gst_play();
+#endif
+
 		musicOffset = timePassed - PREPARE_TIME;
 		musicState = MUSIC_PLAYING;
 	} else if (musicState == MUSIC_PAUSE) {
+#ifdef USE_IRR
 		currentSong->setIsPaused(false);
+#else
+		gst_resume_song();
+#endif
 		musicState = MUSIC_PLAYING;
 	}
 //printf("run\n");
@@ -197,18 +207,17 @@ void DefaultGameLogic::_init(const char *filename) {
 			strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/default.bms")
 					+ 1);
 	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms", "Catch Me");
-#ifdef TEST_ALL
-	printf("oggpath : %s \n", oggPath);
-
 	notesLoader.LoadFromFile(oggPath, &noteData, loadedSong);
-#elif defined TEST_GAME
-	notesLoader.LoadFromFile("asset/songs/OBLIVION_7a.bms", &noteData,
-			loadedSong);
-#endif
-//	if (oggPath) {
-//		free(oggPath);
-//	}
+	if (oggPath) {
+		free(oggPath);
+	}
+	//TODO currently the song path is fixed
+	gst_init_player("file:///usr/local/games/dancy/asset/songs/Catch Me/01.ogg");
+
+#ifdef SHOW_DEBUG_INFO
+	printf("oggpath : %s \n", oggPath);
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
+#endif
 
 
 	totalTime = static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
@@ -226,8 +235,8 @@ void DefaultGameLogic::_init(const char *filename) {
 		}
 	}
 	armgr->sceneCursor = armgr->arrows.begin();
-// TODO delete following lines
-#ifdef DEBUG_SHOW_ARROW_GENERATION
+
+#ifdef SHOW_DEBUG_INFO
 	printf("Generating following %d arrows:\n", armgr->arrows.size());
 	for (std::list<Arrow*>::iterator iter = armgr->arrows.begin();
 			iter != armgr->arrows.end(); iter++) {

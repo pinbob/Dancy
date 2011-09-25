@@ -14,7 +14,9 @@
 #include "Arrow.h"
 #include "ArManager.h"
 #include "../include/conio.h"
+#ifdef USE_IRR
 #include "irrKlang.h"
+#endif
 #include "NotesLoader.h"
 #include "NoteData.h"
 #include "Song.h"
@@ -59,7 +61,11 @@ protected:
 	u32 totalTime;
 	u8 lastHit;
 	u32 musicOffset;
+
+#ifdef USE_IRR
 	ISoundEngine* soundEngine;
+#endif
+
 	NotesLoader notesLoader;
 	NoteData noteData;
 	int musicState;

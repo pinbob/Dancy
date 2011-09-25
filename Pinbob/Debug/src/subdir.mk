@@ -11,6 +11,7 @@ CPP_SRCS += \
 ../src/ArrowPrototypeFactory.cpp \
 ../src/ConfigFileManager.cpp \
 ../src/DefaultGameLogic.cpp \
+../src/GSTPlayer.cpp \
 ../src/GameEventReceiver.cpp \
 ../src/GameInfo.cpp \
 ../src/GameObject.cpp \
@@ -41,6 +42,7 @@ OBJS += \
 ./src/ArrowPrototypeFactory.o \
 ./src/ConfigFileManager.o \
 ./src/DefaultGameLogic.o \
+./src/GSTPlayer.o \
 ./src/GameEventReceiver.o \
 ./src/GameInfo.o \
 ./src/GameObject.o \
@@ -71,6 +73,7 @@ CPP_DEPS += \
 ./src/ArrowPrototypeFactory.d \
 ./src/ConfigFileManager.d \
 ./src/DefaultGameLogic.d \
+./src/GSTPlayer.d \
 ./src/GameEventReceiver.d \
 ./src/GameInfo.d \
 ./src/GameObject.d \
@@ -98,7 +101,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -DTEST_ARMANAGER -DTEST_ALL -D_DEBUG -I/home/yejiabin/Documents/irrlicht-1.7.2/include -I/home/yejiabin/Downloads/irrKlang-1.3.0/include -I/home/yejiabin/Documents/ARToolKit/include -O2 -g3 -Wall -c -fmessage-length=0 -Wno-write-strings -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -DTEST_ARMANAGER -DTEST_ALL -D_DEBUG -I/home/yejiabin/Documents/irrlicht-1.7.2/include -I/home/yejiabin/Downloads/irrKlang-1.3.0/include -I/home/yejiabin/Documents/ARToolKit/include -O2 -g3 -Wall -c -fmessage-length=0 -Wno-write-strings `pkg-config --cflags --libs gstreamer-0.10` -pthread -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

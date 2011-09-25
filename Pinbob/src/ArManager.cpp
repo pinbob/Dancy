@@ -9,6 +9,7 @@
 #include <cstring>
 #include <ctime>
 
+#include "GSTPlayer.h"
 #include "ArManager.h"
 #include "ArrowFactory.h"
 #include "ArrowPrototypeFactory.h"
@@ -194,19 +195,7 @@ ArManager::~ArManager() {
 void ArManager::_initAR() {
 	mainNode = smgr->getDefaultSceneNodeFactory()->addSceneNode(ESNT_EMPTY, 0);
 	mainNode->setPosition(vector3df(0, 0, 0));
-	/* turtle */
-//	IAnimatedMesh *mesh = smgr->getMesh("asset/models/ttt.obj");
-//	turtleNode = smgr->addAnimatedMeshSceneNode(mesh, smgr->getRootSceneNode(),
-//			777);
-//	//node->setMaterialType(EMT_PARALLAX_MAP_SOLID);
-//	turtleNode->setMaterialFlag(EMF_LIGHTING, true);
-//	turtleNode->setPosition(vector3df(0, 0, 300));
-//	turtleNode->setScale(vector3df(3, 3, 3));
-//	//node->getMaterial(0).Shininess = 30.0;
-//	turtleNode->setMaterialType(EMT_SOLID);
-//	turtleNode->setMaterialTexture(1,
-//			driver->getTexture("asset/models/ttt.mtl"));
-//	turtleNode->getMaterial(1).Shininess = 30.0;
+
 	smgr->addLightSceneNode(0, core::vector3df(0, 0, 0),
 			video::SColorf(0.5f, 1.0f, 0.5f, 0.0f), 800.0f);
 	smgr->setAmbientLight(video::SColorf(0.3, 0.3, 0.3, 1));
@@ -215,17 +204,12 @@ void ArManager::_initAR() {
 			dimension2d<u32>(1, 1));
 	//smgr->getMesh("asset/models/water.obj");
 	ISceneNode* sea = smgr->addAnimatedMeshSceneNode(plane, mainNode);
-	//smgr->addWaterSurfaceSceneNode(plane->getMesh(0), 5.0f,
-	//	300.0f, 40.0f, mainNode);
 
-	//sea->setScale(vector3df(.3, .3, .3));
 	sea->setMaterialTexture(0, driver->getTexture("asset/images/mat.tga"));
 	//sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
 	sea->setMaterialFlag(EMF_LIGHTING, false);
 	sea->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 	sea->setPosition(vector3d<f32>(100,0,100));
-
-	//sea->setMaterialType(video::EMT_REFLECTION_2_LAYER);
 
 	/****** init ball ******/
 
@@ -321,8 +305,6 @@ void ArManager::_initAR() {
 	timerNode->setMaterialFlag(EMF_LIGHTING, false);
 	timerNode->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 
-	// set ambient light
-	//smgr->setAmbientLight(video::SColor(0, 255, 255, 255));
 	//init the camera
 
 	armgr->beginCamera(cparam_name, 0, vconf);

@@ -30,27 +30,21 @@ using namespace gui;
 /* forward declarations */
 class Arrow;
 
-enum CONFIG_KEY{
-	CAMERA,PATTERNS,VCONF,CONFIG_KEY_LENGTH
+enum CONFIG_KEY {
+	CAMERA, PATTERNS, VCONF, CONFIG_KEY_LENGTH
 };
 enum HitImage {
-	HI_PERFECT,
-	HI_WELL_DONE,
-	HI_GOOD,
-	HI_BAD,
-	HI_MISSED,
-	HI_LENGTH
+	HI_PERFECT, HI_WELL_DONE, HI_GOOD, HI_BAD, HI_MISSED, HI_LENGTH
 };
 
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
-const pos2d arrowPos[4] = {{-50,50},{50,50},{50,50},{-50,-50}};
-const vector3df TIMER_POS = vector3df(-58,64,200);
+const pos2d arrowPos[4] = { { -50, 50 }, { 50, 50 }, { 50, 50 }, { -50, -50 } };
+const vector3df TIMER_POS = vector3df(-58, 64, 200);
 
-static const char* hitImageFile[HI_LENGTH] = {"asset/images/perfect.png",
-									"asset/images/wellDone.png",
-									"asset/images/good.png",
-									"asset/images/bad.png","asset/images/missed.png"};
+static const char* hitImageFile[HI_LENGTH] = { "asset/images/perfect.png",
+		"asset/images/wellDone.png", "asset/images/good.png",
+		"asset/images/bad.png", "asset/images/missed.png" };
 
 class ArManager {
 public:
@@ -73,7 +67,8 @@ public:
 	/************************************************************************/
 	/* init for win32 version                                                                     */
 	/************************************************************************/
-	bool init_win32(const char* cparam_name,const char* patt_name,char* vconf);
+	bool init_win32(const char* cparam_name, const char* patt_name,
+			char* vconf);
 	/**
 	 * the function update the status of scene that AR simulates
 	 * @param deltaTime the current frame timestamp
@@ -94,10 +89,10 @@ public:
 	 * The destructor
 	 */
 	virtual ~ArManager();
-    u32 getHitImageStatus() const;
-    void setHitImageStatus(u32 hitImageStatus);
-    u8 getShowHitPlane() const;
-    void setShowHitPlane(u8 showHitPlane);
+	u32 getHitImageStatus() const;
+	void setHitImageStatus(u32 hitImageStatus);
+	u8 getShowHitPlane() const;
+	void setShowHitPlane(u8 showHitPlane);
 private:
 	/* the speed of dropping arrow */
 	float speed;
@@ -137,15 +132,14 @@ private:
 	ISceneNode* hitImageNode;
 	ISceneNode* timerNode;
 	ITexture* hitImage[HI_LENGTH];
-        
-        ISceneNode* comboImageNode;
-        ITexture* comboImage;
+
+	ISceneNode* comboImageNode;
+	ITexture* comboImage;
 
 	/* records  hit status */
-	u32 hitImageStatus ;
+	u32 hitImageStatus;
 	u32 lastHitStatus;
-	f32 hitImageScale ;
-
+	f32 hitImageScale;
 
 };
 
