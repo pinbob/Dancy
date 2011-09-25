@@ -42,7 +42,7 @@ public:
 	   CREDITS_STATE,     //credits
 	   START_GAME,        //start game
 	   GAME_OVER_STATE,
-	   SCORE_STATE,        //high score 
+	 //  SCORE_STATE,        //high score
 
 	  // OPTIONS_STATE,     //options
 

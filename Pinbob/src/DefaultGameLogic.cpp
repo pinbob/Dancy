@@ -147,9 +147,10 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 }
 
 void DefaultGameLogic::close() {
-	currentSong->stop();
+	//currentSong->stop();
 	// Drop always comes problem waste some memories...
 	//currentSong->drop();
+	gst_destroy();
 	armgr->close();
 }
 

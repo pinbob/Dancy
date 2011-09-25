@@ -161,7 +161,7 @@ u32 MenuHandler::update() {
 				return MAIN_MENU_STATE;
 			}
 			break; 
-		case 1:  
+		case 1:
 //			if(m_lastfocusItem == MAIN_MENU_STATE)//we are now in main menu
 //			{
 //				printf("options selected\n");
@@ -175,15 +175,15 @@ u32 MenuHandler::update() {
 				return MAIN_MENU_STATE;
 			}
 			break;     
-		case 2:  
-		   if(m_lastfocusItem == MAIN_MENU_STATE) //now in main menu
-		   {
-			   printf("high score selected\n");
-			   m_lastfocusItem = SCORE_STATE;
-			   return SCORE_STATE;
-		   }
-			break;    
-		case 3:  
+//		case 2:
+//		   if(m_lastfocusItem == MAIN_MENU_STATE) //now in main menu
+//		   {
+//			   printf("high score selected\n");
+//			   m_lastfocusItem = SCORE_STATE;
+//			   return SCORE_STATE;
+//		   }
+//			break;
+		case 2:
 			if(m_lastfocusItem ==MAIN_MENU_STATE)//now in main menu
 			{
 				printf("credits menu selected!\n");
@@ -191,7 +191,7 @@ u32 MenuHandler::update() {
 				return CREDITS_STATE;
 			}
 			break;     
-		case 4: 
+		case 3:
 			if(m_lastfocusItem ==MAIN_MENU_STATE)//now in main menu
 			{
 				printf("quit state selected!\n");

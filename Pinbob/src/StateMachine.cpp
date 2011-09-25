@@ -9,9 +9,11 @@
 using namespace std;
 
 #include "StateMachine.h"
+#ifdef USE_IRR
 #include "irrKlang.h"
+#endif
 #include "irrlicht.h"
-#include "ConfigFileManager.h"
+//#include "ConfigFileManager.h"
 #include "MenuHandler.h"
 #include "SettingHandler.h"
 #include "MenuFactory.h"
@@ -49,7 +51,7 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	m_pPreviewManager=m_pSmgr->createNewSceneManager(false);
 
 	//make sure no old (already deleted) config file readers or writers are stored
-	ConfigFileManager::getSharedInstance()->clearReadersWriters();
+	//ConfigFileManager::getSharedInstance()->clearReadersWriters();
 
 #ifdef TEST_ALL
 	//now create all of the main states, set their index number and add them to the array
@@ -94,7 +96,7 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
 	//activate the active state
 	m_pActive->activate(NULL);
 
-	ConfigFileManager::getSharedInstance()->loadConfig(m_pDevice,"asset/conf/SettingManager.xml");
+	//ConfigFileManager::getSharedInstance()->loadConfig(m_pDevice,"asset/conf/SettingManager.xml");
 
 }
 
@@ -175,6 +177,7 @@ irr::u32 StateMachine::run()
  				iRet--;
  				//an out of bounds index is interpreted as "quit program" signal
  				if (iRet<m_aStates.size()) {
+ 					printf("Return state number is %d.\n", iRet);
  					//get the next state
  					IState *pNext=m_aStates[iRet];
  					//deactivate the current state
@@ -182,7 +185,7 @@ irr::u32 StateMachine::run()
  					//activate the next state
  					pNext->activate(m_pActive);
  					//save config file on each state change
- 					ConfigFileManager::getSharedInstance()->writeConfig(m_pDevice,"asset/conf/SettingManager.xml");
+ 					//ConfigFileManager::getSharedInstance()->writeConfig(m_pDevice,"asset/conf/SettingManager.xml");
  					m_pActive=pNext;
  				}
  				else bQuit=true;

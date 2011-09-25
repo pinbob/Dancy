@@ -47,10 +47,11 @@ void GameObject::activate(IState* pPrevious) {
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
  * @param pNext the next active state */
 void GameObject::deactivate(IState* pNext) {
+	puts("In deactive gameobject.");
 #ifdef USE_IRR
 	soundEngine->drop();
 #else
-	gst_destroy();
+
 #endif
 	m_pDevice->getSceneManager()->clear();
 	m_pDevice->getCursorControl()->setVisible(true);
@@ -171,9 +172,11 @@ u32 GameObject::_showPauseMenu() {
 			lastHit = 0;
 			break;
 		case GP_RESTART:
+			puts("restart to be returned");
 			return START_GAME;
 			break;
 		case GP_MAIN_MENU:
+			puts("main menu to be returned");
 			return MAIN_MENU_STATE;
 			break;
 		default:
