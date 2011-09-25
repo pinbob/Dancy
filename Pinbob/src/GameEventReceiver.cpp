@@ -14,6 +14,8 @@ GameEventReceiver::GameEventReceiver() :
 }
 
 bool GameEventReceiver::OnEvent(const SEvent& event) {
+#ifdef USE_KEY
+	// We now longer use key in Meego tablet
 	if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
 		switch (event.KeyInput.Key) {
 		case KEY_KEY_W:
@@ -32,6 +34,7 @@ bool GameEventReceiver::OnEvent(const SEvent& event) {
 			break;
 		}
 	}
+#endif
 	if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN:
@@ -135,14 +138,21 @@ u32 GameEventReceiver::_handleUpdate(s32 mouseX, s32 mouseY) {
 	return result;
 }
 
+
+// for easier calculating menu position
+#define BASE_HEIGHT(x) (SCREEN_HEIGHT - GP_HEIGHT * GP_AMT - GP_TITLE_HEIGHT) / 2\
+	+ GP_TITLE_HEIGHT + GP_HEIGHT*x
+
 u32 GameEventReceiver::_handlePause(s32 mouseX, s32 mouseY, u32 mask) {
 	u32 result = 0;
-	if (mouseX >= 200 && mouseX <= 440) {
-		if (mouseY >= 200 && mouseY <= 250) {
+	if (mouseX >= (SCREEN_WIDTH - GP_WIDTH) / 2
+			&& mouseX <= (SCREEN_WIDTH + GP_WIDTH) / 2) {
+		if (mouseY >= BASE_HEIGHT(0)
+				&& mouseY <= BASE_HEIGHT(1)) {
 			result = GP_CONTINUE;
-		} else if (mouseY >= 250 && mouseY <= 300) {
+		} else if (mouseY >= BASE_HEIGHT(1) && mouseY <= BASE_HEIGHT(2)) {
 			result = GP_MAIN_MENU;
-		} else if (mouseY >= 300 && mouseY <= 350) {
+		} else if (mouseY >= BASE_HEIGHT(2) && mouseY <= BASE_HEIGHT(3)) {
 			result = GP_RESTART;
 		}
 	}

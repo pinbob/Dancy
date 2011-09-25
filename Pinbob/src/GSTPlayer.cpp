@@ -75,8 +75,18 @@ void gst_resume_song(void) {
 	puts("resume function.");
 }
 
+void gst_destroy(void) {
+	puts("in gst destory.");
+	g_main_loop_quit(songLoop);
+	pthread_exit(NULL);
+	gst_element_set_state(GST_ELEMENT(songPipe), GST_STATE_NULL);
+	gst_object_unref(GST_OBJECT(songPipe));
+
+}
+
 void gst_play(void) {
 	gst_element_set_state(songPipe, GST_STATE_PLAYING);
+
 	//g_main_loop_run(songLoop);
 
 	//gst_element_set_state(GST_ELEMENT(songPipe), GST_STATE_NULL);

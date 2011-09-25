@@ -7,6 +7,7 @@
 
 #include "GameObject.h"
 #include "GameOverState.h"
+#include "GSTPlayer.h"
 #include "Config.h"
 
 GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
@@ -31,20 +32,26 @@ void GameObject::activate(IState* pPrevious) {
 	_initMenu();
 	then = device->getTimer()->getTime();
 
+#ifdef USE_IRR
 	soundEngine = createIrrKlangDevice();
 	if (!soundEngine) {
 		throw int(1); // TODO handle exception later
 	}
+#endif
 	eventListener.setStatus(IG_UPDATE);
 	//FIXME I don't know why should put more arguments
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
-			&gameInfo, soundEngine, this, this->currentSong);
+			&gameInfo, NULL, this, this->currentSong);
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass
  * @param pNext the next active state */
 void GameObject::deactivate(IState* pNext) {
+#ifdef USE_IRR
 	soundEngine->drop();
+#else
+	gst_destroy();
+#endif
 	m_pDevice->getSceneManager()->clear();
 	m_pDevice->getCursorControl()->setVisible(true);
 	m_pGuienv->clear();
