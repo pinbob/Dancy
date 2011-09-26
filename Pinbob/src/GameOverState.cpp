@@ -6,12 +6,13 @@
  */
 
 #include "GameOverState.h"
+#include "Config.h"
 
 GameOverState::GameOverState(IrrlichtDevice *pDevice,
 		StateMachine *pStateMachine) :
 		IState(pDevice, pStateMachine), back(0), currentInfo(0), ret(0) {
-	swidth = pDevice->getVideoDriver()->getScreenSize().Width;
-	sheight = pDevice->getVideoDriver()->getScreenSize().Height;
+	swidth = SCREEN_WIDTH;
+	sheight = SCREEN_HEIGHT;
 }
 
 u32 GameOverState::update() {
@@ -85,7 +86,7 @@ void GameOverState::_init() {
 		IGUIImage* slots[3];
 		for (int i = 0; i < 3; i++) {
 			slots[i] = m_pGuienv->addImage(
-					rect<s32>(.5*swidth + i * 80, 40, .58*swidth + i * 80, 90));
+					rect<s32>(.55*swidth + i * 80, 40, .65*swidth + i * 80, 110));
 		}
 		u32 base =
 				currentInfo->getScore()->getScore() > 999 ?
@@ -105,7 +106,7 @@ void GameOverState::_showScore(int idx, u32 score) {
 	IGUIImage* slots[3];
 	for (int i = 0; i < 3; i++) {
 		slots[i] = m_pGuienv->addImage(
-				rect<s32>(.7 * swidth + i * 80, .2*sheight + idx * 50, .8 * swidth + i * 80,
+				rect<s32>(.55 * swidth + i * 80, .2*sheight + idx * 50, .65 * swidth + i * 80,
 						.32*sheight + idx * 50));
 	}
 	u32 base = score > 999 ? 999 : score;
