@@ -8,6 +8,7 @@
 
 #include "MenuHandler.h"
 #include "StateMachine.h"
+#include "Config.h"
 #include "IState.h"
 #include <string>
 #include <iostream>
@@ -34,8 +35,8 @@ IState(pDevice, pStateMachine), m_focusItem(focusIndex) {
     this->titlePath = titlePath;
 
     //image position
-    u32 screenWidth = m_pDevice->getVideoDriver()->getScreenSize().Width;
-    u32 screenHeight = m_pDevice->getVideoDriver()->getScreenSize().Height;
+    u32 screenWidth =  SCREEN_WIDTH;//m_pDevice->getVideoDriver()->getScreenSize().Width;
+    u32 screenHeight = SCREEN_HEIGHT;//m_pDevice->getVideoDriver()->getScreenSize().Height;
     cout << screenWidth << ", " << screenHeight << '\n';
     this->imgPos = new core::position2d<s32>[imgAmt];
     this->titlePos = position2d<s32 > (
@@ -160,45 +161,50 @@ u32 MenuHandler::update() {
 				m_lastfocusItem = MAIN_MENU_STATE;
 				return MAIN_MENU_STATE;
 			}
+			else if (m_lastfocusItem == HELP_STATE)
+			{
+				m_lastfocusItem = MAIN_MENU_STATE;
+				return MAIN_MENU_STATE;
+			}
 			break; 
 		case 1:
-//			if(m_lastfocusItem == MAIN_MENU_STATE)//we are now in main menu
-//			{
-//				printf("options selected\n");
-//				m_lastfocusItem = OPTIONS_STATE;
-//				return OPTIONS_STATE;
-//			}
-			if(m_lastfocusItem ==MODE_STATE)//we are now in mode menu
+			if(m_lastfocusItem == MAIN_MENU_STATE)//we are now in main menu
+			{
+				printf("help selected\n");
+				m_lastfocusItem = HELP_STATE;
+				return HELP_STATE;
+			}
+			else if(m_lastfocusItem ==MODE_STATE)//we are now in mode menu
 			{
 				printf("back!\n");
 				m_lastfocusItem = MAIN_MENU_STATE;
 				return MAIN_MENU_STATE;
 			}
 			break;     
-//		case 2:
-//		   if(m_lastfocusItem == MAIN_MENU_STATE) //now in main menu
-//		   {
-//			   printf("high score selected\n");
-//			   m_lastfocusItem = SCORE_STATE;
-//			   return SCORE_STATE;
-//		   }
-//			break;
 		case 2:
-			if(m_lastfocusItem ==MAIN_MENU_STATE)//now in main menu
-			{
-				printf("credits menu selected!\n");
-				m_lastfocusItem = CREDITS_STATE;
-				return CREDITS_STATE;
-			}
-			break;     
+		   if(m_lastfocusItem == MAIN_MENU_STATE) //now in main menu
+		   {
+			   printf("help selected\n");
+			   m_lastfocusItem = CREDITS_STATE;
+			   return CREDITS_STATE;
+		   }
+			break;
 		case 3:
 			if(m_lastfocusItem ==MAIN_MENU_STATE)//now in main menu
 			{
-				printf("quit state selected!\n");
+				printf("credits menu selected!\n");
 				m_lastfocusItem = QUIT_STATE;
 				return QUIT_STATE;
 			}
-			break;   
+			break;     
+//		case 4:
+//			if(m_lastfocusItem ==MAIN_MENU_STATE)//now in main menu
+//			{
+//				printf("quit state selected!\n");
+//				m_lastfocusItem = QUIT_STATE;
+//				return QUIT_STATE;
+//			}
+//			break;
 		default:
 			break;
 
@@ -236,6 +242,7 @@ bool MenuHandler::OnEvent(const SEvent &event) {
                         //if is not the same as before, reactivate it
                             if (m_focusItem != i) {
                                 m_focusItem = i;
+                                printf("index %d is selected.\n", i);
                                 LoadImage(i);
                                 drawScene();
 							}

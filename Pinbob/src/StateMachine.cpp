@@ -63,16 +63,20 @@ void StateMachine::initStates( IrrlichtDevice *pDevice )
                 MenuFactory::createMenuHandler(m_pDevice, this, IState::MODE_STATE);
 	addState(m_pMenu[IState::MODE_STATE]);//2
         
+
 //          m_pMenu[IState::SONG_STATE] = 
 //                  MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
 		// m_pSelectSongScreen = new SongListScreen(m_pDevice,this);
  //	addState(m_pMenu[IState::SONG_STATE]);//3
 		// addState(m_pSelectSongScreen);
-        
+	m_pMenu[IState::HELP_STATE] =
+	        	       MenuFactory::createMenuHandler(m_pDevice, this, IState::HELP_STATE);
+	        	 addState(m_pMenu[IState::HELP_STATE]);//2
+
         m_pMenu[IState::CREDITS_STATE] = 
                 MenuFactory::createMenuHandler(m_pDevice, this, IState::CREDITS_STATE);
         addState(m_pMenu[IState::CREDITS_STATE]);//4
-         
+
 	m_pGameObj = new GameObject(m_pDevice,this,1000);
 	addState(m_pGameObj); //5
         
@@ -134,7 +138,8 @@ irr::u32 StateMachine::run()
 //	m_pDevice = setup->createDeviceFromSettings();
 //	delete setup;
 //#else 
-	m_pDevice = createDevice(video::EDT_OPENGL, dimension2d<u32>(640, 480), 16,
+	m_pDevice = createDevice(video::EDT_OPENGL, dimension2d<u32>(SCREEN_WIDTH,
+			SCREEN_HEIGHT), 16,
 		false, false, false, 0);//setup->createDeviceFromSettings();
 //#endif
 

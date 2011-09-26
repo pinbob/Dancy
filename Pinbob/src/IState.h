@@ -39,6 +39,7 @@ public:
 	   MAIN_MENU_STATE = 1,   //main menu
 	   MODE_STATE,        //mode menu
 	   //SONG_STATE,        //song state
+	   HELP_STATE,
 	   CREDITS_STATE,     //credits
 	   START_GAME,        //start game
 	   GAME_OVER_STATE,
