@@ -20,6 +20,8 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
 				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), musicState(MUSIC_PRE), musicOffset(0), totalTime(
 				0), song(song),currentSong(0) {
+	// TODO currently songdir is fixed
+	/*
 	if (song->main_title().at(song->main_title().size() - 1) == '\r') {
 		songdir = new char[song->main_title().size()];
 		strncpy(songdir, song->main_title().c_str(), song->main_title().size());
@@ -28,6 +30,7 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 			songdir = new char[song->main_title().size()+1];
 			strcpy(songdir,song->main_title().c_str());
 		}
+		*/
 #ifdef WIN32
 		armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else

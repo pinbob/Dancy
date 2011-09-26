@@ -24,9 +24,13 @@ void ArrowPrototypeFactory::createFactory(ISceneManager* smgr,
 		IVideoDriver* driver, ISceneNode* parent) {
 	this->parent = parent;
 	this->smgr = smgr;
+	puts("In creating factory.");
+
 	for (int i = 0; i < 4; i++) {
 		if (prototypes[i]) {
-			free(prototypes[i]);
+		//	printf("Droping prot %d.\n", i);
+		//	prototypes[i]->drop();
+			// FIXME I don't know how to prevent memory leak here
 			prototypes[i] = 0;
 		}
 	}
