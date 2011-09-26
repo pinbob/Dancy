@@ -209,7 +209,7 @@ void ArManager::_initAR() {
 	//sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
 	sea->setMaterialFlag(EMF_LIGHTING, false);
 	sea->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
-	sea->setPosition(vector3d<f32>(100,0,100));
+	sea->setPosition(vector3d<f32>(0,0,0));
 
 	/****** init ball ******/
 
@@ -218,8 +218,8 @@ void ArManager::_initAR() {
 			driver->getTexture("asset/models/fireball.bmp"));
 	ballNode->setMaterialFlag(EMF_LIGHTING, false);
 	ballNode->addAnimator(
-			smgr->createFlyStraightAnimator(vector3df(100, -20, 100),
-					vector3df(100, 50, 100), 500, true, true));
+			smgr->createFlyStraightAnimator(vector3df(0, -20, 0),
+					vector3df(0, 50, 0), 500, true, true));
 //
 	/******* End of init ball *******/
 

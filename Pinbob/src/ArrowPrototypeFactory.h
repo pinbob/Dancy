@@ -26,8 +26,8 @@ struct ArrowInfo {
 	const char *texture;
 };
 #define DIST 37
-#define CENTER_X 100
-#define CENTER_Y 100
+#define CENTER_X 0
+#define CENTER_Y 0
 
 const ArrowInfo ARROW_INFOS[4] = {
 		{ CENTER_X+DIST, CENTER_Y-DIST, "asset/images/ulArrowGame.tga" },
