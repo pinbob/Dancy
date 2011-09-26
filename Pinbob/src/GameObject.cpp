@@ -9,6 +9,7 @@
 #include "GameOverState.h"
 #include "GSTPlayer.h"
 #include "Config.h"
+#include "MenuHandler.h"
 
 GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 		u32 startTime) :
@@ -53,6 +54,7 @@ void GameObject::deactivate(IState* pNext) {
 #else
 
 #endif
+	MenuHandler::m_lastfocusItem = MAIN_MENU_STATE;
 	m_pDevice->getSceneManager()->clear();
 	m_pDevice->getCursorControl()->setVisible(true);
 	m_pGuienv->clear();

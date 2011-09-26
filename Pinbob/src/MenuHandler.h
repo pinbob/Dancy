@@ -31,12 +31,14 @@ public:
 	virtual void deactivate(IState *pNext);
 	virtual void activate(IState *pPrevious);
 
+	static StateType m_lastfocusItem; //remember last focus item
+
 private:
 	ISoundEngine *m_pSndEngine;//sound engine for menu
 	//ISceneNode *m_pMenu;
 	ITimer *m_pTimer;
 	u32 m_focusItem;//shows which menu is focused
-	static StateType m_lastfocusItem; //remember last focus item
+
 	u32 m_iLastTime;
 	bool m_bMoving,m_bSelect;
 	IState *m_pPrevious;
