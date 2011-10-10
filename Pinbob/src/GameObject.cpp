@@ -24,6 +24,7 @@ GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 	// temporarily set a single song
 	songcollection = new SongCollection();
 	songcollection->LoadSongs("asset/songs");
+	arid = 888; // It's strange, isn't
 	this->currentSong = &songcollection->GetSong(0);
 }
 
@@ -32,6 +33,7 @@ void GameObject::activate(IState* pPrevious) {
 	device->setEventReceiver(&eventListener);
 	_initMenu();
 	then = device->getTimer()->getTime();
+	arid+=100;
 	//gameInfo = GameInfo();
 	lastScore = 99999;
 	this->lastHit = 0;
@@ -46,8 +48,9 @@ void GameObject::activate(IState* pPrevious) {
 	}
 #endif
 	eventListener.setStatus(IG_UPDATE);
+	eventListener.setHitStatus(0);
 	//FIXME I don't know why should put more arguments
-	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
+	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver,arid),
 			&gameInfo,  this, this->currentSong);
 }
 

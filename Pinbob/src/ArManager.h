@@ -57,7 +57,7 @@ public:
 	 * @param smgr the scene manger pointer for renderring
 	 */
 	ArManager(IrrlichtDevice* device, ISceneManager* smgr,
-			IVideoDriver* driver);
+			IVideoDriver* driver, s32 arid);
 	/**
 	 * initialize the armanager by given configuration file
 	 * @param filename the filename of the configuration file
@@ -140,6 +140,8 @@ private:
 	u32 hitImageStatus;
 	u32 lastHitStatus;
 	f32 hitImageScale;
+
+	s32 arid;
 
 };
 

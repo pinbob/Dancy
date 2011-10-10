@@ -20,9 +20,10 @@
 #define MAX_BUFFER 1024
 
 ArManager::ArManager(IrrlichtDevice* device, ISceneManager* smgr,
-		IVideoDriver* driver) :
+		IVideoDriver* driver, s32 arid) :
 		smgr(smgr), driver(driver),
-		hitImageStatus(HI_LENGTH),lastHitStatus(HI_LENGTH){
+		hitImageStatus(HI_LENGTH),lastHitStatus(HI_LENGTH),
+		arid(arid){
 	this->armgr = new IARManager(device);
 }
 
@@ -308,7 +309,7 @@ void ArManager::_initAR() {
 	//init the camera
 
 	armgr->beginCamera(cparam_name, 0, vconf);
-	armgr->addARSceneNode(patt_name, mainNode, 123);
+	armgr->addARSceneNode(patt_name, mainNode, arid);
 	armgr->fixCamera(camera);
 	ArrowPrototypeFactory::getInstance()->createFactory(smgr, driver, mainNode);
 

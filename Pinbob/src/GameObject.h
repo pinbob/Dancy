@@ -148,6 +148,7 @@ private:
 	u32 lastScore;
 	int comboLast;
 	Song* currentSong;
+	s32 arid;
 	SongCollection* songcollection;
 };
 
