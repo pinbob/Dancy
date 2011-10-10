@@ -42,7 +42,7 @@ void GameObject::activate(IState* pPrevious) {
 	eventListener.setStatus(IG_UPDATE);
 	//FIXME I don't know why should put more arguments
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver),
-			&gameInfo, NULL, this, this->currentSong);
+			&gameInfo,  this, this->currentSong);
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass

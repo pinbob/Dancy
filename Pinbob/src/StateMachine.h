@@ -10,7 +10,9 @@
 
 
 #include "irrlicht.h"
-#include "irrKlang.h"
+#ifdef USE_IRR
+#include <irrKlang.h>
+#endif
 #include "IState.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
@@ -22,8 +24,6 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
-
-using namespace irrklang;
 
 class MenuHandler;
 class GameHandler;
@@ -60,7 +60,7 @@ public:
 		* retrieve the sound engine
 		* @return the sound engine
 	*/
-	ISoundEngine *getSoundEngine();
+	//ISoundEngine *getSoundEngine();
 	 /**
 		* start and run the state machine
 		* @return unimportant

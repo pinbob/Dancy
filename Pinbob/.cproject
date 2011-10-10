@@ -26,9 +26,9 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1291483901" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.more" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1192996611" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.370596029" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/yejiabin/Documents/irrlicht-1.7.2/include"/>
-									<listOptionValue builtIn="false" value="/home/yejiabin/Downloads/irrKlang-1.3.0/include"/>
-									<listOptionValue builtIn="false" value="/home/yejiabin/Documents/ARToolKit/include"/>
+									<listOptionValue builtIn="false" value="/home/nuedc/Meego/irrlicht-1.7.2/include"/>
+									<listOptionValue builtIn="false" value="/home/nuedc/Meego/irrKlang-1.3.0/include"/>
+									<listOptionValue builtIn="false" value="/home/nuedc/Meego/ARToolKit/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.635532794" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -Wno-write-strings `pkg-config --cflags --libs gstreamer-0.10` -pthread" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.359153993" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -46,13 +46,12 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.177312146" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.paths.41550538" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/usr/local/lib"/>
-									<listOptionValue builtIn="false" value="/home/yejiabin/Downloads/irrKlang-1.3.0/bin/linux-gcc"/>
-									<listOptionValue builtIn="false" value="/home/yejiabin/Documents/ARToolKit/lib"/>
+									<listOptionValue builtIn="false" value="/home/nuedc/Meego/irrKlang-1.3.0/bin/linux-gcc"/>
+									<listOptionValue builtIn="false" value="/home/nuedc/Meego/ARToolKit/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1152911043" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="Irrlicht"/>
 									<listOptionValue builtIn="false" value="vorbisfile"/>
-									<listOptionValue builtIn="false" value="IrrKlang"/>
 									<listOptionValue builtIn="false" value="gstreamer-0.10"/>
 									<listOptionValue builtIn="false" value="ARgsub"/>
 									<listOptionValue builtIn="false" value="ARgsubUtil"/>
@@ -168,11 +167,11 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.802548136;cdt.managedbuild.config.gnu.exe.release.802548136.;cdt.managedbuild.tool.gnu.c.compiler.exe.release.654933424;cdt.managedbuild.tool.gnu.c.compiler.input.1947581563">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.802548136;cdt.managedbuild.config.gnu.exe.release.802548136.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1148212926;cdt.managedbuild.tool.gnu.cpp.compiler.input.491752532">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1944854270;cdt.managedbuild.config.gnu.exe.debug.1944854270.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1349530991;cdt.managedbuild.tool.gnu.c.compiler.input.1039626295">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.802548136;cdt.managedbuild.config.gnu.exe.release.802548136.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1148212926;cdt.managedbuild.tool.gnu.cpp.compiler.input.491752532">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1944854270;cdt.managedbuild.config.gnu.exe.debug.1944854270.1523261609;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1145254606;cdt.managedbuild.tool.gnu.c.compiler.input.1471963146">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
