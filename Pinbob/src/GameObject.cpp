@@ -32,6 +32,12 @@ void GameObject::activate(IState* pPrevious) {
 	device->setEventReceiver(&eventListener);
 	_initMenu();
 	then = device->getTimer()->getTime();
+	//gameInfo = GameInfo();
+	lastScore = 99999;
+	this->lastHit = 0;
+	firstUpdate = true;
+	comboLast = 0;
+	gameInfo.clearScore();
 
 #ifdef USE_IRR
 	soundEngine = createIrrKlangDevice();
@@ -190,6 +196,7 @@ u32 GameObject::_showPauseMenu() {
 }
 
 void GameObject::_initMenu() {
+	printf("initialize menu.\n");
 	/* menu items */
 	for (int i = 0; i < GAME_MENU_LENGTH; i++) {
 		widgets[i] = guienv->addImage(

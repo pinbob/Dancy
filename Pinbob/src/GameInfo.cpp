@@ -32,3 +32,10 @@ void GameInfo::setPlayerName(std::string playerName) {
 	this->playerName = playerName;
 }
 
+void GameInfo::clearScore() {
+	if (this->score) {
+		delete score;
+	}
+	this->score = new Score();
+}
+

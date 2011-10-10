@@ -19,6 +19,7 @@ public:
     void setScore(Score *score);
     std::string getPlayerName() const;
     void setPlayerName(std::string playerName);
+    void clearScore();
 private:
 	Score* score;
 	std::string playerName;
