@@ -176,6 +176,7 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 	ARMarkerInfo *marker_info;
 	int marker_num;
 	int p;
+	int find_or_not = 0;
 
 	//check
 	if (!this->patt_loaded)
@@ -248,9 +249,11 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 
 		//was it found?
 		if (k == -1) {
+			puts("pattern not found.");
 			patt_node[p]->setVisible(1);
 			continue;
 		}
+		find_or_not = 1;
 
 		//begin the matrix process
 		arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
@@ -273,7 +276,7 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 		patt_node[p]->setVisible(1);
 	}
 
-	return marker_num;
+	return find_or_not;
 }
 
 void IARManager::our_convert_trans_para(double para[3][4], double gl_para[16]) {
@@ -473,6 +476,9 @@ void IARManager::our_argConvGLcpara2(double cparam[3][4], int width, int height,
 }
 
 void IARManager::closeAR() {
+	for (int i=0; i<this->patt_loaded; i++) {
+		arFreePatt(this->patt_id[i]);
+	}
 	arVideoCapStop();
 
 	if (arVideoClose() <0) {
