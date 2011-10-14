@@ -22,11 +22,12 @@ using std::vector;
 
 ///////////////////
 // BMS encoding: //
-// 4 panel       //
-// Left :    11  //
-// Down :    13  //
-// Up   :    15  //
-// Right:    16  //
+// 5 panel       //
+// Left :   11   //
+// Down :   13   //
+// Up   :   15   //
+// Right:   16   //
+// BPM  :  03/08 //
 ///////////////////
 
 enum {
@@ -34,7 +35,8 @@ enum {
   BMS_LEFT,
   BMS_DOWN,
   BMS_UP,
-  BMS_RIGHT
+  BMS_RIGHT,
+  BMS_BPM
 };
 
 NotesLoader::NotesLoader(): song_num_(0) {}
@@ -51,6 +53,8 @@ void NotesLoader::MapBMSToNote(int panel, int &panel_out, TapNote &tap_note_out)
     tap_note_out = TAP_ORIGINAL_TAP;
   }
   switch (panel) {
+    case 3 :
+    case 8 : panel_out = BMS_BPM;   break;
     case 11: panel_out = BMS_LEFT;  break;
     case 13: panel_out = BMS_DOWN;  break;
     case 15: panel_out = BMS_UP;    break;
@@ -66,14 +70,12 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
   // ResetPanelsMagic();
 
   ifstream file_reader;
-// #ifdef DEBUG__
   // file_reader.open("OBLIVION_7a.bms", ifstream::in);
-// #else
+  // printf("%s\n", path);
   file_reader.open(path, ifstream::in);
-// #endif /* DEBUG__ */
 
   if (!file_reader.good()) {
-    printf("%s\n", "fail to open file");
+    printf("fail to open file: %s\n", path);
     return false;
   }
 
@@ -105,19 +107,26 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
 
     if (line.find("#TITLE") != string::npos) {
       info.title_ = value;
-    }
-    if (line.find("#GENRE") != string::npos) {
+    } else if (line.find("#GENRE") != string::npos) {
       info.genre_ = value;
-    }
-    if (line.find("#ARTIST") != string::npos) {
+    } else if (line.find("#ARTIST") != string::npos) {
       info.artist_ = value;
-    }
-    if (line.find("#DIFFICULTY") != string::npos) {
+    } else if (line.find("#DIFFICULTY") != string::npos) {
       info.difficulty_ = atoi(value.c_str());
+    } else if (line.find("#BPM") != string::npos) {
+      if (isint(key[4])
+          // register preset bpm
+          && isint(key[5])
+          && first_space != string::npos) {
+        note_data->insert_preset_bpm((key[4]-48)*16 + key[5] - 48,
+                                  atof(value.c_str()));
+      } else {
+        // default bpm
+        note_data->set_bpm(atoi(value.c_str()));
+      }
     }
-    if (line.find("#BPM") != string::npos) {
-      note_data->set_bpm(atoi(value.c_str()));
-    }
+
+    // Main data field
     if (key.length() >= 6 &&  key[0] == '#'
         && isint(key[1]) && isint(key[2])
         && isint(key[3]) && isint(key[4])
@@ -126,7 +135,7 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
       int panel_num = atoi(key.substr(4, 2).c_str());
       // PushPanelNumForMagic(panel_num);
 
-      vector<bool> notes_array;      // split notes by 2
+      vector<bool> notes_array;      // split notes by 2 digits
       for (int i = 0; i < (int)value.length(); i += 2) {
         static bool is_note;
         string sub = value.substr(i, 2);
@@ -141,26 +150,41 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
 
       for (int i = 0; i < (int)note_num_in_this_measure; i++) {
         if (notes_array[i]) {
+          
+          // If this is a valid note and not "00"
+          // then calculate the percent of the note in this measure
           float percent = (float)i / (float)note_num_in_this_measure;
 
-          /* unify index to rows, leaving intervals TAP_EMPTY */
+          /**
+           * unify index to rows, leaving intervals TAP_EMPTY
+           * - In this stage, variable BPM is not considered
+           **/
           const int note_row = (int)((measure_num + percent) * BEATS_PER_MEASURE * ROWS_PER_BEAT);
 
-          /* col_num ~ panel_num */
-          int col_num;
+          /* map panel_num [1-4] -> direction(1-4) */
+          int direction;
           TapNote tap_note;
 
-          MapBMSToNote(panel_num, col_num, tap_note);
+          MapBMSToNote(panel_num, direction, tap_note);
 
-          // std::cout << note_num_in_this_measure << ' ' << i << ' ' <<  measure_num << ' ' << col_num << ' ' << note_row << std::endl;
-          if (col_num != -1) {
-            note_data->set_tap_note(col_num - 1, note_row, tap_note);
+          // std::cout << note_num_in_this_measure << ' ' << i << ' ' <<  measure_num << ' ' << direction << ' ' << note_row << std::endl;
+          if (direction == 5) {
+            if (panel_num == 3)
+              note_data->set_cur_bpm((key[4]-48) * 16 + key[5] -48);
+            else {
+              int preset_num = atoi(value.substr(2*i, 2).c_str());
+              note_data->set_cur_bpm(note_data->preset_bpm(preset_num));
+            }
+          } else {
+            note_data->set_cur_bpm(note_data->bpm());
           }
+          if (direction != -1) {
+            note_data->set_tap_note(direction - 1, note_row, tap_note);
+          } 
         }
       }
     }
   }
-
   return true;
 }
 
@@ -173,7 +197,9 @@ void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
   d = opendir(path);
   if (d) {
     while ((dir = readdir(d)) != NULL) {
-      if (dir->d_type == DT_DIR && strcmp(dir->d_name, "..") != 0 && strcmp(dir->d_name, ".") != 0) {
+      if (dir->d_type == DT_DIR
+          && strcmp(dir->d_name, "..") != 0
+          && strcmp(dir->d_name, ".") != 0) {
         strncpy(song_list_[song_num_], dir->d_name, FILE_NAME_MAX_LEN - 1);
         ++song_num_;
       }
@@ -188,6 +214,7 @@ void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
   
   // For every song folder, search for its different bms files
   // and add them to the NoteData array in Class Song
+  // +2 BECAUSE strlen doesn't include the empty char
   for (int i = 0; i < song_num_; ++i) {
     int len = strlen(path) + strlen(song_list_[i]) + 2;
     sub_dir = new char[len];
@@ -202,10 +229,12 @@ void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
     // temp array to store NoteData
     NoteData notes_of_a_song[10];
     struct SongInfo info;
-    // Load bms files(regular file REG) of the same song folder
+    // Load bms files(regular file REG) in the same song folder
     if (d) {
       while ((dir = readdir(d)) != NULL) {
-        if (dir->d_type == DT_REG && strcmp(dir->d_name + strlen(dir->d_name) - 4, ".bms") == 0) {
+        // readin *.bms 
+        if (dir->d_type == DT_REG
+            && strcmp(dir->d_name + strlen(dir->d_name) - 4, ".bms") == 0) {
           char *file_dir = new char[len + strlen(dir->d_name) + 1];
           memset(file_dir, 0, sizeof(char) * (len + strlen(dir->d_name) + 1));
           strncpy(file_dir, sub_dir, strlen(sub_dir));
@@ -232,6 +261,7 @@ void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
     song.genre_ = info.genre_;
     song.difficulty_ = info.difficulty_;
 
+    // MUST HAVE AT LEAST ONE SONG
     OggVorbis_File ov;
     FILE *fd;
 
@@ -240,7 +270,8 @@ void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
     strncpy(song_name, sub_dir, strlen(sub_dir));
     fd = fopen(strncat(song_name, "/01.ogg", 7), "rb");
     if (ov_open_callbacks(fd, &ov, NULL, -1, OV_CALLBACKS_NOCLOSE) < 0) {
-      printf("Could not open input as an OggVorbis file.\n");
+      perror("Could not open input as an OggVorbis file.\n:");
+      perror(song_name);
       delete[](song_name);
       return;
     }
@@ -254,6 +285,7 @@ void NotesLoader::ListAllSongs(const char *path, SongCollection *collection) {
 
     // add one song to the song collection
     collection->song_list_.push_back(song);
+    // printf("%d\n", collection->song_list().size());
     delete[](sub_dir);
   }
 }

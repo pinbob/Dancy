@@ -9,30 +9,31 @@ struct TapNote
   enum Type {
     EMPTY,
     TAP,
-    HOLD_HEAD,	// graded like a TAP_TAP
-    HOLD_TAIL,	/* In 2sand3s mode, holds are deleted and TAP_HOLD_END is added: */
-    HOLD,		/* In 4s mode, holds and TAP_HOLD_HEAD are deleted and TAP_HOLD is added: */
-    MINE,		// don't step!
+    HOLD_HEAD,                          /* graded like a TAP_TAP */
+    HOLD_TAIL,	                        /* In 2sand3s mode, holds are deleted and TAP_HOLD_END is added: */
+    HOLD,		                /* In 4s mode, holds and TAP_HOLD_HEAD are deleted and TAP_HOLD is added: */
+    MINE,                               /* don't step! */
     ATTACK,
   };
-  unsigned type_ : 3;	// no unsigned enum support in VC++
+  
+  unsigned type_ : 3;                   /* no unsigned enum support in VC++ */
   enum Source {
-    ORIGINAL,	// part of the original NoteData
-    ADDITION,	// additional note added by a transform
+    ORIGINAL,                  /* part of the original NoteData */
+    ADDITION,                  /* additional note added by a transform */
 
-     /**************************************************************************/
-     /* Removed taps, e.g. in Little - play keysounds here as if               */
-     /* judged Perfect, but don't bother rendering or judging this             */
-     /* step.  Also used for when we implement auto-scratch in BM,             */
-     /* and for if/when we do a "reduce" modifier that cancels out             */
-     /* all but N keys on a line [useful for BM->DDR autogen, too].            */
-     /* Removed hold body (...why?) - acts as follows:                         */
-     /* 1 - if we're using a sustained-sound gametype [Keyboardmania], and     */
-     /*     we've already hit the start of the sound (?? we put Holds Off on?) */
-     /*     then this is triggered automatically to keep the sound going       */
-     /* 2 - if we're NOT [anything else], we ignore this.                      */
-     /* Equivalent to all 4s aside from the first one.                         */
-     /**************************************************************************/
+    /**************************************************************************/
+    /* Removed taps, e.g. in Little - play keysounds here as if               */
+    /* judged Perfect, but don't bother rendering or judging this             */
+    /* step.  Also used for when we implement auto-scratch in BM,             */
+    /* and for if/when we do a "reduce" modifier that cancels out             */
+    /* all but N keys on a line [useful for BM->DDR autogen, too].            */
+    /* Removed hold body (...why?) - acts as follows:                         */
+    /* 1 - if we're using a sustained-sound gametype [Keyboardmania], and     */
+    /*     we've already hit the start of the sound (?? we put Holds Off on?) */
+    /*     then this is triggered automatically to keep the sound going       */
+    /* 2 - if we're NOT [anything else], we ignore this.                      */
+    /* Equivalent to all 4s aside from the first one.                         */
+    /**************************************************************************/
     REMOVED,
   };
   unsigned source_ : 2;	// only valid if type!=empty
@@ -147,32 +148,30 @@ inline float NoteRowToBeat( float fNoteIndex )                  { return fNoteIn
 inline float NoteRowToBeat( int iNoteIndex )                    { return NoteRowToBeat( (float)iNoteIndex );     };
 
 
+/* struct HoldNote */
+/* { */
+/*         HoldNote( int t, int s, int e ) { iTrack=t; iStartRow=s; iEndRow=e; } */
+/*         bool RowIsInRange( int row ) const { return iStartRow <= row && row <= iEndRow; } */
+/*         bool RangeOverlaps( int start, int end ) const */
+/*         { */
+/*                 /\* If the range doesn't overlap us, then start and end are either both before */
+/*                  * us or both after us. *\/ */
+/*                 return !( (start < iStartRow && end < iStartRow) || */
+/*                                   (start > iEndRow && end > iEndRow) ); */
+/*         } */
+/*         bool RangeOverlaps( const HoldNote &hn ) const { return RangeOverlaps(hn.iStartRow, hn.iEndRow); } */
+/*         bool RangeInside( int start, int end ) const { return iStartRow <= start && end <= iEndRow; } */
+/*         bool ContainedByRange( int start, int end ) const { return start <= iStartRow && iEndRow <= end; } */
 
-/*********************************************************************************************************************/
-/* struct HoldNote                                                                                                   */
-/* {                                                                                                                 */
-/*         HoldNote( int t, int s, int e ) { iTrack=t; iStartRow=s; iEndRow=e; }                                     */
-/*         bool RowIsInRange( int row ) const { return iStartRow <= row && row <= iEndRow; }                         */
-/*         bool RangeOverlaps( int start, int end ) const                                                            */
-/*         {                                                                                                         */
-/*                 /\* If the range doesn't overlap us, then start and end are either both before                    */
-/*                  * us or both after us. *\/                                                                       */
-/*                 return !( (start < iStartRow && end < iStartRow) ||                                               */
-/*                                   (start > iEndRow && end > iEndRow) );                                           */
-/*         }                                                                                                         */
-/*         bool RangeOverlaps( const HoldNote &hn ) const { return RangeOverlaps(hn.iStartRow, hn.iEndRow); }        */
-/*         bool RangeInside( int start, int end ) const { return iStartRow <= start && end <= iEndRow; }             */
-/*         bool ContainedByRange( int start, int end ) const { return start <= iStartRow && iEndRow <= end; }        */
-/*                                                                                                                   */
-/*         float GetStartBeat() const { return NoteRowToBeat( iStartRow ); }                                         */
-/*         float GetEndBeat() const { return NoteRowToBeat( iEndRow ); }                                             */
-/*                                                                                                                   */
-/*         /\* Invariant: iStartRow <= iEndRow *\/                                                                   */
-/*         int		iStartRow;                                                                                   */
-/*         int		iEndRow;                                                                                     */
-/*         int		iTrack;                                                                                      */
-/* };                                                                                                                */
-/*********************************************************************************************************************/
+/*         float GetStartBeat() const { return NoteRowToBeat( iStartRow ); } */
+/*         float GetEndBeat() const { return NoteRowToBeat( iEndRow ); } */
+
+/*         /\* Invariant: iStartRow <= iEndRow *\/ */
+/*         int		iStartRow; */
+/*         int		iEndRow; */
+/*         int		iTrack; */
+/* }; */
+
 
 #endif
 
