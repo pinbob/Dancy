@@ -20,11 +20,14 @@
 #define MAX_BUFFER 1024
 
 ArManager::ArManager(IrrlichtDevice* device, ISceneManager* smgr,
-		IVideoDriver* driver, s32 arid) :
+		IVideoDriver* driver, StateMachine* state_machine, s32 arid) :
 		smgr(smgr), driver(driver),
 		hitImageStatus(HI_LENGTH),lastHitStatus(HI_LENGTH),
 		arid(arid){
 	this->armgr = new IARManager(device);
+	printf("current devis %d.\n", state_machine->currentDevice);
+	sprintf(vconf, "v4l2src device=%s ! video/x-raw-yuv,width=320,height=240 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink",
+			state_machine->avaDevice[state_machine->currentDevice]);
 }
 
 bool ArManager::init(const char* filename) {
@@ -52,20 +55,20 @@ bool ArManager::init(const char* filename) {
 					switch (i) {
 					case CAMERA:
 						cparam_name = new char[strlen(bpt) + 1];strcpy(cparam_name, bpt);
-                            cparam_name[strlen(cparam_name) - 1] = '\0';
-                            break;
-                        case PATTERNS:
-                            patt_name = new char[strlen(bpt) + 1];
-                            strcpy(patt_name, bpt);
-                            patt_name[strlen(patt_name) - 1] = '\0';
-                            break;
-                        default:
-                            vconf = new char[strlen(bpt) + 1];
-                            strcpy(vconf, bpt);
-                            vconf[strlen(vconf) - 1] = '\0';
-                            break;
+                        cparam_name[strlen(cparam_name) - 1] = '\0';
+                        break;
+                    case PATTERNS:
+                        patt_name = new char[strlen(bpt) + 1];
+                        strcpy(patt_name, bpt);
+                        patt_name[strlen(patt_name) - 1] = '\0';
+                        break;
+                    default:
+                        //vconf = new char[strlen(bpt) + 1];
+                        //strcpy(vconf, bpt);
+                        //vconf[strlen(vconf) - 1] = '\0';
+                        break;
                     }
-					}
+				}
 				confirm = true;
 			}
 		} //end if
@@ -89,9 +92,6 @@ bool ArManager::init_win32(const char* tcparam_name, const char* tpatt_name,
     strcpy(patt_name, tpatt_name);
     patt_name[strlen(patt_name) - 1] = '\0';
 
-    vconf = new char[strlen(tvconf) + 1];
-    strcpy(vconf, tvconf);
-    vconf[strlen(vconf) - 1] = '\0';
     _initAR();
     return true;
 }

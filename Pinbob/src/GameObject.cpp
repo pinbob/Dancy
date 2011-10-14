@@ -50,7 +50,8 @@ void GameObject::activate(IState* pPrevious) {
 	eventListener.setStatus(IG_UPDATE);
 	eventListener.setHitStatus(0);
 	//FIXME I don't know why should put more arguments
-	logic = new DefaultGameLogic(then, new ArManager(device, smgr, driver,arid),
+	logic = new DefaultGameLogic(then, new ArManager(device, smgr,
+			driver, this->m_pStateMachine,arid),
 			&gameInfo,  this, this->currentSong);
 }
 

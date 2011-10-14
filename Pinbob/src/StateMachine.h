@@ -46,6 +46,12 @@ public:
 		* clear all states
 	*/
     virtual void clearStates();
+
+    /**
+     * Scans the video devices
+     * @return available device count
+     */
+    int scanDevice();
 	/**
 		* set the m_bGraphicsChanged flag to "true"
 		* @see m_bGraphicsChanged
@@ -86,6 +92,8 @@ public:
     u32 getFps();
 
 public:
+    char *avaDevice[2];		/**< available devices */
+    short currentDevice;
 	array<IState*> m_aStates;						/**< a list of all states */
 	IState *m_pActive;										/**< the active state */
 	IrrlichtDevice  *m_pDevice;

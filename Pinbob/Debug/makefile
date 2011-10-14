@@ -8,9 +8,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include subdir.mk
 -include src/subdir.mk
 -include asset/models/subdir.mk
--include subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -45,7 +45,7 @@ all: Pinbob
 Pinbob: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L/usr/local/lib -L/home/nuedc/Meego/irrKlang-1.3.0/bin/linux-gcc -L/home/nuedc/Meego/ARToolKit/lib -o "Pinbob" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L/usr/local/lib -L/home/yejiabin/Downloads/irrKlang-1.3.0/bin/linux-gcc -L/home/yejiabin/Downloads/ARToolKit/lib -o "Pinbob" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
