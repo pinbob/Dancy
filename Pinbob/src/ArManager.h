@@ -18,6 +18,7 @@
 #include "irrAR.h"
 #include "Config.h"
 #include "IGameLogic.h"
+#include "StateMachine.h"
 
 using namespace irr;
 
@@ -57,7 +58,7 @@ public:
 	 * @param smgr the scene manger pointer for renderring
 	 */
 	ArManager(IrrlichtDevice* device, ISceneManager* smgr,
-			IVideoDriver* driver);
+			IVideoDriver* driver, StateMachine* state_machine, s32 arid);
 	/**
 	 * initialize the armanager by given configuration file
 	 * @param filename the filename of the configuration file
@@ -109,7 +110,7 @@ private:
 	/* pattern file path */
 	char *patt_name;
 	/* gstreamer string */
-	char *vconf;
+	char vconf[200];
 	/* initialize ar environment for internal call */
 	void _initAR();
 	/* load arrow information */
@@ -140,6 +141,8 @@ private:
 	u32 hitImageStatus;
 	u32 lastHitStatus;
 	f32 hitImageScale;
+
+	s32 arid;
 
 };
 

@@ -14,7 +14,9 @@
 #include "GameEventReceiver.h"
 #include "GameInfo.h"
 #include "../include/conio.h"
+#ifdef USE_IRR
 #include "irrKlang.h"
+#endif
 #include "NotesLoader.h"
 #include "NoteData.h"
 #include "SongCollection.h"
@@ -134,7 +136,7 @@ private:
 	IGUIImage* combo[COMBO_WIDTH];
 	IGUIImage* xSign;
 	GameEventReceiver eventListener;
-	ISoundEngine *soundEngine;
+	//ISoundEngine *soundEngine;
 	void _initMenu();
 	/* update both score */
 	void _updateScore(u32 score);
@@ -146,6 +148,7 @@ private:
 	u32 lastScore;
 	int comboLast;
 	Song* currentSong;
+	s32 arid;
 	SongCollection* songcollection;
 };
 

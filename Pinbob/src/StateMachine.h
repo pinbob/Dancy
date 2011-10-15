@@ -10,7 +10,9 @@
 
 
 #include "irrlicht.h"
-#include "irrKlang.h"
+#ifdef USE_IRR
+#include <irrKlang.h>
+#endif
 #include "IState.h"
 #ifdef WIN32
 #pragma comment(lib,"irrlicht.lib")
@@ -22,8 +24,6 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
-
-using namespace irrklang;
 
 class MenuHandler;
 class GameHandler;
@@ -46,6 +46,12 @@ public:
 		* clear all states
 	*/
     virtual void clearStates();
+
+    /**
+     * Scans the video devices
+     * @return available device count
+     */
+    int scanDevice();
 	/**
 		* set the m_bGraphicsChanged flag to "true"
 		* @see m_bGraphicsChanged
@@ -60,7 +66,7 @@ public:
 		* retrieve the sound engine
 		* @return the sound engine
 	*/
-	ISoundEngine *getSoundEngine();
+	//ISoundEngine *getSoundEngine();
 	 /**
 		* start and run the state machine
 		* @return unimportant
@@ -86,6 +92,8 @@ public:
     u32 getFps();
 
 public:
+    char *avaDevice[2];		/**< available devices */
+    short currentDevice;
 	array<IState*> m_aStates;						/**< a list of all states */
 	IState *m_pActive;										/**< the active state */
 	IrrlichtDevice  *m_pDevice;

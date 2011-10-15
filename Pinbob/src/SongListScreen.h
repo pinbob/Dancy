@@ -7,7 +7,9 @@
 #pragma comment(lib, "irrKlang.lib")
 #endif
 #include "IState.h"
+#ifdef USE_IRR
 #include "irrKlang.h"
+#endif
 #include "SongCollection.h"
 #include "Song.h"
 
@@ -22,7 +24,7 @@ public:
 	virtual bool OnEvent( const SEvent& event );
 	void drawScene();
 private:
-	ISoundEngine *m_pSndEngine;//sound engine for menu
+	//ISoundEngine *m_pSndEngine;//sound engine for menu
 	char* backPath;//background path
 	ITexture* back;
 	IGUIListBox * listbox;

@@ -40,6 +40,7 @@ public:
 	   MODE_STATE,        //mode menu
 	   //SONG_STATE,        //song state
 	   HELP_STATE,
+	   OPTION_STATE,
 	   CREDITS_STATE,     //credits
 	   START_GAME,        //start game
 	   GAME_OVER_STATE,

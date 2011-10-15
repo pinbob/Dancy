@@ -22,17 +22,19 @@ void NoteData::set_tap_note(int panel, int row, TapNote t) {
 
   PadTapNotes(row);
   tap_notes_[panel][row] = t;
+  var_bpm_.push_back(cur_bpm_);
 }
 
 ROW NoteData::GetNoteAtTime(unsigned time) {
   /* interval between two row */
-  float interval = 60000.0 / bpm_ / 48;
+  // printf("last bpm: %.2f\n", var_bpm_[last_idx_]);
+  float interval = 60000.0 / var_bpm_[last_idx_] / 48;
 
   /* the direct index generated from time,
    * which may be inaccurate and hit on no target
    */
   int idx = floor(time / interval);
-  if (idx > tap_notes_[0].size())
+  if (idx > (int)tap_notes_[0].size())
     return ROW{0, 0, 0, 0, 0};
 
   struct ROW row = { *(char *)(&tap_notes_[0][idx])?1:0,

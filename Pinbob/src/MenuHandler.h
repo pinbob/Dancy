@@ -15,9 +15,11 @@
 #pragma comment(lib, "irrKlang.lib")
 #endif
 #include "IState.h"
-#include "irrKlang.h"
 
+#ifdef USE_IRR
+#include "irrKlang.h"
 using namespace irrklang;
+#endif
 
 class MenuHandler : public IEventReceiver, public IState
 {
@@ -34,7 +36,7 @@ public:
 	static StateType m_lastfocusItem; //remember last focus item
 
 private:
-	ISoundEngine *m_pSndEngine;//sound engine for menu
+	//ISoundEngine *m_pSndEngine;//sound engine for menu
 	//ISceneNode *m_pMenu;
 	ITimer *m_pTimer;
 	u32 m_focusItem;//shows which menu is focused

@@ -15,11 +15,11 @@
 #include <GL/glu.h>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
-		GameInfo* gameInfo, ISoundEngine* soundEngine, GameObject* gameObejct,
+		GameInfo* gameInfo,  GameObject* gameObejct,
 		Song* song) :
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
 				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), musicState(MUSIC_PRE), musicOffset(0), totalTime(
-				0), song(song),currentSong(0) {
+				0), song(song) {
 	// TODO currently songdir is fixed
 	/*
 	if (song->main_title().at(song->main_title().size() - 1) == '\r') {
