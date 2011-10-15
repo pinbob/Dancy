@@ -26,7 +26,7 @@
 #define GAME_OVER 2
 
 /* defines the arrow height */
-#define ARROW_HEIGHT 150.0
+//#define ARROW_HEIGHT 150.0
 #define SPEED .05
 #define TIME_ELAPSED 3000 // ARROW_HEIGHT/SPEED
 

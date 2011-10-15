@@ -16,13 +16,13 @@ using namespace std;
 #include "MenuHandler.h"
 #include "SettingHandler.h"
 #include "MenuFactory.h"
-#include "GameObject.h"
-#include "SongListScreen.h"
+
 #include "GameOverState.h"
+#include "GameObject.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
-
+#include "SongListScreen.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -79,7 +79,6 @@ void StateMachine::initStates(IrrlichtDevice *pDevice) {
 	//make sure no old (already deleted) config file readers or writers are stored
 	//ConfigFileManager::getSharedInstance()->clearReadersWriters();
 
-#ifdef TEST_ALL
 	//now create all of the main states, set their index number and add them to the array
 	m_pMenu[IState::MAIN_MENU_STATE] = MenuFactory::createMenuHandler(m_pDevice,
 			this, IState::MAIN_MENU_STATE);
@@ -109,7 +108,10 @@ void StateMachine::initStates(IrrlichtDevice *pDevice) {
 	m_pGameOverState = new GameOverState(m_pDevice, this);
 	addState(m_pGameOverState); // 6
 
-	m_pSelectSongScreen = new SongListScreen(m_pDevice, this);
+	/* load songs */
+	SongCollection *songs = new SongCollection();
+	songs->LoadSongs("/usr/local/games/dancy/asset/songs");
+	m_pSelectSongScreen = new SongListScreen(m_pDevice, this, songs);
 	addState(m_pSelectSongScreen); // 7
 
 	//first of all,activate the main menu state

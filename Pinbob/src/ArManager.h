@@ -34,9 +34,11 @@ class Arrow;
 enum CONFIG_KEY {
 	CAMERA, PATTERNS, VCONF, CONFIG_KEY_LENGTH
 };
+
 enum HitImage {
 	HI_PERFECT, HI_WELL_DONE, HI_GOOD, HI_BAD, HI_MISSED, HI_LENGTH
 };
+
 
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };

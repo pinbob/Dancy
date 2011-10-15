@@ -21,6 +21,9 @@
 #include "NoteData.h"
 #include "Song.h"
 
+class ArManager;
+class GameObject;
+
 //enum MUSIC_STATE {
 #define 	MUSIC_PRE 0
 #define 	MUSIC_PLAYING 1

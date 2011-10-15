@@ -22,6 +22,7 @@
 #include "SongCollection.h"
 #include "Song.h"
 
+
 struct GameMenuConfig {
 	core::position2d<s32> position;
 	core::rect<s32> size;
@@ -65,6 +66,7 @@ const GameMenuConfig GAME_MENU_CONFIG[GAME_MENU_LENGTH] = {
 enum PauseMenu {
 	GP_CONTINUE, GP_MAIN_MENU, GP_RESTART, GP_MENU_HEAD, GP_LENGTH
 };
+
 
 struct ResourceLayout {
 	const char* filename;

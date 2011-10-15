@@ -6,7 +6,7 @@
  */
 
 #include "GameOverState.h"
-#include "Config.h"
+
 
 GameOverState::GameOverState(IrrlichtDevice *pDevice,
 		StateMachine *pStateMachine) :

@@ -147,8 +147,8 @@ u32 MenuHandler::update() {
 				printf("song state clicked!\n");
 				//m_lastfocusItem = SONG_STATE;
 				m_lastfocusItem = MODE_STATE;
-				//return SONG_STATE;
-				return START_GAME;
+				return SONG_STATE;
+				//return START_GAME;
 			}
 //  			else if(m_lastfocusItem == SONG_STATE) //we are now in song state
 //  			{

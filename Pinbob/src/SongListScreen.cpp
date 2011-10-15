@@ -1,17 +1,15 @@
 
 #include "GameObject.h"
-#include "Song.h"
 #include "SongListScreen.h"
-#include "StateMachine.h"
-#include "SongCollection.h"
 
 SongListScreen::SongListScreen(IrrlichtDevice *pDevice,
-		StateMachine *pStateMachine) :
-		IState(pDevice, pStateMachine) {
+		StateMachine *pStateMachine, SongCollection* songs) :
+		IState(pDevice, pStateMachine),songcollection(songs) {
 	backPath = "asset/images/back.png";
 	back = m_pDriver->getTexture(backPath);
-	songcollection = new SongCollection();
-	songcollection->LoadSongs("asset/songs");
+	for (unsigned int i=0; i<songcollection->song_list().size(); i++) {
+		printf("get song %s.\n", songcollection->GetSong(i).main_title().c_str());
+	}
 	res = 0;
 }
 

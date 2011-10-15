@@ -9,6 +9,8 @@
 #define GAMEOVERSTATE_H_
 
 #include "IState.h"
+#include "Config.h"
+#include "StateMachine.h"
 #include "GameInfo.h"
 
 static const char* goverImage[5] = {

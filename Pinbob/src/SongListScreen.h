@@ -6,7 +6,7 @@
 #pragma comment(lib,"irrlicht.lib")
 #pragma comment(lib, "irrKlang.lib")
 #endif
-#include "IState.h"
+
 #ifdef USE_IRR
 #include "irrKlang.h"
 #endif
@@ -16,7 +16,8 @@
 class SongListScreen : public IEventReceiver, public IState
 {
 public:
-	SongListScreen(IrrlichtDevice *pDevice, StateMachine *pStateMachine);
+	SongListScreen(IrrlichtDevice *pDevice, StateMachine *pStateMachine,
+			SongCollection *songs);
 	virtual ~SongListScreen();
 	virtual u32 update( void );
 	virtual void activate( IState* pPrevious );
