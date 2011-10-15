@@ -41,7 +41,7 @@ enum HitImage {
 typedef float pos2d[2];
 const char configKeys[CONFIG_KEY_LENGTH][8] = { "camera", "pattern", "vconf" };
 const pos2d arrowPos[4] = { { -50, 50 }, { 50, 50 }, { 50, 50 }, { -50, -50 } };
-const vector3df TIMER_POS = vector3df(-58, 64, 200);
+const vector3df TIMER_POS = vector3df(0, 64, 200);
 
 static const char* hitImageFile[HI_LENGTH] = { "asset/images/perfect.png",
 		"asset/images/wellDone.png", "asset/images/good.png",

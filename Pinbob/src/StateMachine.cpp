@@ -50,8 +50,8 @@ int StateMachine::scanDevice() {
 		devBuffer[10] = '0' + i;
 		if ((fd = open(devBuffer, O_RDONLY)) > 0) {
 			this->avaDevice[j] = strdup(devBuffer);
-			j++;
 			printf("device %s open!\n", this->avaDevice[j]);
+			j++;
 			close(fd);
 		}
 	}

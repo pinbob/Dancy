@@ -249,7 +249,6 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 
 		//was it found?
 		if (k == -1) {
-			puts("pattern not found.");
 			patt_node[p]->setVisible(1);
 			continue;
 		}
