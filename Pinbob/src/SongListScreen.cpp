@@ -55,17 +55,16 @@ bool SongListScreen::OnEvent(const SEvent& event) {
 			//when mouse up, set isMouseDown to be false
 			MouseState.isMouseUp = true;
 			if (event.MouseInput.X
-					< static_cast<s32>(3 * m_pDriver->getScreenSize().Width / 10)
+					< static_cast<s32>(3 * SCREEN_WIDTH / 10)
 					&& event.MouseInput.Y
 							< static_cast<s32>(2
-									* m_pDriver->getScreenSize().Height / 10)) {
+									* SCREEN_HEIGHT / 10)) {
 				printf("back\n");
 				res = MODE_STATE;
 			} else if (event.MouseInput.X
-					> static_cast<s32>(7 * m_pDriver->getScreenSize().Width / 10)
+					> static_cast<s32>(7 * SCREEN_WIDTH / 10)
 					&& event.MouseInput.Y
-							< static_cast<s32>(2
-									* m_pDriver->getScreenSize().Height / 10)) {
+							< static_cast<s32>(2 * SCREEN_HEIGHT / 10)) {
 				printf("continue\n");
 				if (songcollection->song_list().size() == 0)
 					break;
@@ -94,8 +93,8 @@ void SongListScreen::drawScene() {
 
 	// get screen size method will misleading the program
 	// so I must fix the screen size
-	u32 screenWidth = 640; //m_pDevice->getVideoDriver()->getScreenSize().Width;
-	u32 screenHeight = 480; //m_pDevice->getVideoDriver()->getScreenSize().Height;
+	u32 screenWidth = SCREEN_WIDTH; //m_pDevice->getVideoDriver()->getScreenSize().Width;
+	u32 screenHeight = SCREEN_HEIGHT; //m_pDevice->getVideoDriver()->getScreenSize().Height;
 	m_pGuienv->addImage(
 			m_pDriver->getTexture("asset/images/song_menu/back0.png"),
 			position2d<s32>(0, 0));

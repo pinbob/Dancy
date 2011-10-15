@@ -26,7 +26,7 @@
 #define GAME_OVER 2
 
 /* defines the arrow height */
-//#define ARROW_HEIGHT 150.0
+#define ARROW_HEIGHT 150.0
 #define SPEED .05
 #define TIME_ELAPSED 3000 // ARROW_HEIGHT/SPEED
 
@@ -40,7 +40,7 @@
 #define MENU_HEIGHT 70
 
 #define ARROW_WIDTH 130
-#define ARROW_HEIGHT 110
+//#define ARROW_HEIGHT 110
 
 #define GP_WIDTH 240
 #define GP_TITLE_HEIGHT 80

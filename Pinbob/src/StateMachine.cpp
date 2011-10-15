@@ -111,8 +111,8 @@ void StateMachine::initStates(IrrlichtDevice *pDevice) {
 	/* load songs */
 	SongCollection *songs = new SongCollection();
 	songs->LoadSongs("/usr/local/games/dancy/asset/songs");
-	m_pSelectSongScreen = new SongListScreen(m_pDevice, this, songs);
-	addState(m_pSelectSongScreen); // 7
+//	m_pSelectSongScreen = new SongListScreen(m_pDevice, this, songs);
+//	addState(m_pSelectSongScreen); // 7
 
 	//first of all,activate the main menu state
 	m_pActive = m_pMenu[IState::MAIN_MENU_STATE];

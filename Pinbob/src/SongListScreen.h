@@ -12,6 +12,7 @@
 #endif
 #include "SongCollection.h"
 #include "Song.h"
+#include "Config.h"
 
 class SongListScreen : public IEventReceiver, public IState
 {

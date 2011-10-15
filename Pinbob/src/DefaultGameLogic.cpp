@@ -164,8 +164,7 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 			hitCursor != armgr->arrows.end(); hitCursor++) {
 		int gap = abs(
 				(int) ((*hitCursor)->getStartTime() + PREPARE_TIME + musicOffset
-						- timePassed - 800)); //FIXME fix the time bug later
-		printf("hit gap %d.\n",gap);
+						- timePassed)); //FIXME fix the time bug later
 		if ((*hitCursor)->getArrowNode() == 0 || gap > BAD_EPSILON) {
 			break;
 		}
