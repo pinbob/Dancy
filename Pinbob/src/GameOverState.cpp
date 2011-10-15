@@ -27,6 +27,7 @@ void GameOverState::activate(IState* pPrevious) {
 }
 
 void GameOverState::deactivate(IState* pNext) {
+	MenuHandler::m_lastfocusItem = MAIN_MENU_STATE;
 	m_pDevice->getSceneManager()->clear();
 	m_pGuienv->clear();
 }

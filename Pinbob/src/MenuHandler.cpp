@@ -64,7 +64,7 @@ void MenuHandler::activate(IState *pPrevious) {
 	m_pDevice->setEventReceiver(this);
 	MouseState.isMouseUp = false;
 	m_pPrevious = pPrevious;
-	m_lastfocusItem = MAIN_MENU_STATE;
+//	m_lastfocusItem = MAIN_MENU_STATE;
 	m_pTimer = m_pDevice->getTimer();
 	while (m_pTimer->isStopped())
 		m_pTimer->start();
