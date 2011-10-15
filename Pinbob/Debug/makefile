@@ -45,7 +45,7 @@ all: Pinbob
 Pinbob: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L/usr/local/lib -L/home/yejiabin/Downloads/irrKlang-1.3.0/bin/linux-gcc -L/home/yejiabin/Downloads/ARToolKit/lib -o "Pinbob" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L/usr/local/lib -L/home/yejiabin/Downloads/irrKlang-1.3.0/bin/linux-gcc -L/home/yejiabin/Documents/ARToolKit/lib -o "Pinbob" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

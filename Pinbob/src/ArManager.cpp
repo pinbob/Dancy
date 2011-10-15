@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <GL/gl.h>
 
 #include "GSTPlayer.h"
 #include "ArManager.h"
@@ -144,14 +145,15 @@ int ArManager::update(u32 deltaTime, u8 hit) {
 	} else {
 		hitImageNode->setVisible(false);
 	}
+	glEnable(GL_DEPTH_TEST);
 	int dectected = armgr->run();
 	armgr->drawBackground();
+	glDisable(GL_DEPTH_TEST);
 	return dectected;
 }
 
 void ArManager::updateTime(float scale) {
 	timerNode->setScale(vector3df(scale,1,1));
-	timerNode->setPosition(TIMER_POS);
 }
 
 void ArManager::_loadArrows() {
@@ -298,7 +300,7 @@ void ArManager::_initAR() {
 
 	timerNode = smgr->addMeshSceneNode(
 			smgr->addHillPlaneMesh("timerImage",
-			core::dimension2d<f32>(300,2),
+			core::dimension2d<f32>(180,2),
 			core::dimension2d<u32>(1,1)), smgr->getRootSceneNode());
 	timerNode->setPosition(TIMER_POS);
 	timerNode->setMaterialTexture(0, driver->getTexture("asset/images/yellow.tga"));
