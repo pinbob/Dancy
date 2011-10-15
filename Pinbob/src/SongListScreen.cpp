@@ -71,8 +71,6 @@ bool SongListScreen::OnEvent(const SEvent& event) {
 				printf("continue\n");
 				if (songcollection->song_list().size() == 0)
 					break;
-				selectedsong = songcollection->song_list().at(
-						listbox->getSelected());
 				res = START_GAME;
 			}
 			break;
@@ -113,17 +111,5 @@ void SongListScreen::drawScene() {
 			L"Selected a song:",
 			rect<s32>(screenWidth / 4, 26 * screenHeight / 100,
 					3 * screenWidth / 4, 32 * screenHeight / 100), true);
-	listbox = m_pGuienv->addListBox(
-			rect<s32>(screenWidth / 4, 34 * screenHeight / 100,
-					3 * screenWidth / 4, 9 * screenHeight / 10), 0, true);
 
-	printf("%d songs loaded.\n", songcollection->song_list().size());
-	for (unsigned int i = 0; i < songcollection->song_list().size(); i++) {
-		listbox->addItem(
-				stringw(songcollection->song_list().at(i).main_title().c_str()).c_str(),
-				1);
-	}
-	if (songcollection->song_list().size() > 0) {
-		listbox->setSelected(0);
-	}
 }

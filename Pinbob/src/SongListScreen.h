@@ -27,7 +27,6 @@ private:
 	//ISoundEngine *m_pSndEngine;//sound engine for menu
 	char* backPath;//background path
 	ITexture* back;
-	IGUIListBox * listbox;
 	SongCollection* songcollection;
 	struct SMouseState {
 		bool isMouseUp;

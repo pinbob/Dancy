@@ -89,11 +89,6 @@ void StateMachine::initStates(IrrlichtDevice *pDevice) {
 			this, IState::MODE_STATE);
 	addState(m_pMenu[IState::MODE_STATE]); //2
 
-//          m_pMenu[IState::SONG_STATE] = 
-//                  MenuFactory::createMenuHandler(m_pDevice, this, IState::SONG_STATE);
-	// m_pSelectSongScreen = new SongListScreen(m_pDevice,this);
-	//	addState(m_pMenu[IState::SONG_STATE]);//3
-	// addState(m_pSelectSongScreen);
 	m_pMenu[IState::HELP_STATE] = MenuFactory::createMenuHandler(m_pDevice,
 			this, IState::HELP_STATE);
 	addState(m_pMenu[IState::HELP_STATE]); //2
@@ -106,6 +101,7 @@ void StateMachine::initStates(IrrlichtDevice *pDevice) {
 			this, IState::CREDITS_STATE);
 	addState(m_pMenu[IState::CREDITS_STATE]); //4
 
+
 	m_pGameObj = new GameObject(m_pDevice, this, 1000);
 	addState(m_pGameObj); //5
 
@@ -113,17 +109,12 @@ void StateMachine::initStates(IrrlichtDevice *pDevice) {
 	m_pGameOverState = new GameOverState(m_pDevice, this);
 	addState(m_pGameOverState); // 6
 
+	m_pSelectSongScreen = new SongListScreen(m_pDevice, this);
+	addState(m_pSelectSongScreen); // 7
+
 	//first of all,activate the main menu state
 	m_pActive = m_pMenu[IState::MAIN_MENU_STATE];
 	//m_pActive = m_pGameObj;
-#elif defined TEST_GAME
-	m_pGameObj = new GameObject(m_pDevice,this,1000);
-	addState(m_pGameObj); //4
-	m_pActive=m_pGameObj;
-//	m_pActive=m_pMenu[IState::START_GAME];
-#endif
-	//Let's create something for sound
-	//m_pSndEngine=irrklang::createIrrKlangDevice();
 
 	//activate the active state
 	m_pActive->activate(NULL);
