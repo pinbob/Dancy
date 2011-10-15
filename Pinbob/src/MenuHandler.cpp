@@ -64,6 +64,7 @@ void MenuHandler::activate(IState *pPrevious) {
 	m_pDevice->setEventReceiver(this);
 	MouseState.isMouseUp = false;
 	m_pPrevious = pPrevious;
+	m_lastfocusItem = MAIN_MENU_STATE;
 	m_pTimer = m_pDevice->getTimer();
 	while (m_pTimer->isStopped())
 		m_pTimer->start();
@@ -142,14 +143,15 @@ u32 MenuHandler::update() {
 				printf("start game option clicked!\n");
 				m_lastfocusItem = MODE_STATE;
 				return MODE_STATE;
-			} else if (m_lastfocusItem == MODE_STATE) //we are now in mode menu
-					{
-				printf("song state clicked!\n");
-				//m_lastfocusItem = SONG_STATE;
-				m_lastfocusItem = MODE_STATE;
-				return START_GAME;
-				//return START_GAME;
 			}
+//			else if (m_lastfocusItem == MODE_STATE) //we are now in mode menu
+//					{
+//				printf("song state clicked!\n");
+//				//m_lastfocusItem = SONG_STATE;
+//				m_lastfocusItem = MODE_STATE;
+//				return START_GAME;
+//				//return START_GAME;
+//			}
 //  			else if(m_lastfocusItem == SONG_STATE) //we are now in song state
 //  			{
 //  				printf("start game now!\n");
@@ -175,13 +177,11 @@ u32 MenuHandler::update() {
 				printf("help selected\n");
 				m_lastfocusItem = HELP_STATE;
 				return HELP_STATE;
-			} else if (m_lastfocusItem == MODE_STATE) //we are now in mode menu
-					{
-				printf("back!\n");
-				m_lastfocusItem = MAIN_MENU_STATE;
-				return MAIN_MENU_STATE;
-			} else if (m_lastfocusItem == OPTION_STATE) {
-				this->m_pStateMachine->currentDevice = 1;
+			}
+			else if (m_lastfocusItem == OPTION_STATE) {
+				if (m_pStateMachine->avaDevice[1]) {
+					this->m_pStateMachine->currentDevice = 1;
+				}
 				m_lastfocusItem = MAIN_MENU_STATE;
 				return MAIN_MENU_STATE;
 			}
@@ -199,7 +199,7 @@ u32 MenuHandler::update() {
 			break;
 		case 3:
 			if (m_lastfocusItem == MAIN_MENU_STATE) //now in main menu
-					{
+				{
 				printf("credit selected\n");
 				m_lastfocusItem = CREDITS_STATE;
 				return CREDITS_STATE;

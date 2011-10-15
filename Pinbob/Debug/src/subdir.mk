@@ -19,6 +19,7 @@ CPP_SRCS += \
 ../src/HighScore.cpp \
 ../src/MenuFactory.cpp \
 ../src/MenuHandler.cpp \
+../src/ModeScreen.cpp \
 ../src/NoteData.cpp \
 ../src/NoteTypes.cpp \
 ../src/NotesLoader.cpp \
@@ -50,6 +51,7 @@ OBJS += \
 ./src/HighScore.o \
 ./src/MenuFactory.o \
 ./src/MenuHandler.o \
+./src/ModeScreen.o \
 ./src/NoteData.o \
 ./src/NoteTypes.o \
 ./src/NotesLoader.o \
@@ -81,6 +83,7 @@ CPP_DEPS += \
 ./src/HighScore.d \
 ./src/MenuFactory.d \
 ./src/MenuHandler.d \
+./src/ModeScreen.d \
 ./src/NoteData.d \
 ./src/NoteTypes.d \
 ./src/NotesLoader.d \

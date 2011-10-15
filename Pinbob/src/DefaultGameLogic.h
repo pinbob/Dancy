@@ -36,7 +36,7 @@ class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
 	DefaultGameLogic(u32 startTime, ArManager* armgr, GameInfo* gameinfo,
-			GameObject* gameObject, Song* songdir);
+			GameObject* gameObject, Song* songdir, int modes);
 
 	/**
 	 * Override the parent update function
@@ -54,6 +54,7 @@ protected:
 	/* a pointer determines current playing progress */
 	std::list<Arrow*>::iterator creationCursor;
 	std::list<Arrow*>::iterator missedCursor;
+	int modes;
 	ArManager* armgr;
 	GameInfo* gameInfo;
 	GameObject* gameObject;

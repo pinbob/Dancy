@@ -15,30 +15,20 @@
 #include <GL/glu.h>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
-		GameInfo* gameInfo,  GameObject* gameObejct,
-		Song* song) :
+		GameInfo* gameInfo, GameObject* gameObejct, Song* song, int modes) :
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
-				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), musicState(MUSIC_PRE), musicOffset(0), totalTime(
-				0), song(song) {
-	// TODO currently songdir is fixed
-	/*
-	if (song->main_title().at(song->main_title().size() - 1) == '\r') {
-		songdir = new char[song->main_title().size()];
-		strncpy(songdir, song->main_title().c_str(), song->main_title().size());
-		songdir[strlen(songdir)-1] = '\0';
-	} else {
-			songdir = new char[song->main_title().size()+1];
-			strcpy(songdir,song->main_title().c_str());
-		}
-		*/
+				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), musicState(
+				MUSIC_PRE), musicOffset(0), totalTime(0), song(song), modes(
+				modes) {
+
 #ifdef WIN32
-		armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
+	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
-		armgr->init("asset/conf/ar.conf");
+	armgr->init("asset/conf/ar.conf");
 #endif
 //TODO OKay, no file name specified
-		_init(NULL);
-	}
+	_init(NULL);
+}
 
 DefaultGameLogic::~DefaultGameLogic() {
 	delete gameInfo;
@@ -55,7 +45,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 			currentSong->setIsPaused(true);
 		}
 #else
-		gst_pause_song();
+		if ((modes & NO_SOUND) == 0) {
+			gst_pause_song();
+		}
 #endif
 		musicState = MUSIC_PAUSE;
 		//printf("paused\n");
@@ -84,7 +76,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		}
 #else
 		//TODO currently the song path is fixed;
-		gst_play();
+		if ((modes & NO_SOUND) == 0) {
+			gst_play();
+		}
 #endif
 
 		musicOffset = timePassed - PREPARE_TIME;
@@ -93,7 +87,9 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 #ifdef USE_IRR
 		currentSong->setIsPaused(false);
 #else
-		gst_resume_song();
+		if ((modes & NO_SOUND) == 0) {
+			gst_resume_song();
+		}
 #endif
 		musicState = MUSIC_PLAYING;
 	}
@@ -101,7 +97,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	timePassed += delta;
 	if (timePassed < PREPARE_TIME) {
 		armgr->updateCountdown(timePassed);
-	} else if (timePassed < totalTime + PREPARE_TIME){
+	} else if (timePassed < totalTime + PREPARE_TIME) {
 		armgr->destroyCountdown();
 		if (timePassed - PREPARE_TIME < totalTime) {
 			float scale = 1.0
@@ -153,7 +149,9 @@ void DefaultGameLogic::close() {
 	//currentSong->stop();
 	// Drop always comes problem waste some memories...
 	//currentSong->drop();
-	gst_destroy();
+	if ((modes & NO_SOUND) == 0) {
+		gst_destroy();
+	}
 	armgr->close();
 }
 
@@ -207,23 +205,25 @@ void DefaultGameLogic::_init(const char *filename) {
 	SongInfo loadedSong;
 	//TODO fix following fixed variable
 	char* oggPath = (char*) malloc(
-			strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/") + strlen("/default.bms")
-					+ 1);
-	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms", "Catch Me");
+			strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/")
+					+ strlen("/default.bms") + 1);
+	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms",
+			"Catch Me");
 	notesLoader.LoadFromFile(oggPath, &noteData, loadedSong);
 	if (oggPath) {
 		free(oggPath);
 	}
 	//TODO currently the song path is fixed
-	gst_init_player("file:///usr/local/games/dancy/asset/songs/Catch Me/01.ogg");
-
+	if ((modes & NO_SOUND) == 0) {
+	gst_init_player(
+			"file:///usr/local/games/dancy/asset/songs/Catch Me/01.ogg");
+	}
 #ifdef SHOW_DEBUG_INFO
 	printf("oggpath : %s \n", oggPath);
 	printf("song info: title is %s\n", loadedSong.title_.c_str());
 #endif
 
-
-	totalTime = static_cast<u32>(song->time())*1000; // I use 100 seconds for total time arbitrarily
+	totalTime = static_cast<u32>(song->time()) * 1000; // I use 100 seconds for total time arbitrarily
 	ROW row;
 	u32 arrs;
 	for (int i = 0; i < 400; i++) {

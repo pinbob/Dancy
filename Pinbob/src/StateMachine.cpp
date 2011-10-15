@@ -22,7 +22,7 @@ using namespace std;
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "SongListScreen.h"
+#include "ModeScreen.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -84,9 +84,11 @@ void StateMachine::initStates(IrrlichtDevice *pDevice) {
 			this, IState::MAIN_MENU_STATE);
 	addState(m_pMenu[IState::MAIN_MENU_STATE]); //1
 
-	m_pMenu[IState::MODE_STATE] = MenuFactory::createMenuHandler(m_pDevice,
-			this, IState::MODE_STATE);
-	addState(m_pMenu[IState::MODE_STATE]); //2
+	//m_pMenu[IState::MODE_STATE] = MenuFactory::createMenuHandler(m_pDevice,
+	//		this, IState::MODE_STATE);
+	m_pModeScreen = new ModeScreen(m_pDevice, this);
+	addState(m_pModeScreen);
+//	addState(m_pMenu[IState::MODE_STATE]); //2
 
 	m_pMenu[IState::HELP_STATE] = MenuFactory::createMenuHandler(m_pDevice,
 			this, IState::HELP_STATE);

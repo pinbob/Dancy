@@ -50,4 +50,6 @@
 #define DETECT_WIDTH 400
 #define DETECT_HEIGHT 200
 
+#define CENTERING_X(O, I) (O-I)/2
+
 #endif /* CONFIG_H_ */

@@ -22,6 +22,10 @@
 #include "SongCollection.h"
 #include "Song.h"
 
+#define DOUBLE_SPEED 01
+#define SPIN_MODE	02
+#define NO_SOUND 	04
+#define NO_FAIL		010
 
 struct GameMenuConfig {
 	core::position2d<s32> position;
@@ -102,6 +106,7 @@ public:
 	/*  This method is called by the state manager on each form.
 	 *  @return "0" is no state change is wanted, "index of new state-1" to switch to another state, out of bounds index to quit program */
 	virtual u32 update(void);
+	void setModes(int m) { this->modes = m; }
 	virtual ~GameObject();
 	void setCurrentSong(Song* song) {
 		this->currentSong = song;
@@ -119,6 +124,7 @@ public:
 //	const char* getCurrentSong() const
 //	{ return currentSong; }
 private:
+	int modes;
 	IGameLogic* logic;
 	IrrlichtDevice* device;
 	IVideoDriver* driver;

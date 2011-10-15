@@ -29,7 +29,7 @@ class MenuHandler;
 class GameHandler;
 class IState;
 class GameObject;
-class SongListScreen;
+class ModeScreen;
 class GameOverState;
 
 class StateMachine
@@ -113,7 +113,7 @@ public:
 	/************************************************************************/
 	MenuHandler           **m_pMenu;					/** all menu state */         
 	GameObject            *m_pGameObj;              /**< the "game" state */
-	SongListScreen        *m_pSelectSongScreen;
+	ModeScreen			  *m_pModeScreen;
 	//add more elements here
 	GameOverState	      *m_pGameOverState;
 };
