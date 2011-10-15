@@ -37,7 +37,9 @@ class IARManager
 		dimension2di beginCamera(char* cparam_filename, char* win32_vconf_filename = 0, char* unix_config_string = "-dev=/dev/video0");
 		ISceneNode* addARSceneNode(char* patt_filename, ISceneNode *initial_child = 0, s32 id = -1);
 		ISceneNode* addARMultiSceneNode(char* config_filename, ISceneNode *initial_child = 0, s32 id = -1);
+		void setARSceneNode(ISceneNode* node, int idx) ;
 		ITexture* getCameraTexture();
+		int getCurrentID() const { return currentID; }
 		int run();
 		void drawBackground();
 		void fixCamera(ICameraSceneNode* camera);
@@ -52,7 +54,9 @@ class IARManager
 		ITexture* update_ITexture(ITexture *dest, ARUint8 *dataPtr);
 		int translate_nodes(ARUint8 *ardata);
 		
-		
+		int currentID;
+		bool detected;
+
 		//Irrlicht
 		IrrlichtDevice* device;
 		IVideoDriver* driver;

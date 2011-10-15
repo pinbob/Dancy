@@ -6,7 +6,7 @@
  */
 
 #include "GameOverState.h"
-
+#include "MenuHandler.h"
 
 GameOverState::GameOverState(IrrlichtDevice *pDevice,
 		StateMachine *pStateMachine) :

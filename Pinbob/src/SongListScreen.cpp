@@ -17,11 +17,7 @@ irr::u32 SongListScreen::update(void) {
 	if (!m_pDevice->getCursorControl()->isVisible())
 		m_pDevice->getCursorControl()->setVisible(true);
 	m_bSelect = false;
-	if (res == START_GAME) {
-		m_pStateMachine->m_pGameObj->setCurrentSong(&selectedsong);
-//		m_pStateMachine->m_pGameObj->setCurrentSong(
-//				selectedsong.main_title().c_str());
-	}
+
 	return res;
 }
 

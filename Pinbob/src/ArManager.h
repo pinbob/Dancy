@@ -88,6 +88,12 @@ public:
 	void updateCountdown(u32 timePassed);
 	void destroyCountdown();
 	void close();
+	void pushAPattern(const char *patt) {
+		if (this->patt_count < 10) {
+			this->patt_names[this->patt_count] = strdup(patt);
+			this->patt_count ++;
+		}
+	}
 	/**
 	 * The destructor
 	 */
@@ -96,6 +102,10 @@ public:
 	void setHitImageStatus(u32 hitImageStatus);
 	u8 getShowHitPlane() const;
 	void setShowHitPlane(u8 showHitPlane);
+	int detectedID() { return armgr->getCurrentID(); }
+	void setMainNode(int id) {
+		armgr->setARSceneNode(mainNode, id);
+	}
 private:
 	/* the speed of dropping arrow */
 	float speed;
@@ -110,7 +120,8 @@ private:
 	/* camera file path */
 	char *cparam_name;
 	/* pattern file path */
-	char *patt_name;
+	char *patt_names[10];
+	int patt_count;
 	/* gstreamer string */
 	char vconf[200];
 	/* initialize ar environment for internal call */

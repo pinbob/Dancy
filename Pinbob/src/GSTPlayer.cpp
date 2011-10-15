@@ -41,7 +41,7 @@ static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data) {
 
 static void* startSongThread(void *uri) {
 	GstBus *bus;
-
+	//gst_init(0, 0);
 	songLoop = g_main_loop_new(NULL, FALSE);
 	songPipe = gst_element_factory_make("playbin", "player");
 

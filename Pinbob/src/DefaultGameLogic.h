@@ -19,7 +19,7 @@
 #endif
 #include "NotesLoader.h"
 #include "NoteData.h"
-#include "Song.h"
+#include "SongCollection.h"
 
 class ArManager;
 class GameObject;
@@ -36,7 +36,7 @@ class DefaultGameLogic: public IGameLogic {
 public:
 	friend class ArManager;
 	DefaultGameLogic(u32 startTime, ArManager* armgr, GameInfo* gameinfo,
-			GameObject* gameObject, Song* songdir, int modes);
+			GameObject* gameObject, SongCollection* songs, int modes);
 
 	/**
 	 * Override the parent update function
@@ -50,7 +50,7 @@ protected:
 	void _judgeHit(u32 now, u8 hit);
 	// TODO automatically generating arrows according a
 	// specific file
-	void _init(const char* filename);
+	void _init(int id);
 	/* a pointer determines current playing progress */
 	std::list<Arrow*>::iterator creationCursor;
 	std::list<Arrow*>::iterator missedCursor;
@@ -74,7 +74,7 @@ protected:
 	NoteData noteData;
 	int musicState;
 	char* songdir;
-	Song* song;
+	SongCollection* songs;
 };
 
 #endif /* DEFAULTGAMELOGIC_H_ */

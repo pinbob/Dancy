@@ -15,11 +15,19 @@
 #include <GL/glu.h>
 
 DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
-		GameInfo* gameInfo, GameObject* gameObejct, Song* song, int modes) :
+		GameInfo* gameInfo, GameObject* gameObejct, SongCollection* songs,
+		int modes) :
 		startTime(startTime), armgr(armgr), gameObject(gameObject), gameInfo(
 				gameInfo), lastHit(0), timePassed(0), state(IG_DETECT), musicState(
-				MUSIC_PRE), musicOffset(0), totalTime(0), song(song), modes(
+				MUSIC_PRE), musicOffset(0), totalTime(0), songs(songs), modes(
 				modes) {
+
+	char pattPath[128];
+	for (int i = 0; i < songs->song_list().size(); i++) {
+		sprintf(pattPath, "/usr/local/games/dancy/asset/songs/%s/pat",
+				songs->GetSong(i).main_title().c_str());
+		armgr->pushAPattern(pattPath);
+	}
 
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
@@ -27,7 +35,7 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 	armgr->init("asset/conf/ar.conf");
 #endif
 //TODO OKay, no file name specified
-	_init(NULL);
+
 }
 
 DefaultGameLogic::~DefaultGameLogic() {
@@ -55,6 +63,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	} else if (state == IG_DETECT) {
 		if (armgr->update(0, hit)) {
 			printf("detected.\n");
+			_init(armgr->detectedID());
 			state = IG_UPDATE;
 			return state;
 		} else {
@@ -77,6 +86,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 #else
 		//TODO currently the song path is fixed;
 		if ((modes & NO_SOUND) == 0) {
+			puts("calls gst play");
 			gst_play();
 		}
 #endif
@@ -128,7 +138,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
 		if (!(*missedCursor)->isHitted()) {
 			gameInfo->getScore()->missedHit();
-			printf("missed\n");
+			//printf("missed \n");
 		}
 	}
 //increment hit cursor
@@ -200,23 +210,27 @@ void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 	}
 }
 
-void DefaultGameLogic::_init(const char *filename) {
+void DefaultGameLogic::_init(int id) {
 // TODO pass the filename of the song
+	printf("Init id is %d\n", id);
 	SongInfo loadedSong;
 	//TODO fix following fixed variable
-	char* oggPath = (char*) malloc(
-			strlen("Catch Me") + strlen("/usr/local/games/dancy/asset/songs/")
-					+ strlen("/default.bms") + 1);
+	Song *song = &songs->GetSong(id);
+	char oggPath[128];
+	char songPath[128];
+
+	armgr->setMainNode(id);
 	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms",
-			"Catch Me");
+			song->main_title().c_str());
+
 	notesLoader.LoadFromFile(oggPath, &noteData, loadedSong);
-	if (oggPath) {
-		free(oggPath);
-	}
+
 	//TODO currently the song path is fixed
 	if ((modes & NO_SOUND) == 0) {
-	gst_init_player(
-			"file:///usr/local/games/dancy/asset/songs/Catch Me/01.ogg");
+		sprintf(songPath, "file:///usr/local/games/dancy/asset/songs/%s/01.ogg",
+				song->main_title().c_str());
+		gst_init_player(songPath);
+		printf("songPath is %s.\n", songPath);
 	}
 #ifdef SHOW_DEBUG_INFO
 	printf("oggpath : %s \n", oggPath);

@@ -26,6 +26,7 @@ ArManager::ArManager(IrrlichtDevice* device, ISceneManager* smgr,
 		hitImageStatus(HI_LENGTH),lastHitStatus(HI_LENGTH),
 		arid(arid){
 	this->armgr = new IARManager(device);
+	this->patt_count = 0;
 	printf("current devis %d.\n", state_machine->currentDevice);
 	sprintf(vconf, "v4l2src device=%s ! video/x-raw-yuv,width=320,height=240 ! ffmpegcolorspace ! capsfilter caps=video/x-raw-rgb,bpp=24 ! identity name=artoolkit ! fakesink",
 			state_machine->avaDevice[state_machine->currentDevice]);
@@ -58,11 +59,6 @@ bool ArManager::init(const char* filename) {
 						cparam_name = new char[strlen(bpt) + 1];strcpy(cparam_name, bpt);
                         cparam_name[strlen(cparam_name) - 1] = '\0';
                         break;
-                    case PATTERNS:
-                        patt_name = new char[strlen(bpt) + 1];
-                        strcpy(patt_name, bpt);
-                        patt_name[strlen(patt_name) - 1] = '\0';
-                        break;
                     default:
                         //vconf = new char[strlen(bpt) + 1];
                         //strcpy(vconf, bpt);
@@ -76,8 +72,7 @@ bool ArManager::init(const char* filename) {
 	}
 	fclose(fconf);
 #ifdef _DEBUG
-	printf("camera : %s\npattern : %s\nvconf : %s\n", cparam_name, patt_name,
-			vconf);
+
 #endif
 	_initAR();
 	//_loadArrows();
@@ -88,10 +83,6 @@ bool ArManager::init_win32(const char* tcparam_name, const char* tpatt_name,
 		char* tvconf) {
 	cparam_name = new char[strlen(tcparam_name) + 1];strcpy(cparam_name, tcparam_name);
     cparam_name[strlen(cparam_name) - 1] = '\0';
-
-    patt_name = new char[strlen(tpatt_name) + 1];
-    strcpy(patt_name, tpatt_name);
-    patt_name[strlen(patt_name) - 1] = '\0';
 
     _initAR();
     return true;
@@ -311,7 +302,9 @@ void ArManager::_initAR() {
 	//init the camera
 
 	armgr->beginCamera(cparam_name, 0, vconf);
-	armgr->addARSceneNode(patt_name, mainNode, 123);
+	for(int i=0; i<this->patt_count; i++) {
+		armgr->addARSceneNode(patt_names[i],NULL , i*10);
+	}
 	armgr->fixCamera(camera);
 	ArrowPrototypeFactory::getInstance()->createFactory(smgr, driver, mainNode);
 

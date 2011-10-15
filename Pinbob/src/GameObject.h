@@ -108,9 +108,6 @@ public:
 	virtual u32 update(void);
 	void setModes(int m) { this->modes = m; }
 	virtual ~GameObject();
-	void setCurrentSong(Song* song) {
-		this->currentSong = song;
-	}
 //	void setCurrentSong(const char* song){
 //		// the song name seems always contains \r
 //		if (song[strlen(song)-1] == '\r') {
@@ -155,7 +152,6 @@ private:
 	u32 lastHit;
 	u32 lastScore;
 	int comboLast;
-	Song* currentSong;
 	s32 arid;
 	SongCollection* songcollection;
 };

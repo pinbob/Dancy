@@ -26,7 +26,6 @@ GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 	songcollection->LoadSongs("asset/songs");
 	arid = 888; // It's strange, isn't
 	modes = 0;
-	this->currentSong = &songcollection->GetSong(0);
 }
 
 void GameObject::activate(IState* pPrevious) {
@@ -53,7 +52,7 @@ void GameObject::activate(IState* pPrevious) {
 	//FIXME I don't know why should put more arguments
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr,
 			driver, this->m_pStateMachine,arid),
-			&gameInfo,  this, this->currentSong, modes);
+			&gameInfo,  this, this->songcollection, modes);
 }
 
 /* This method is called by the state machine on state deactivation. Must be implemented in subclass

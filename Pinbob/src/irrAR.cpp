@@ -5,6 +5,8 @@ IARManager::IARManager(IrrlichtDevice *device) {
 	this->patt_loaded = 0;
 	this->multi_loaded = 0;
 	this->cam_texture = 0;
+	this->currentID = 0;
+	this->detected = false;
 
 	//set
 	this->smgr = device->getSceneManager();
@@ -77,16 +79,24 @@ ISceneNode* IARManager::addARSceneNode(char* patt_filename,
 	this->patt_node[this->patt_loaded] = this->smgr->addEmptySceneNode(0, id);
 
 	//make it inversed (solves a problem)
-	this->patt_node[this->patt_loaded]->setScale(vector3df(-1, -1, -1));
+	//this->patt_node[this->patt_loaded]->setScale(vector3df(-1, -1, -1));
 
 	//set its child
-	if (initial_child)
-		this->patt_node[this->patt_loaded]->addChild(initial_child);
+	//if (initial_child)
+	//	this->patt_node[this->patt_loaded]->addChild(initial_child);
 
 	//set new max and return the node
 	this->patt_loaded++;
 	return this->patt_node[this->patt_loaded - 1];
 
+}
+
+void IARManager::setARSceneNode(ISceneNode *node, int idx) {
+	if (node) {
+		this->patt_node[idx] = node;
+		this->patt_node[idx]->setScale(vector3df(-1, -1, -1));
+
+	}
 }
 
 ISceneNode* IARManager::addARMultiSceneNode(char* config_filename,
@@ -147,7 +157,7 @@ void IARManager::drawBackground() {
 	if (this->cam_texture) {
 		img_size = this->cam_texture->getSize();
 	} else {
-		img_size = dimension2d<u32>(320,240);
+		img_size = dimension2d<u32>(320, 240);
 	}
 #endif
 
@@ -229,7 +239,14 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 	}
 
 	//check each pattern
-	for (p = 0; p < this->patt_loaded; p++) {
+	int tmpval = this->patt_loaded;
+	if (detected) {
+		p = this->currentID;
+		tmpval = this->currentID +1;
+	} else {
+		p = 0;
+	}
+	for (; p < tmpval; p++) {
 		int i, j, k;
 		double gl_para[16];
 		float glf_para[16];
@@ -239,6 +256,7 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 		double patt_trans[3][4];
 
 		//find most visible detection of this pattern
+
 		for (k = -1, j = 0; j < marker_num; j++)
 			if (patt_id[p] == marker_info[j].id) {
 				if (k == -1)
@@ -249,11 +267,18 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 
 		//was it found?
 		if (k == -1) {
-			patt_node[p]->setVisible(1);
+			if (patt_node[p]) {
+				patt_node[p]->setVisible(1);
+			}
 			continue;
+		}
+		if (!this->detected) {
+			this->currentID = p;
+			this->detected = true;
 		}
 		find_or_not = 1;
 
+		if(!patt_node[p]) continue;
 		//begin the matrix process
 		arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
@@ -273,6 +298,7 @@ int IARManager::translate_nodes(ARUint8 *dataPtr) {
 		patt_node[p]->setPosition(pos_vec);
 
 		patt_node[p]->setVisible(1);
+		break;
 	}
 
 	return find_or_not;
@@ -292,7 +318,8 @@ void IARManager::our_convert_trans_para(double para[3][4], double gl_para[16]) {
 
 ITexture* IARManager::update_ITexture(ITexture *dest, ARUint8 *ardata) {
 	u8* pixels;
-	if (dest == NULL)
+	if (dest == NULL
+	)
 		return NULL;
 	pixels = (u8*) (dest->lock());
 	if (pixels) {
@@ -406,7 +433,7 @@ void IARManager::create_projection_matrix(ARParam *cparam, double zoom,
 
 	if (xwin * ywin > MINIWIN_MAX) {
 		if (xwin > MINIWIN_MAX
-			)
+		)
 			xwin = MINIWIN_MAX;
 		ywin = MINIWIN_MAX / xwin;
 	}
@@ -475,12 +502,12 @@ void IARManager::our_argConvGLcpara2(double cparam[3][4], int width, int height,
 }
 
 void IARManager::closeAR() {
-	for (int i=0; i<this->patt_loaded; i++) {
+	for (int i = 0; i < this->patt_loaded; i++) {
 		arFreePatt(this->patt_id[i]);
 	}
 	arVideoCapStop();
 
-	if (arVideoClose() <0) {
+	if (arVideoClose() < 0) {
 		printf("Ar can not close");
 	}
 
