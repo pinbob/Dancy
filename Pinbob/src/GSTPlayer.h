@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 extern void gst_init_player(const char *uri);
+extern void gst_init_uri(const char *uri);
 extern void gst_play(void);
 extern void gst_pause_song(void);
 extern void gst_resume_song(void);

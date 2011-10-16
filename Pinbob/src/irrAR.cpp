@@ -95,7 +95,7 @@ void IARManager::setARSceneNode(ISceneNode *node, int idx) {
 	if (node) {
 		this->patt_node[idx] = node;
 		this->patt_node[idx]->setScale(vector3df(-1, -1, -1));
-
+		this->patt_node[idx]->setPosition(vector3df(0, 0, 0));
 	}
 }
 

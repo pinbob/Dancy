@@ -29,13 +29,14 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 		armgr->pushAPattern(pattPath);
 	}
 
+
 #ifdef WIN32
 	armgr->init_win32("asset/win32_ar/Data/camera_para.dat","asset/win32_ar/Data/patt.hiro","asset/win32_ar/Data\\WDM_camera_flipV.xml");
 #else
 	armgr->init("asset/conf/ar.conf");
 #endif
 //TODO OKay, no file name specified
-
+	gst_init_player("file:///usr/local/games/dancy/asset/songs/Catch Me/01.ogg");
 }
 
 DefaultGameLogic::~DefaultGameLogic() {

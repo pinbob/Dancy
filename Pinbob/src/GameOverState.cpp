@@ -21,6 +21,7 @@ u32 GameOverState::update() {
 }
 
 void GameOverState::activate(IState* pPrevious) {
+	ret = 0;
 	m_pStateMachine->setDrawScene(true);
 	m_pDevice->setEventReceiver(this);
 	_init();

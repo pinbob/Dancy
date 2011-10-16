@@ -13,13 +13,15 @@
 static GMainLoop *songLoop;
 static GstElement *songPipe;
 static pthread_t songThread;
+static GstBus *bus;
+static int tret;
 
 static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data) {
 	switch (GST_MESSAGE_TYPE(msg)) {
 	case GST_MESSAGE_EOS: {
 		g_message("End-of-stream");
-		g_main_loop_quit(songLoop);
-		pthread_exit(NULL);
+		//g_main_loop_quit(songLoop);
+		//pthread_exit(NULL);
 		break;
 	}
 	case GST_MESSAGE_ERROR: {
@@ -28,8 +30,8 @@ static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data) {
 		g_error("%s", err->message);
 		g_error_free(err);
 
-		g_main_loop_quit(songLoop);
-		pthread_exit(NULL);
+		//g_main_loop_quit(songLoop);
+		//pthread_exit(NULL);
 		break;
 	}
 	default:
@@ -40,11 +42,10 @@ static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data) {
 }
 
 static void* startSongThread(void *uri) {
-	GstBus *bus;
+
 	//gst_init(0, 0);
 	songLoop = g_main_loop_new(NULL, FALSE);
 	songPipe = gst_element_factory_make("playbin", "player");
-
 	if (uri)
 		g_object_set(G_OBJECT(songPipe), "uri", uri, NULL);
 
@@ -53,13 +54,17 @@ static void* startSongThread(void *uri) {
 	gst_object_unref(bus);
 
 	gst_element_set_state(GST_ELEMENT(songPipe), GST_STATE_PAUSED);
-
 	return NULL;
+
+}
+
+void gst_init_uri(const char *uri) {
+
 }
 
 void gst_init_player(const char *uri) {
-	int ret = pthread_create(&songThread, NULL, startSongThread, (void*) uri);
-	if (ret) {
+	tret = pthread_create(&songThread, NULL, startSongThread, (void*) uri);
+	if (tret) {
 		perror("thread\n");
 	} else {
 		puts("thread created.");
