@@ -44,7 +44,7 @@ static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data) {
 static void* startSongThread(void *uri) {
 
 	//gst_init(0, 0);
-	songLoop = g_main_loop_new(NULL, FALSE);
+	//songLoop = g_main_loop_new(NULL, FALSE);
 	songPipe = gst_element_factory_make("playbin", "player");
 	if (uri)
 		g_object_set(G_OBJECT(songPipe), "uri", uri, NULL);
@@ -63,12 +63,14 @@ void gst_init_uri(const char *uri) {
 }
 
 void gst_init_player(const char *uri) {
-	tret = pthread_create(&songThread, NULL, startSongThread, (void*) uri);
-	if (tret) {
-		perror("thread\n");
-	} else {
-		puts("thread created.");
-	}
+//	tret = pthread_create(&songThread, NULL, startSongThread, (void*) uri);
+//	if (tret) {
+//		perror("thread\n");
+//	} else {
+//		puts("thread created.");
+//	}
+	startSongThread((void*) uri);
+
 }
 
 void gst_pause_song(void) {

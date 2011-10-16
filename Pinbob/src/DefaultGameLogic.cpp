@@ -36,7 +36,6 @@ DefaultGameLogic::DefaultGameLogic(u32 startTime, ArManager* armgr,
 	armgr->init("asset/conf/ar.conf");
 #endif
 //TODO OKay, no file name specified
-	gst_init_player("file:///usr/local/games/dancy/asset/songs/Catch Me/01.ogg");
 }
 
 DefaultGameLogic::~DefaultGameLogic() {
