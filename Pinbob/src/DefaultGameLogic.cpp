@@ -120,6 +120,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		return IG_GAMEOVER;
 	}
 	armgr->update(delta, hit);
+	printf("current Time: %d, delta: %d\n", timePassed, delta);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
 		if (timePassed + TIME_ELAPSED
 				> (*creationCursor)->getStartTime() + PREPARE_TIME + musicOffset) {
@@ -138,7 +139,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
 		if (!(*missedCursor)->isHitted()) {
 			gameInfo->getScore()->missedHit();
-			//printf("missed \n");
+			printf("missed count: %d.\n", gameInfo->getScore()->getMissedCount());
 		}
 	}
 //increment hit cursor
@@ -167,24 +168,25 @@ void DefaultGameLogic::close() {
 
 void DefaultGameLogic::_judgeHit(u32 timePassed, u8 hit) {
 // determines whether or not there's arrows in the epsilon area
-	bool hasArrow = false;
 	for (std::list<Arrow*>::iterator hitCursor = armgr->sceneCursor;
 			hitCursor != armgr->arrows.end(); hitCursor++) {
 		int gap = abs(
 				(int) ((*hitCursor)->getStartTime() + PREPARE_TIME + musicOffset
 						- timePassed)); //FIXME fix the time bug later
-		if ((*hitCursor)->getArrowNode() == 0 || gap > BAD_EPSILON) {
+		if ((*hitCursor)->getArrowNode() == 0)
+			break;
+
+		if ( gap > BAD_EPSILON) {
 			break;
 		}
-		hasArrow = true;
 #ifdef _DEBUG
-//		printf(
-//				"cursor type: %d, st: %d, cal: %f",
-//				(*hitCursor)->getArrowType(),
-//				(*hitCursor)->getStartTime(),
-//				abs(
-//						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
-//								- timePassed)));
+		printf(
+				"cursor type: %d, st: %d, cal: %f",
+				(*hitCursor)->getArrowType(),
+				(*hitCursor)->getStartTime(),
+				abs(
+						(int) ((*hitCursor)->getStartTime() + TIME_ELAPSED
+								- timePassed)));
 #endif
 		if ((1 << (*hitCursor)->getArrowType()) & hit) {
 			(*hitCursor)->setHitted(true);
@@ -253,11 +255,12 @@ void DefaultGameLogic::_init(int id) {
 	}
 	armgr->sceneCursor = armgr->arrows.begin();
 
-#ifdef SHOW_DEBUG_INFO
+#ifdef _DEBUG
 	printf("Generating following %d arrows:\n", armgr->arrows.size());
 	for (std::list<Arrow*>::iterator iter = armgr->arrows.begin();
 			iter != armgr->arrows.end(); iter++) {
-		printf("arrows: type %d\n", (*iter)->getArrowType());
+		printf("arrows: type %d, time %d\n", (*iter)->getArrowType(),
+				(*iter)->getStartTime());
 	}
 	printf("print over\n");
 #endif

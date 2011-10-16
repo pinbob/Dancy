@@ -172,7 +172,6 @@ void ArManager::_repaintArrows(u32 deltaTime) {
 			mainNode->removeChild((*iter)->getArrowNode());
 			// TODO it may have garbage collection here
 			sceneCursor++;
-			//	printf("erased\n");
 		}
 	}
 	//printf("walk through.\n");

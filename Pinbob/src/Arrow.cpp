@@ -18,7 +18,7 @@ Arrow::Arrow() :
 Arrow::Arrow(unsigned char arrowType, u32 startTime, u32 duration,
 		ISceneNode* node) :
 		arrowType(arrowType), startTime(startTime), duration(duration), arrowNode(
-				node) {
+				node), hitted(false) {
 
 }
 
