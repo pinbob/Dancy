@@ -58,9 +58,12 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		}
 #endif
 		musicState = MUSIC_PAUSE;
-		//printf("paused\n");
 		return IG_PAUSE;
 	} else if (state == IG_DETECT) {
+		if (hit == MENU_HIT) {
+			state = IG_PAUSE;
+			return IG_PAUSE;
+		}
 		if (armgr->update(0, hit)) {
 			printf("detected.\n");
 			_init(armgr->detectedID());
@@ -120,7 +123,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 		return IG_GAMEOVER;
 	}
 	armgr->update(delta, hit);
-	printf("current Time: %d, delta: %d\n", timePassed, delta);
+	//printf("current Time: %d, delta: %d\n", timePassed, delta);
 	for (; creationCursor != armgr->arrows.end(); creationCursor++) {
 		if (timePassed + TIME_ELAPSED
 				> (*creationCursor)->getStartTime() + PREPARE_TIME + musicOffset) {
@@ -139,7 +142,10 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
 		if (!(*missedCursor)->isHitted()) {
 			gameInfo->getScore()->missedHit();
-			printf("missed count: %d.\n", gameInfo->getScore()->getMissedCount());
+			if ((modes & NO_FAIL) == 0 &&
+					gameInfo->getScore()->getMissedCount() >= FAIL_COUNT) {
+				return IG_GAMEOVER;
+			}
 		}
 	}
 //increment hit cursor

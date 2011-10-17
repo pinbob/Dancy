@@ -130,6 +130,8 @@ private:
 	u32 then; //last frame time stamp
 	IGUIImage* widgets[GAME_MENU_LENGTH];
 	bool firstUpdate;
+	bool noLogicUpdate;
+	int	lastState;
 	ITexture* digits[10]; //ten digits, nothing special
 
 	//ITexture* pauseMenu[GP_LENGTH];

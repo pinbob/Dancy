@@ -15,6 +15,7 @@ static GstElement *songPipe;
 static pthread_t songThread;
 static GstBus *bus;
 static int tret;
+static int inited = 0;
 
 static gboolean bus_call(GstBus *bus, GstMessage *msg, void *user_data) {
 	switch (GST_MESSAGE_TYPE(msg)) {
@@ -69,8 +70,8 @@ void gst_init_player(const char *uri) {
 //	} else {
 //		puts("thread created.");
 //	}
-	startSongThread((void*) uri);
 
+	startSongThread((void*) uri);
 }
 
 void gst_pause_song(void) {
@@ -85,6 +86,7 @@ void gst_resume_song(void) {
 void gst_destroy(void) {
 	puts("in gst destory.");
 	//pthread_exit(NULL);
+
 	gst_element_set_state(GST_ELEMENT(songPipe), GST_STATE_NULL);
 	gst_object_unref(GST_OBJECT(songPipe));
 

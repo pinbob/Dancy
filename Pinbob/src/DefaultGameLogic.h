@@ -30,6 +30,7 @@ class GameObject;
 #define	 MUSIC_PAUSE 2
 //} ;
 
+#define FAIL_COUNT 20
 #define PREPARE_TIME 5000
 
 class DefaultGameLogic: public IGameLogic {

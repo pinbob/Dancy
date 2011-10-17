@@ -26,17 +26,20 @@ GameObject::GameObject(IrrlichtDevice* pDevice, StateMachine* pStateMachine,
 	songcollection->LoadSongs("asset/songs");
 	arid = 888; // It's strange, isn't
 	modes = 0;
+	lastState = IG_DETECT;
 }
 
 void GameObject::activate(IState* pPrevious) {
 	// suppose actice time is start tiem
 	device->setEventReceiver(&eventListener);
+
 	_initMenu();
 	then = device->getTimer()->getTime();
 	arid+=100;
 	//gameInfo = GameInfo();
 	lastScore = 99999;
 	this->lastHit = 0;
+	lastState = IG_DETECT;
 	firstUpdate = true;
 	comboLast = 0;
 	gameInfo.clearScore();
@@ -47,7 +50,7 @@ void GameObject::activate(IState* pPrevious) {
 		throw int(1); // TODO handle exception later
 	}
 #endif
-	eventListener.setStatus(IG_UPDATE);
+	eventListener.setStatus(IG_DETECT);
 	eventListener.setHitStatus(0);
 	//FIXME I don't know why should put more arguments
 	logic = new DefaultGameLogic(then, new ArManager(device, smgr,
@@ -86,10 +89,17 @@ u32 GameObject::update(void) {
 	driver->beginScene(true, true, 0);
 	lastHit = eventListener.getHitStatus();
 	int res = logic->update(delta, now, lastHit);
+	//printf("last hit %d.\n", lastHit);
 	switch (res) {
 	case IG_DETECT:
+	{
+		lastState = IG_DETECT;
+		eventListener.setStatus(IG_DETECT);
 		break;
+	}
 	case IG_UPDATE:
+		lastState = IG_UPDATE;
+		eventListener.setStatus(IG_UPDATE);
 		if (detectImage->isVisible()) {
 			detectImage->setVisible(false);
 		}
@@ -113,11 +123,13 @@ u32 GameObject::update(void) {
 		}
 		break;
 	case IG_GAMEOVER:
+		lastState = IG_GAMEOVER;
 		retval = GAME_OVER_STATE;
 		logic->close();
 		m_pStateMachine->m_pGameOverState->setGameInfo(&gameInfo);
 		break;
 	default:
+		lastState = -1;
 		break;
 	}
 	m_pStateMachine->setDrawScene(false);
@@ -170,16 +182,20 @@ u32 GameObject::_showPauseMenu() {
 		pauseMenu[i]->setVisible(true);
 		pauseMenu[i]->setColor(SColor(255, 255, 255, 255));
 	}
-	//printf("last hit %d .\n", lastHit);
+
 	if (lastHit & HOVER_STATE) {
+		puts("In hover state");
 		pauseMenu[lastHit & (~HOVER_STATE)]->setColor(
 				SColor(125, 255, 255, 255));
+		printf("Color setted.\n");
 	} else if (lastHit & CLICK_STATE) {
-		// printf("in click state, lastHit is %d\n", lastHit);
+		 printf("in click state, lastHit is %d\n", lastHit);
 		switch (lastHit & (~CLICK_STATE)) {
 		case GP_CONTINUE:
 			// resume the game
-			logic->setState(IG_UPDATE);
+			if (lastState == IG_UPDATE || lastState == IG_DETECT) {
+				logic->setState(lastState);
+			}
 			eventListener.setStatus(IG_UPDATE);
 			_hidePauseMenu();
 			lastHit = 0;

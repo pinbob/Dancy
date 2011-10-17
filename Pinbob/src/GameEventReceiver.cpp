@@ -79,7 +79,6 @@ GameEventReceiver::~GameEventReceiver() {
 }
 
 u32 GameEventReceiver::getHitStatus() const {
-//	printf("Hit status is %d n\n", hitStatus);
 	return hitStatus;
 }
 
@@ -100,6 +99,8 @@ u32 GameEventReceiver::_handleMouseUp(s32 mouseX, s32 mouseY) {
 		return _handlePause(mouseX, mouseY, CLICK_STATE);
 	} else if (status == IG_UPDATE) {
 		return _handleUpdateUp(mouseX, mouseY);
+	}else if(status ==IG_DETECT){
+		return _handleUpdateUp(mouseX,mouseY);
 	}
 	return 0;
 }
@@ -145,6 +146,7 @@ u32 GameEventReceiver::_handleUpdate(s32 mouseX, s32 mouseY) {
 
 u32 GameEventReceiver::_handlePause(s32 mouseX, s32 mouseY, u32 mask) {
 	u32 result = 0;
+
 	if (mouseX >= (SCREEN_WIDTH - GP_WIDTH) / 2
 			&& mouseX <= (SCREEN_WIDTH + GP_WIDTH) / 2) {
 		if (mouseY >= BASE_HEIGHT(0)
@@ -158,7 +160,7 @@ u32 GameEventReceiver::_handlePause(s32 mouseX, s32 mouseY, u32 mask) {
 	}
 	printf("In pause state, before mask %d ", result);
 	result |= mask;
-	printf("fter mask %d \n", result);
+	printf("After mask %d \n", result);
 	return result;
 }
 
