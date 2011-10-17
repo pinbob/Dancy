@@ -142,7 +142,7 @@ int DefaultGameLogic::update(u32 delta, u32 now, u8 hit) {
 	for (; missedCursor != armgr->sceneCursor; missedCursor++) {
 		if (!(*missedCursor)->isHitted()) {
 			gameInfo->getScore()->missedHit();
-			if ((modes & NO_FAIL) == 0 &&
+			if ((modes & NO_FAIL) &&
 					gameInfo->getScore()->getMissedCount() >= FAIL_COUNT) {
 				return IG_GAMEOVER;
 			}
@@ -226,11 +226,15 @@ void DefaultGameLogic::_init(int id) {
 	Song *song = &songs->GetSong(id);
 	char oggPath[128];
 	char songPath[128];
+	char matPath[128];
 
-	armgr->setMainNode(id);
+
 	sprintf(oggPath, "/usr/local/games/dancy/asset/songs/%s/default.bms",
 			song->main_title().c_str());
-
+	sprintf(matPath, "/usr/local/games/dancy/asset/songs/%s/mat.jpg",
+				song->main_title().c_str());
+	armgr->setMainNode(id);
+	armgr->setMainNodeMaterial(matPath);
 	notesLoader.LoadFromFile(oggPath, &noteData, loadedSong);
 
 	//TODO currently the song path is fixed

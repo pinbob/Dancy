@@ -60,7 +60,7 @@ public:
 	 * @param smgr the scene manger pointer for renderring
 	 */
 	ArManager(IrrlichtDevice* device, ISceneManager* smgr,
-			IVideoDriver* driver, StateMachine* state_machine, s32 arid);
+			IVideoDriver* driver, StateMachine* state_machine, int modes);
 	/**
 	 * initialize the armanager by given configuration file
 	 * @param filename the filename of the configuration file
@@ -99,6 +99,10 @@ public:
 	 */
 	virtual ~ArManager();
 	u32 getHitImageStatus() const;
+
+	void setMainNodeMaterial(const char *texture_path) {
+		sea->setMaterialTexture(0, driver->getTexture(texture_path));
+	}
 	void setHitImageStatus(u32 hitImageStatus);
 	u8 getShowHitPlane() const;
 	void setShowHitPlane(u8 showHitPlane);
@@ -149,13 +153,14 @@ private:
 
 	ISceneNode* comboImageNode;
 	ITexture* comboImage;
+	ISceneNode* sea; /* Actually, it means mat */
 
 	/* records  hit status */
 	u32 hitImageStatus;
 	u32 lastHitStatus;
 	f32 hitImageScale;
 
-	s32 arid;
+	int modes;
 
 };
 

@@ -21,10 +21,10 @@
 #define MAX_BUFFER 1024
 
 ArManager::ArManager(IrrlichtDevice* device, ISceneManager* smgr,
-		IVideoDriver* driver, StateMachine* state_machine, s32 arid) :
+		IVideoDriver* driver, StateMachine* state_machine, int modes) :
 		smgr(smgr), driver(driver),
 		hitImageStatus(HI_LENGTH),lastHitStatus(HI_LENGTH),
-		arid(arid){
+		modes(modes){
 	this->armgr = new IARManager(device);
 	this->patt_count = 0;
 	printf("current devis %d.\n", state_machine->currentDevice);
@@ -196,7 +196,7 @@ void ArManager::_initAR() {
 	IAnimatedMesh* plane = smgr->addHillPlaneMesh("sea", dimension2df(150, 150),
 			dimension2d<u32>(1, 1));
 	//smgr->getMesh("asset/models/water.obj");
-	ISceneNode* sea = smgr->addAnimatedMeshSceneNode(plane, mainNode);
+	sea = smgr->addAnimatedMeshSceneNode(plane, mainNode);
 
 	sea->setMaterialTexture(0, driver->getTexture("asset/images/mat.tga"));
 	//sea->setMaterialTexture(1, driver->getTexture("asset/models/water.jpg"));
