@@ -70,6 +70,7 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
   // ResetPanelsMagic();
 
   ifstream file_reader;
+  char *stop;
   // file_reader.open("OBLIVION_7a.bms", ifstream::in);
   // printf("%s\n", path);
   file_reader.open(path, ifstream::in);
@@ -114,20 +115,21 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
     } else if (line.find("#DIFFICULTY") != string::npos) {
       info.difficulty_ = atoi(value.c_str());
     } else if (line.find("#BPM") != string::npos) {
-      if (isint(key[4])
+      // if (isint(key[4])
           // register preset bpm
-          && isint(key[5])
-          && first_space != string::npos) {
-        note_data->insert_preset_bpm((key[4]-48)*16 + key[5] - 48,
-                                  atof(value.c_str()));
+          // && isint(key[5])
+          // && first_space != string::npos) {
+      if (key.length() > 4) {
+        note_data->insert_preset_bpm(strtol(key.substr(4, 2).c_str(), &stop, 16),
+                                     atof(value.c_str()));
       } else {
-        // default bpm
-        note_data->set_bpm(atoi(value.c_str()));
+        // set default bpm
+        note_data->set_bpm(atof(value.c_str()));
       }
     }
 
     // Main data field
-    if (key.length() >= 6 &&  key[0] == '#'
+    if (key.length() >= 6 && key[0] == '#'
         && isint(key[1]) && isint(key[2])
         && isint(key[3]) && isint(key[4])
         && isint(key[5])) {
@@ -168,15 +170,18 @@ bool NotesLoader::LoadFromFile(const char *path, NoteData *note_data/*, Steps *o
           MapBMSToNote(panel_num, direction, tap_note);
 
           // std::cout << note_num_in_this_measure << ' ' << i << ' ' <<  measure_num << ' ' << direction << ' ' << note_row << std::endl;
-          if (direction == 5) {
+          if (direction == BMS_BPM) {
             if (panel_num == 3)
-              note_data->set_cur_bpm((key[4]-48) * 16 + key[5] -48);
+              note_data->set_cur_bpm(strtol(value.substr(2*i, 2).c_str(), &stop, 16));
             else {
-              int preset_num = atoi(value.substr(2*i, 2).c_str());
+              // when panel_num = 8
+              // set the preset bpm
+              int preset_num = strtol(value.substr(2*i, 2).c_str(), &stop, 16);
               note_data->set_cur_bpm(note_data->preset_bpm(preset_num));
             }
           } else {
-            note_data->set_cur_bpm(note_data->bpm());
+            // set current bpm to default
+            note_data->set_cur_bpm(note_data->cur_bpm());
           }
           if (direction != -1) {
             note_data->set_tap_note(direction - 1, note_row, tap_note);

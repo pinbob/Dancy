@@ -43,7 +43,7 @@ struct SongInfo {
 /****************************************************************/
 class NoteData {
 public:
-  NoteData(): last_idx_(0) {}
+  NoteData(): last_idx_(0), last_bpm_(0) {}
   ~NoteData() {}
 
   /* Setters and Getters */
@@ -51,8 +51,8 @@ public:
   int   num_panels() const             { return num_panels_; }
   void  set_num_panels(int num_panels) { num_panels_ = num_panels; }; // TODO: make sure all tracks are of the same length
 
-  int bpm()             { return bpm_; }
-  void set_bpm(int bpm) { bpm_ = bpm; }
+  double bpm()             { return bpm_; }
+  void set_bpm(double bpm) { bpm_ = bpm; cur_bpm_ = bpm; }
 
 
   /*************************************************/
@@ -106,14 +106,19 @@ public:
     return tap_notes_[panel];
   }
 
+  int GetBPMNum() {return var_bpm_.size();}
+  std::vector< double > &GetBPM() { return var_bpm_; }
+  std::map< int, double > &GetPreset() {return preset_bpm_; }
+  int GetRows() { return tap_notes_[4].size(); }
 private:
   std::vector< TapNote >      tap_notes_[MAX_NOTE_PANELS];
   int                         num_panels_; /* 4 by default */
-  int                         bpm_;        /* beat per minute */
+  double                      bpm_;        /* beat per minute */
   int                         last_idx_;   /* last index of the query of note */
   std::map< int, double >     preset_bpm_;
   std::vector< double >       var_bpm_;
   double                      cur_bpm_;
+  double                      last_bpm_;
   void PadTapNotes(int rows);
 };
 
